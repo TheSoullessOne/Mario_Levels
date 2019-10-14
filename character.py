@@ -16,15 +16,15 @@ class Character(Sprite):
         self.moving_left = False
         self.rect.centerx = self.settings.screen_width / 2
         self.rect.bottom = self.settings.screen_height
-        self.centerx = self.rect.centerx
+        self.center = self.rect.centerx
 
     def blit_me(self, screen):
         screen.blit(self.image, self.rect)
 
     def update(self):
-        if self.moving_left and self.rect.left <= 0:
-            self.centerx -= 1
-        if self.moving_right and self.rect.right >= self.settings.screen_width:
-            self.centerx += 1
+        if self.moving_left and self.rect.left >= 0:
+            self.center -= 1
+        if self.moving_right and self.rect.right <= self.settings.screen_width:
+            self.center += 1
 
-        self.rect.centerx = self.centerx
+        self.rect.centerx = self.center

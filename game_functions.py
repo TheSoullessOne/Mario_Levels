@@ -2,9 +2,17 @@ import pygame
 import sys
 
 
-def update_screen(screen, settings, mario):
+def update_screen(screen, settings, mario, block, used_block):
     screen.fill(settings.bg_color)
     mario.blit_me(screen)
+
+    # TESTING BLOCKS
+    block.rect.center = screen.get_rect().center
+    block.blit_me(screen)
+
+    used_block.rect.center = screen.get_rect().center
+    used_block.rect.left = block.rect.right
+    used_block.blit_me(screen)
 
     pygame.display.flip()
 

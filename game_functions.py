@@ -22,14 +22,19 @@ def check_events(screen, settings, mario):
 def check_key_up(event, screen, settings, mario):
     if event.key == pygame.K_RIGHT:
         mario.moving_right = False
-    elif event.key == pygame.K_LEFT:
+    if event.key == pygame.K_LEFT:
         mario.moving_left = False
+    if event.key == pygame.K_SPACE:
+        mario.jumping = False
 
 
 def check_key_down(event, screen, settings, mario):
     if event.key == pygame.K_RIGHT:
         mario.moving_right = True
-    elif event.key == pygame.K_LEFT:
+    if event.key == pygame.K_LEFT:
         mario.moving_left = True
+    if event.key == pygame.K_SPACE:
+        mario.jumping = True
+        mario.starting_jump = mario.rect.bottom
 
 

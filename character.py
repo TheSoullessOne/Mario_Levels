@@ -14,17 +14,25 @@ class Character(Sprite):
         self.rect.y = self.rect.height
         self.moving_right = False
         self.moving_left = False
+        self.jumping = False
+        self.starting_jump = 0
         self.rect.centerx = self.settings.screen_width / 2
         self.rect.bottom = self.settings.screen_height
-        self.center = self.rect.centerx
+        self.centerx = self.rect.centerx
+        self.centery = self.rect.centery
 
     def blit_me(self, screen):
         screen.blit(self.image, self.rect)
 
     def update(self):
         if self.moving_left and self.rect.left >= 0:
-            self.center -= 1
+            self.centerx -= 0.5
         if self.moving_right and self.rect.right <= self.settings.screen_width:
-            self.center += 1
+            self.centerx += 0.5
+        if self.jumping and self.can_jump():
+            self.centery -= 1
 
-        self.rect.centerx = self.center
+        self.rect.centerx = self.centerx
+
+    def can_jump(self):
+        return self.rect.bottom > (self.starting_jump - self.settings.max_jump_height)

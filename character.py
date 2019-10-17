@@ -12,8 +12,8 @@ class Character(Sprite):
         self.image_left = pygame.image.load('Images/Mario-Movement/mario-look-left.png')
         self.image_walking_right = pygame.image.load('Images/Mario-Movement/mario-walk-right.png')
         self.image_walking_left = pygame.image.load('Images/Mario-Movement/mario-walk-left.png')
-        self.width = 16     # Image width
-        self.height = 32    # Image height
+        self.width = 32     # Image width
+        self.height = 64    # Image height
         self.rect = self.image.get_rect()
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
@@ -28,6 +28,7 @@ class Character(Sprite):
         self.centery = self.rect.centery
         self.cImage = 0     # Displaying which image in sheet is being displayed
         self.slowDown = 0   # Used to slow down blitting process to smooth animations
+        self.default_slow = 300
 
     def blit_me(self, screen):
         if not self.moving_right and not self.moving_left:  # Displaying non-moving sprite
@@ -42,16 +43,16 @@ class Character(Sprite):
 
     def slow_blit(self, screen):
         """Slowing down blit process so animations are not too quick"""
-        if self.slowDown >= 450:
+        if self.slowDown >= self.default_slow:
             self.slowDown = 0
         else:
             self.slowDown += 1
 
-        if 0 <= self.slowDown < 150:
+        if 0 <= self.slowDown < (self.default_slow / 3):
             self.cImage = 0
-        elif 150 <= self.slowDown < 300:
+        elif (self.default_slow / 3) <= self.slowDown < (self.default_slow / 2):
             self.cImage = 1
-        elif 300 <= self.slowDown < 450:
+        elif (self.default_slow / 2) <= self.slowDown < self.default_slow:
             self.cImage = 2
         self.blit_me(screen)
 

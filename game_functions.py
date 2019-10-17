@@ -4,7 +4,7 @@ import sys
 
 def update_screen(screen, settings, mario, block, used_block):
     screen.fill(settings.bg_color)
-    mario.blit_me(screen)
+    mario.slow_blit(screen)
 
     # TESTING BLOCKS
     block.rect.center = screen.get_rect().center

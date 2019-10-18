@@ -76,14 +76,15 @@ class Character(Sprite):
             self.y_bot -= float(self.init_jmp)
         if self.y_bot <= self.settings.screen_height - self.settings.max_jump_height:
             self.falling = True
-        if self.falling:
+        if self.falling:  # and self.rect.bottom <= self.settings.screen_height:
+            print(self.rect.bottom)
             # Later change to collision on ground terrain ^^^
             self.init_jmp += float(0.0022)
             self.y_bot += self.init_jmp
             if self.y_bot >= self.settings.screen_height:
                 self.falling = False
                 self.init_jmp = self.settings.jmp_speed
-        print(self.init_jmp)
+        # print(self.init_jmp)
 
         self.rect.centerx = self.centerx
         self.rect.bottom = self.y_bot

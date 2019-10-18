@@ -17,18 +17,22 @@ class Character(Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
+        self.rect_bottom = self.rect.bottom
+
         self.moving_right = False
         self.moving_left = False
         self.jumping = False
         self.side_facing = True     # True is right, false is left
         self.starting_jump = 0
-        self.rect.centerx = self.settings.screen_width / 2
-        self.rect.bottom = self.settings.screen_height
+        self.rect.centerx = self.settings.screen_width / 2      # Starting Mario at center of screen
+        self.rect.bottom = self.settings.screen_height          # Starting Mario at bottom of screen
         self.centerx = self.rect.centerx
         self.centery = self.rect.centery
+
         self.cImage = 0     # Displaying which image in sheet is being displayed
         self.slowDown = 0   # Used to slow down blitting process to smooth animations
         self.default_slow = 300
+        self.falling = False    # Check for positive downward y-velocity after jumping
 
     def blit_me(self, screen):
         if not self.moving_right and not self.moving_left:  # Displaying non-moving sprite
@@ -63,10 +67,19 @@ class Character(Sprite):
         if self.moving_right and self.rect.right <= self.settings.screen_width:
             self.centerx += 0.5
             self.side_facing = True
-        if self.jumping and self.can_jump():
-            self.centery -= 1
+
+        if self.jumping and not self.falling and \
+                self.rect.bottom >= self.settings.screen_height - self.settings.max_jump_height:
+            self.rect.bottom -= 0.1
+        if self.rect.bottom <= self.settings.screen_height - self.settings.max_jump_height:
+            self.falling = True
+        if self.falling:
+            # Later change to collision on ground terrain ^^^
+            self.rect.bottom += 1
+            if self.rect.bottom >= self.settings.screen_height:
+                self.falling = False
 
         self.rect.centerx = self.centerx
 
     def can_jump(self):
-        return self.rect.bottom > (self.starting_jump - self.settings.max_jump_height)
+        return self.rect.bottom == self.settings.screen_height

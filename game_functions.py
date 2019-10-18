@@ -34,6 +34,7 @@ def check_key_up(event, screen, settings, mario):
         mario.moving_left = False
     if event.key == pygame.K_SPACE:
         mario.jumping = False
+        mario.falling = True
 
 
 def check_key_down(event, screen, settings, mario):

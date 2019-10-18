@@ -11,7 +11,7 @@ class Block(Sprite):
         self.height = self.width
         self.moving_up = False
         self.moving_down = False
-        self.image = pygame.image.load('Images/Block.png')
+        self.image = pygame.image.load('Images/Blocks/Block.png')
         self.rect = self.image.get_rect()
         self.center = self.rect.centerx
 
@@ -29,7 +29,7 @@ class Block(Sprite):
 class ItemBlock(Block):
     def __init__(self, item, screen, settings):
         super().__init__(screen, settings)
-        self.image = pygame.image.load('Images/ItemBlock.png')
+        self.image = pygame.image.load('Images/Blocks/ItemBlock.png')
         self.item = item
         self.activated = False
 
@@ -37,6 +37,6 @@ class ItemBlock(Block):
 class UsedBlock(Block):
     def __init__(self, screen, settings):
         super().__init__(screen, settings)
-        self.image = pygame.image.load('Images/UsedBlock.png')
+        self.image = pygame.image.load('Images/Blocks/UsedBlock.png')
 
 

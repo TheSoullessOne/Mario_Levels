@@ -28,11 +28,13 @@ class Character(Sprite):
         self.rect.bottom = self.settings.screen_height          # Starting Mario at bottom of screen
         self.centerx = float(self.rect.centerx)
         self.centery = float(self.rect.centery)
+        self.y_bot = float(self.rect.bottom)
 
         self.cImage = 0     # Displaying which image in sheet is being displayed
         self.slowDown = 0   # Used to slow down blitting process to smooth animations
         self.default_slow = 300
         self.falling = False    # Check for positive downward y-velocity after jumping
+        self.init_jmp = self.settings.jmp_speed
 
     def blit_me(self, screen):
         if not self.moving_right and not self.moving_left:  # Displaying non-moving sprite
@@ -69,15 +71,22 @@ class Character(Sprite):
             self.side_facing = True
 
         if self.jumping and not self.falling and \
-                self.rect.bottom >= self.settings.screen_height - self.settings.max_jump_height:
-            self.rect.bottom -= 0.1
-        if self.rect.bottom <= self.settings.screen_height - self.settings.max_jump_height:
+                self.y_bot >= self.settings.screen_height - self.settings.max_jump_height:
+            self.init_jmp -= float(0.0022)
+            self.y_bot -= float(self.init_jmp)
+        if self.y_bot <= self.settings.screen_height - self.settings.max_jump_height:
             self.falling = True
         if self.falling:
             # Later change to collision on ground terrain ^^^
-            self.rect.bottom += 1
-            if self.rect.bottom >= self.settings.screen_height:
+            self.init_jmp += float(0.0022)
+            self.y_bot += self.init_jmp
+            if self.y_bot >= self.settings.screen_height:
                 self.falling = False
+                self.init_jmp = self.settings.jmp_speed
+        print(self.init_jmp)
 
         self.rect.centerx = self.centerx
+        self.rect.bottom = self.y_bot
 
+    def can_jump(self):
+        return self.y_bot == self.settings.screen_height

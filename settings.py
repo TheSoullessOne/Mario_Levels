@@ -5,3 +5,4 @@ class Settings:
         self.bg_color = (156, 219, 255)
 
         self.max_jump_height = 300
+        self.jmp_speed = float(1)

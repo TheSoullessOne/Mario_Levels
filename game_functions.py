@@ -8,9 +8,11 @@ def update_screen(screen, settings, mario, block, used_block):
 
     # TESTING BLOCKS
     block.rect.center = screen.get_rect().center
+    block.rect.centery += 100
     block.blit_me(screen)
 
     used_block.rect.center = screen.get_rect().center
+    used_block.rect.centery += 100
     used_block.rect.left = block.rect.right
     used_block.blit_me(screen)
 
@@ -46,4 +48,30 @@ def check_key_down(event, screen, settings, mario):
         mario.jumping = True
         mario.starting_jump = mario.rect.bottom
 
+
+def check_mario_block_collisions(screen, settings, mario, blocks):
+    was_moving_right = mario.moving_right
+    was_moving_left = mario.moving_left
+    for block in blocks:
+        collision = pygame.sprite.collide_rect(mario, block)
+        if collision:
+            if mario.rect.top <= block.rect.bottom:
+                mario.jumping = False
+                mario.falling = True
+            # if not mario.on_block and mario.rect.bottom >= block.rect.top:
+            #     mario.on_block = True
+            #     mario.rect.bottom = block.rect.top
+            if mario.rect.right >= block.rect.left and was_moving_right:
+                mario.moving_right = False
+            elif mario.rect.left <= block.rect.right and was_moving_left:
+                mario.moving_left = False
+    # if was_moving_left and (mario.falling or mario.jumping):
+    #     mario.moving_left = True
+    # if was_moving_right and (mario.falling or mario.jumping):
+    #     mario.moving_right = True
+    # if mario.falling or mario.jumping:
+    #     mario.on_block = False
+    #     print("not on block")
+    # if mario.on_block:
+    #     print("on block")
 

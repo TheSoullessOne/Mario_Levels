@@ -26,8 +26,8 @@ class Character(Sprite):
         self.starting_jump = 0
         self.rect.centerx = self.settings.screen_width / 2      # Starting Mario at center of screen
         self.rect.bottom = self.settings.screen_height          # Starting Mario at bottom of screen
-        self.centerx = self.rect.centerx
-        self.centery = self.rect.centery
+        self.centerx = float(self.rect.centerx)
+        self.centery = float(self.rect.centery)
 
         self.cImage = 0     # Displaying which image in sheet is being displayed
         self.slowDown = 0   # Used to slow down blitting process to smooth animations
@@ -81,5 +81,3 @@ class Character(Sprite):
 
         self.rect.centerx = self.centerx
 
-    def can_jump(self):
-        return self.rect.bottom == self.settings.screen_height

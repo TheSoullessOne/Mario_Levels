@@ -12,6 +12,8 @@ class Character(Sprite):
         self.image_left = pygame.image.load('Images/Mario-Movement/mario-look-left.png')
         self.image_walking_right = pygame.image.load('Images/Mario-Movement/mario-walk-right.png')
         self.image_walking_left = pygame.image.load('Images/Mario-Movement/mario-walk-left.png')
+        self.image_jump_right = pygame.image.load('Images/Mario-Movement/mario-jump-right.png')
+        self.image_jump_left = pygame.image.load('Images/Mario-Movement/mario-jump-left.png')
         self.width = 32     # Image width
         self.height = 64    # Image height
         self.rect = self.image.get_rect()
@@ -37,11 +39,15 @@ class Character(Sprite):
         self.init_jmp = self.settings.jmp_speed
 
     def blit_me(self, screen):
-        if not self.moving_right and not self.moving_left:  # Displaying non-moving sprite
+        if self.jumping or self.falling:
             if self.side_facing:
-                screen.blit(self.image, self.rect)
+                screen.blit(self.image_jump_right, self.rect)
             elif not self.side_facing:
-                screen.blit(self.image_left, self.rect)
+                screen.blit(self.image_jump_left, self.rect)
+        elif self.side_facing and not self.moving_right and not self.moving_left:
+            screen.blit(self.image, self.rect)
+        elif not self.side_facing and not self.moving_right and not self.moving_left:
+            screen.blit(self.image_left, self.rect)
         elif self.moving_right:
             screen.blit(self.image_walking_right, self.rect, (self.cImage * self.width, 0, self.width, self.height))
         elif self.moving_left:

@@ -35,6 +35,7 @@ class Character(Sprite):
         self.default_slow = 300
         self.falling = False    # Check for positive downward y-velocity after jumping
         self.init_jmp = self.settings.jmp_speed
+        self.hit_block = False
 
     def blit_me(self, screen):
         if not self.moving_right and not self.moving_left:  # Displaying non-moving sprite
@@ -63,10 +64,10 @@ class Character(Sprite):
         self.blit_me(screen)
 
     def update(self):
-        if self.moving_left and self.rect.left >= 0:
+        if self.moving_left and self.rect.left >= 0 and not self.hit_block:
             self.centerx -= 0.5
             self.side_facing = False
-        if self.moving_right and self.rect.right <= self.settings.screen_width:
+        if self.moving_right and self.rect.right <= self.settings.screen_width and not self.hit_block:
             self.centerx += 0.5
             self.side_facing = True
 
@@ -87,6 +88,7 @@ class Character(Sprite):
 
         self.rect.centerx = self.centerx
         self.rect.bottom = self.y_bot
+        self.hit_block = False
 
     def can_jump(self):
         return self.y_bot == self.settings.screen_height

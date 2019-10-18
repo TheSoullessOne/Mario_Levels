@@ -62,9 +62,9 @@ def check_mario_block_collisions(screen, settings, mario, blocks):
             #     mario.on_block = True
             #     mario.rect.bottom = block.rect.top
             if mario.rect.right >= block.rect.left and was_moving_right:
-                mario.moving_right = False
+                mario.hit_block = True
             if mario.rect.left <= block.rect.right and was_moving_left:
-                mario.moving_left = False
+                mario.hit_block = True
     # if was_moving_left and (mario.falling or mario.jumping):
     #     mario.moving_left = True
     # if was_moving_right and (mario.falling or mario.jumping):

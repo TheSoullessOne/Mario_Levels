@@ -7,17 +7,18 @@ class Block(Sprite):
         super(Block, self).__init__()
         self.screen = screen
         self.settings = settings
-        self.width = 10
-        self.height = self.width
-        self.moving_up = False
-        self.moving_down = False
+
         self.image = pygame.image.load('Images/Blocks/Block.png')
         self.rect = self.image.get_rect()
+        self.width = self.rect.width
+        self.height = self.width
         self.center = self.rect.centerx
+
+        self.moving_up = False
+        self.moving_down = False
 
     def blit_me(self, screen):
         screen.blit(self.image, self.rect)
-        pass
 
     def update(self):
         if self.moving_up:

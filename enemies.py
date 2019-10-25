@@ -20,13 +20,14 @@ class Enemy(Sprite):
 
     def update(self): pass
     def hit(self): pass
+    def set_image(self): pass
 
 
 class KoopaParatroopa(Enemy):
     def __init__(self, screen, settings, color):
         super().__init__(screen, settings)
-        self.image = pygame.image.load()
         self.color = color
+        self.image = self.set_image()
 
         self.moving_left = False
         self.moving_right = False
@@ -38,17 +39,23 @@ class KoopaParatroopa(Enemy):
             self.centerx += 1
         elif self.moving_down:
             self.centerx += 1
-        elif self.moving_left:
+        if self.moving_left:
             self.centery -= 1
         elif self.moving_right:
             self.centery += 1
+
+    def set_image(self):
+        if self.color == 'red':
+            return pygame.image.load('Images/Enemies/KoopaParatroopa/red-left-1.png')
+        elif self.color == 'green':
+            return pygame.image.load('Images/Enemies/KoopaParatroopa/green-left-1.png')
 
 
 class KoopaTroopa(Enemy):
     def __init__(self, screen, settings, color):
         super().__init__(screen, settings)
-        self.image = pygame.image.load()
         self.color = color
+        self.image = self.set_image()
 
         self.moving_left = False
         self.moving_right = False
@@ -59,6 +66,12 @@ class KoopaTroopa(Enemy):
         elif self.moving_right:
             self.centery += 1
 
+    def set_image(self):
+        if self.color == 'red':
+            return pygame.image.load('Images/Enemies/KoopaTroopa/red-left-1.png')
+        # elif self.color == 'green':
+        #     return pygame.image.load('Images/Enemies/KoopaParatroopa/green-left-1.png')
+
     def stomped(self):
         self.image = pygame.image.load()
 
@@ -66,7 +79,7 @@ class KoopaTroopa(Enemy):
 class LittleGoomba(Enemy):
     def __init__(self, screen, settings):
         super().__init__(screen, settings)
-        self.image = pygame.image.load()
+        self.image = pygame.image.load('Images/Enemies/LittleGoomba/goomba-1.png')
 
         self.moving_left = False
         self.moving_right = False
@@ -78,7 +91,7 @@ class LittleGoomba(Enemy):
 class PiranhaPlant(Enemy):
     def __init__(self, screen, settings):
         super().__init__(screen, settings)
-        self.image = pygame.image.load()
+        self.image = pygame.image.load('Images/Enemies/PiranhaPlant/green-1.png')
 
         self.near_mario = True
         self.moving_up = False
@@ -100,10 +113,32 @@ class Podoboo(Enemy):
 class CheepCheep(Enemy):
     def __init__(self, screen, settings, color):
         super().__init__(screen, settings)
-        self.image = pygame.image.load()
         self.color = color
+        self.image = self.set_image()
 
     def update(self): pass
 
-# Fire-Bar
-# Bloober
+    def set_image(self):
+        if self.color == 'red':
+            return pygame.image.load('Images/Enemies/CheepCheep/red-left-1.png')
+        elif self.color == 'green':
+            return pygame.image.load('Images/Enemies/CheepCheep/green-left-1.png')
+        elif self.color == 'gray':
+            return pygame.image.load('Images/Enemies/CheepCheep/gray-left-1.png')
+
+
+class FireBar(Enemy):
+    def __init__(self, screen, settings):
+        super().__init__(screen, settings)
+        self.image = None
+
+    def update(self): pass
+
+
+class Bloober(Enemy):
+    def __init__(self, screen, settings):
+        super().__init__(screen, settings)
+        self.image = None
+
+    def update(self): pass
+

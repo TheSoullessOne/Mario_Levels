@@ -138,7 +138,7 @@ class FireBar(Enemy):
 class Bloober(Enemy):
     def __init__(self, screen, settings):
         super().__init__(screen, settings)
-        self.image = None
+        self.image = pygame.image.load('Images/Enemies/Bloober/bloober-1.png')
 
     def update(self): pass
 

@@ -25,6 +25,7 @@ class Character(Sprite):
         self.moving_left = False
         self.jumping = False
         self.side_facing = True     # True is right, false is left
+        self.on_block = False
         self.starting_jump = 0
         self.rect.centerx = self.settings.screen_width / 2      # Starting Mario at center of screen
         self.rect.bottom = self.settings.screen_height          # Starting Mario at bottom of screen
@@ -42,6 +43,7 @@ class Character(Sprite):
 
     def blit_me(self, screen):
         if self.jumping or self.falling:
+            self.on_block = False
             if self.side_facing:
                 screen.blit(self.image_jump_right, self.rect)
             elif not self.side_facing:
@@ -80,6 +82,7 @@ class Character(Sprite):
 
         if self.jumping and not self.falling and \
                 self.y_bot >= self.settings.screen_height - self.settings.max_jump_height:
+            self.on_block = False
             self.init_jmp -= float(0.0016)
             self.y_bot -= float(self.init_jmp)
         if self.y_bot <= self.settings.screen_height - self.settings.max_jump_height:

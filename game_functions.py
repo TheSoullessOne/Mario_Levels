@@ -79,5 +79,7 @@ def check_mario_block_collisions(screen, settings, mario, blocks):
                 mario.falling = True
             if mario.on_block and mario.jumping:
                 print('trying to jump')
-                mario.on_block = False
+                # mario.on_block = False
                 mario.jumping = True
+        # if not collision and mario.y_bot <= mario.settings.screen_height:
+        #     mario.falling = True

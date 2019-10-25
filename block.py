@@ -13,6 +13,10 @@ class Block(Sprite):
         self.width = self.rect.width
         self.height = self.width
         self.center = self.rect.centerx
+        self.left = self.rect.left
+        self.right = self.rect.right
+        self.bottom = self.rect.bottom
+        self.top = self.rect.top
 
         self.moving_up = False
         self.moving_down = False

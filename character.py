@@ -67,7 +67,6 @@ class Character(Sprite):
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
         self.rect_bottom = self.rect.bottom
-        
 
     def blit_me(self, screen):
         if self.jumping or self.falling:

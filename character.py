@@ -8,14 +8,15 @@ class Character(Sprite):
         self.screen = screen
         self.settings = settings
 
-        self.image = pygame.image.load('Images/Mario-Movement/mario-look-right.png')
-        self.image_left = pygame.image.load('Images/Mario-Movement/mario-look-left.png')
-        self.image_walking_right = pygame.image.load('Images/Mario-Movement/mario-walk-right.png')
-        self.image_walking_left = pygame.image.load('Images/Mario-Movement/mario-walk-left.png')
-        self.image_jump_right = pygame.image.load('Images/Mario-Movement/mario-jump-right.png')
-        self.image_jump_left = pygame.image.load('Images/Mario-Movement/mario-jump-left.png')
+        self.mario_size = 0     # 0 = smol mario, 1 = normal mario, 2 = fire boi
+        self.image = pygame.image.load('Images/Mario-Movement/smol/smol-mario-look-right.png')
+        self.image_left = pygame.image.load('Images/Mario-Movement/smol/smol-mario-look-left.png')
+        self.image_walking_right = pygame.image.load('Images/Mario-Movement/smol/smol-mario-walk-right.png')
+        self.image_walking_left = pygame.image.load('Images/Mario-Movement/smol/smol-mario-walk-left.png')
+        self.image_jump_right = pygame.image.load('Images/Mario-Movement/smol/smol-mario-jump-right.png')
+        self.image_jump_left = pygame.image.load('Images/Mario-Movement/smol/smol-mario-jump-left.png')
         self.width = 32     # Image width
-        self.height = 64    # Image height
+        self.height = 32    # Image height
         self.rect = self.image.get_rect()
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
@@ -38,6 +39,33 @@ class Character(Sprite):
         self.falling = False    # Check for positive downward y-velocity after jumping
         self.init_jmp = self.settings.jmp_speed
         self.hit_block = False
+
+    def change_mario_size(self):
+        if self.mario_size == 0:
+            self.image = pygame.image.load('Images/Mario-Movement/smol/smol-mario-look-right.png')
+            self.image_left = pygame.image.load('Images/Mario-Movement/smol/smol-mario-look-left.png')
+            self.image_walking_right = pygame.image.load('Images/Mario-Movement/smol/smol-mario-walk-right.png')
+            self.image_walking_left = pygame.image.load('Images/Mario-Movement/smol/smol-mario-walk-left.png')
+            self.image_jump_right = pygame.image.load('Images/Mario-Movement/smol/smol-mario-jump-right.png')
+            self.image_jump_left = pygame.image.load('Images/Mario-Movement/smol/smol-mario-jump-left.png')
+            self.update_rect()
+        if self.mario_size == 1:
+            self.image = pygame.image.load('Images/Mario-Movement/normal/mario-look-right.png')
+            self.image_left = pygame.image.load('Images/Mario-Movement/normal/mario-look-left.png')
+            self.image_walking_right = pygame.image.load('Images/Mario-Movement/normal/mario-walk-right.png')
+            self.image_walking_left = pygame.image.load('Images/Mario-Movement/normal/mario-walk-left.png')
+            self.image_jump_right = pygame.image.load('Images/Mario-Movement/normal/mario-jump-right.png')
+            self.image_jump_left = pygame.image.load('Images/Mario-Movement/normal/mario-jump-left.png')
+            self.height = 64
+            self.update_rect()
+
+    def update_rect(self):
+        """ Updating rect after change in mario size"""
+        self.rect = self.image.get_rect()
+        self.rect.x = self.rect.width
+        self.rect.y = self.rect.height
+        self.rect_bottom = self.rect.bottom
+        
 
     def blit_me(self, screen):
         if self.jumping or self.falling:

@@ -33,7 +33,7 @@ class Item(Sprite):
 class Coin(Item):
     def __init__(self, screen, settings):
         super().__init__(screen, settings)
-        self.image = pygame.image.load()
+        self.image = pygame.image.load('Images/Items/coin-1.png')
         self.points = 200
         self.rarity = 0
 
@@ -41,7 +41,7 @@ class Coin(Item):
 class MagicMushroom(Item):
     def __init__(self, screen, settings):
         super().__init__(screen, settings)
-        self.image = pygame.image.load()
+        self.image = pygame.image.load('Images/Items/magic-mushroom.png')
         self.points = 1000
         self.rarity = 1
 
@@ -49,7 +49,7 @@ class MagicMushroom(Item):
 class FireFlower(Item):
     def __init__(self, screen, settings):
         super().__init__(screen, settings)
-        self.image = pygame.image.load()
+        self.image = pygame.image.load('Images/Items/fire-flower.png')
         self.points = 1000
         self.rarity = 1
 
@@ -57,9 +57,10 @@ class FireFlower(Item):
 class Starman(Item):
     def __init__(self, screen, settings):
         super().__init__(screen, settings)
-        self.image = pygame.image.load()
+        self.image = pygame.image.load('Images/Items/starman-1.png')
         self.points = 1000
         self.rarity = 2
+
 
 class OneUpMushroom(Item):
     def __init__(self, screen, settings):

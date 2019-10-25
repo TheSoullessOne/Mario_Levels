@@ -15,6 +15,9 @@ class Enemy(Sprite):
         self.centerx = self.rect.centerx
         self.centery = self.rect.centery
 
+        # Turns on their motion if they are in viewfinder
+        self.on_screen = False
+
     def blit_me(self):
         self.screen.blit(self.image, self.rect)
 
@@ -141,4 +144,5 @@ class Bloober(Enemy):
         self.image = pygame.image.load('Images/Enemies/Bloober/bloober-1.png')
 
     def update(self): pass
+        # tracks mario's x movements but continues swimming animation
 

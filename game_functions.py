@@ -55,23 +55,14 @@ def check_mario_block_collisions(screen, settings, mario, blocks):
     for block in blocks:
         collision = pygame.sprite.collide_rect(mario, block)
         if collision:
-            if mario.rect.top <= block.rect.bottom:
+            if mario.rect.right >= block.rect.left and was_moving_right:
+                mario.cannot_move_right = True
+            elif mario.rect.left <= block.rect.right and was_moving_left:
+                mario.cannot_move_left = True
+            elif mario.rect.top <= block.rect.bottom:
                 mario.jumping = False
                 mario.falling = True
-            # if not mario.on_block and mario.rect.bottom >= block.rect.top:
-            #     mario.on_block = True
-            #     mario.rect.bottom = block.rect.top
-            if mario.rect.right >= block.rect.left and was_moving_right:
-                mario.hit_block = True
-            if mario.rect.left <= block.rect.right and was_moving_left:
-                mario.hit_block = True
-    # if was_moving_left and (mario.falling or mario.jumping):
-    #     mario.moving_left = True
-    # if was_moving_right and (mario.falling or mario.jumping):
-    #     mario.moving_right = True
-    # if mario.falling or mario.jumping:
-    #     mario.on_block = False
-    #     print("not on block")
-    # if mario.on_block:
-    #     print("on block")
-
+            elif mario.rect.bottom >= block.rect.top:
+                print("collide")
+                # mario.on_block = True
+                mario.rect.bottom = block.rect.top

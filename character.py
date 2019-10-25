@@ -35,7 +35,8 @@ class Character(Sprite):
         self.default_slow = 300
         self.falling = False    # Check for positive downward y-velocity after jumping
         self.init_jmp = self.settings.jmp_speed
-        self.hit_block = False
+        self.cannot_move_left = False
+        self.cannot_move_right = False
 
     def blit_me(self, screen):
         if not self.moving_right and not self.moving_left:  # Displaying non-moving sprite
@@ -64,10 +65,10 @@ class Character(Sprite):
         self.blit_me(screen)
 
     def update(self):
-        if self.moving_left and self.rect.left >= 0 and not self.hit_block:
+        if self.moving_left and self.rect.left >= 0 and not self.cannot_move_left:
             self.centerx -= 0.5
             self.side_facing = False
-        if self.moving_right and self.rect.right <= self.settings.screen_width and not self.hit_block:
+        if self.moving_right and self.rect.right <= self.settings.screen_width and not self.cannot_move_right:
             self.centerx += 0.5
             self.side_facing = True
 
@@ -78,7 +79,6 @@ class Character(Sprite):
         if self.y_bot <= self.settings.screen_height - self.settings.max_jump_height:
             self.falling = True
         if self.falling:  # and self.rect.bottom <= self.settings.screen_height:
-            print(self.rect.bottom)
             # Later change to collision on ground terrain ^^^
             self.init_jmp += float(0.0016)
             self.y_bot += self.init_jmp
@@ -88,7 +88,5 @@ class Character(Sprite):
 
         self.rect.centerx = self.centerx
         self.rect.bottom = self.y_bot
-        self.hit_block = False
+        self.cannot_move_right = self.cannot_move_left = False
 
-    def can_jump(self):
-        return self.y_bot == self.settings.screen_height

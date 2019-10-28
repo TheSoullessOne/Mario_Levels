@@ -32,11 +32,11 @@ def check_events(screen, settings, mario, background):
 
 def check_key_up(event, screen, settings, mario, background):
     if event.key == pygame.K_RIGHT:
-        if mario.rect.right < settings.screen_width / 2:
-            mario.moving_right = True
-        else:
-            mario.moving_right = False
-            background.rect.left -= settings.move_speed
+        # if mario.rect.right < settings.screen_width / 2:
+        #     mario.moving_right = True
+        # else:
+        mario.moving_right = False
+        #     background.rect.left -= settings.move_speed
     if event.key == pygame.K_LEFT:
         mario.moving_left = False
     if event.key == pygame.K_SPACE:
@@ -46,11 +46,11 @@ def check_key_up(event, screen, settings, mario, background):
 
 def check_key_down(event, screen, settings, mario, background):
     if event.key == pygame.K_RIGHT:
-        if mario.rect.right < settings.screen_width / 2:
-            mario.moving_right = True
-        else:
-            mario.moving_right = False
-            background.rect.left -= settings.move_speed
+        # if mario.rect.right < settings.screen_width / 2:
+        mario.moving_right = True
+        # else:
+        #     mario.moving_right = False
+        #     background.rect.left -= settings.move_speed
     if event.key == pygame.K_LEFT:
         mario.moving_left = True
     if event.key == pygame.K_SPACE and not mario.falling:
@@ -105,3 +105,7 @@ def check_mario_block_collisions(screen, settings, mario, blocks):
 
         if not collision:
             collide_top = collide_bottom = collide_left = collide_right = False
+
+
+def update_all(screen, settings, mario, blocks, mobs, background):
+    print()

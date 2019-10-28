@@ -48,11 +48,9 @@ def check_key_down(event, screen, settings, mario):
         mario.jumping = True
         mario.starting_jump = mario.rect.bottom
     if event.key == pygame.K_p and mario.mario_size < 3:     # TESTING PURPOSES. Increases mario size
-        mario.mario_size += 1
-        mario.change_mario_size()
+        mario.change_mario_size(1)
     if event.key == pygame.K_o and mario.mario_size > 0:    # TESTING PURPOSES. Decreases mario size
-        mario.mario_size -= 1
-        mario.change_mario_size()
+        mario.change_mario_size(-1)
 
 
 def check_mario_block_collisions(screen, settings, mario, blocks):

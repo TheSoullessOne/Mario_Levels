@@ -22,6 +22,9 @@ class Character(Sprite):
         self.rect.y = self.rect.height
         self.rect_bottom = self.rect.bottom
 
+        self.small_to_large_right = pygame.image.load('Images/Mario-Movement/smol/smol-tolarge-right.png')
+        self.small_to_large_left = pygame.image.load('Images/Mario-Movement/smol/smol-tolarge-left.png')
+
         self.moving_right = False
         self.moving_left = False
         self.jumping = False
@@ -40,8 +43,13 @@ class Character(Sprite):
         self.init_jmp = self.settings.jmp_speed
         self.hit_block = False
 
-    def change_mario_size(self):
-        if self.mario_size == 0:
+    def change_mario_size(self, next_size):
+        if next_size == 0 and self.mario_size > 0:
+            if self.side_facing:
+                self.screen.blit(self.small_to_large_right, self.rect)
+            elif not self.side_facing:
+                self.screen.blit(self.small_to_large_left, self.rect)
+
             self.image = pygame.image.load('Images/Mario-Movement/smol/smol-mario-look-right.png')
             self.image_left = pygame.image.load('Images/Mario-Movement/smol/smol-mario-look-left.png')
             self.image_walking_right = pygame.image.load('Images/Mario-Movement/smol/smol-mario-walk-right.png')
@@ -69,7 +77,7 @@ class Character(Sprite):
             self.update_rect()
 
     def update_rect(self):
-        """ Updating rect after change in mario size"""
+        """Updating rect after change in mario size"""
         self.rect = self.image.get_rect()
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
@@ -120,7 +128,6 @@ class Character(Sprite):
         if self.y_bot <= self.settings.screen_height - self.settings.max_jump_height:
             self.falling = True
         if self.falling:  # and self.rect.bottom <= self.settings.screen_height:
-            print(self.rect.bottom)
             # Later change to collision on ground terrain ^^^
             self.init_jmp += float(0.0016)
             self.y_bot += self.init_jmp

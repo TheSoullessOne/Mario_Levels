@@ -116,14 +116,16 @@ class Character(Sprite):
             self.cImage = 2
         self.blit_me(screen)
 
-    def update(self):
+    def update(self, background):
         if self.moving_left and self.rect.left >= 0 and not self.cannot_move_left:
             self.centerx -= 2.0
             self.side_facing = False
         if self.moving_right and self.rect.right <= self.settings.screen_width and not self.cannot_move_right:
-            self.centerx += 2.0
+            if self.rect.right >= self.settings.screen_width / 2:
+                background.rect.left -= 2.0
+            else:
+                self.centerx += 2.0
             self.side_facing = True
-
         if self.jumping and not self.falling and \
                 self.y_bot >= self.settings.screen_height - self.settings.max_jump_height:
             self.on_block = False

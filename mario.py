@@ -23,7 +23,7 @@ def run_game():
     blocks.add(used_block)
 
     while True:
-        mario.update()
+        mario.update(background)
         gf.check_events(screen, settings, mario, background)
         gf.update_screen(screen, settings, mario, block, used_block, background)
         gf.check_mario_block_collisions(screen, settings, mario, blocks)

@@ -2,8 +2,9 @@ import pygame
 import sys
 
 
-def update_screen(screen, settings, mario, block, used_block):
-    screen.fill(settings.bg_color)
+def update_screen(screen, settings, mario, block, used_block, background):
+    # screen.fill(settings.bg_color)
+    screen.blit(background.image, background.rect)
     mario.slow_blit(screen)
 
     # TESTING BLOCKS

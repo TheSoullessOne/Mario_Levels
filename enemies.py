@@ -144,5 +144,4 @@ class Bloober(Enemy):
         self.image = pygame.image.load('Images/Enemies/Bloober/bloober-1.png')
 
     def update(self): pass
-        # tracks mario's x movements but continues swimming animation
-
+    # tracks mario's x movements but continues swimming animation

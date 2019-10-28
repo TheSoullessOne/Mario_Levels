@@ -18,7 +18,7 @@ class Item(Sprite):
         self.moving_down = False
 
         self.points = 0
-        self.rarity = None # 0(Very Common) - 2(Rare)
+        self.rarity = None  # 0(Very Common) - 2(Rare)
 
     def blit_me(self):
         self.screen.blit(self.image, self.rect)

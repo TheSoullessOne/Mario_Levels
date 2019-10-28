@@ -29,6 +29,7 @@ class Character(Sprite):
         self.moving_left = False
         self.jumping = False
         self.side_facing = True     # True is right, false is left
+        self.on_block = False
         self.starting_jump = 0
         self.rect.centerx = self.settings.screen_width / 2      # Starting Mario at center of screen
         self.rect.bottom = self.settings.screen_height          # Starting Mario at bottom of screen
@@ -39,9 +40,10 @@ class Character(Sprite):
         self.cImage = 0     # Displaying which image in sheet is being displayed
         self.slowDown = 0   # Used to slow down blitting process to smooth animations
         self.default_slow = 300
-        self.falling = False    # Check for positive downward y-velocity after jumping
+        self.falling = True   # Check for positive downward y-velocity after jumping
         self.init_jmp = self.settings.jmp_speed
-        self.hit_block = False
+        self.cannot_move_left = False
+        self.cannot_move_right = False
 
     def change_mario_size(self, next_size):
         if next_size == 0 and self.mario_size > 0:
@@ -85,6 +87,7 @@ class Character(Sprite):
 
     def blit_me(self, screen):
         if self.jumping or self.falling:
+            self.on_block = False
             if self.side_facing:
                 screen.blit(self.image_jump_right, self.rect)
             elif not self.side_facing:
@@ -114,30 +117,30 @@ class Character(Sprite):
         self.blit_me(screen)
 
     def update(self):
-        if self.moving_left and self.rect.left >= 0 and not self.hit_block:
-            self.centerx -= 0.5
+        if self.moving_left and self.rect.left >= 0 and not self.cannot_move_left:
+            self.centerx -= 2.0
             self.side_facing = False
-        if self.moving_right and self.rect.right <= self.settings.screen_width and not self.hit_block:
-            self.centerx += 0.5
+        if self.moving_right and self.rect.right <= self.settings.screen_width and not self.cannot_move_right:
+            self.centerx += 2.0
             self.side_facing = True
 
         if self.jumping and not self.falling and \
                 self.y_bot >= self.settings.screen_height - self.settings.max_jump_height:
+            self.on_block = False
             self.init_jmp -= float(0.0016)
             self.y_bot -= float(self.init_jmp)
         if self.y_bot <= self.settings.screen_height - self.settings.max_jump_height:
             self.falling = True
         if self.falling:  # and self.rect.bottom <= self.settings.screen_height:
             # Later change to collision on ground terrain ^^^
-            self.init_jmp += float(0.0016)
-            self.y_bot += self.init_jmp
             if self.y_bot >= self.settings.screen_height:
                 self.falling = False
                 self.init_jmp = self.settings.jmp_speed
+            else:
+                self.init_jmp += float(0.0016)
+                self.y_bot += self.init_jmp
 
         self.rect.centerx = self.centerx
         self.rect.bottom = self.y_bot
-        self.hit_block = False
+        self.cannot_move_right = self.cannot_move_left = False
 
-    def can_jump(self):
-        return self.y_bot == self.settings.screen_height

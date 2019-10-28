@@ -39,7 +39,7 @@ class Character(Sprite):
 
         self.cImage = 0     # Displaying which image in sheet is being displayed
         self.slowDown = 0   # Used to slow down blitting process to smooth animations
-        self.default_slow = 300
+        self.default_slow = 30
         self.falling = True   # Check for positive downward y-velocity after jumping
         self.init_jmp = self.settings.jmp_speed
         self.cannot_move_left = False

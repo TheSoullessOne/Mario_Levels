@@ -110,10 +110,10 @@ class Character(Sprite):
 
     def update(self):
         if self.moving_left and self.rect.left >= 0 and not self.cannot_move_left:
-            self.centerx -= 0.5
+            self.centerx -= 2.0
             self.side_facing = False
         if self.moving_right and self.rect.right <= self.settings.screen_width and not self.cannot_move_right:
-            self.centerx += 0.5
+            self.centerx += 2.0
             self.side_facing = True
 
         if self.jumping and not self.falling and \

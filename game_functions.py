@@ -45,7 +45,7 @@ def check_key_down(event, screen, settings, mario):
         mario.moving_right = True
     if event.key == pygame.K_LEFT:
         mario.moving_left = True
-    if event.key == pygame.K_SPACE:
+    if event.key == pygame.K_SPACE and not mario.falling:
         mario.falling = False
         mario.jumping = True
         mario.starting_jump = mario.rect.bottom
@@ -60,19 +60,25 @@ def check_key_down(event, screen, settings, mario):
 def check_mario_block_collisions(screen, settings, mario, blocks):
     was_moving_right = mario.moving_right
     was_moving_left = mario.moving_left
+    collide_left = collide_right = collide_bottom = collide_top = False
     for block in blocks:
         collision = pygame.sprite.collide_rect(mario, block)
         # print(collision)
         if collision:
-            if not mario.on_block and mario.rect.right >= block.rect.left and was_moving_right:
+            if not collide_left and not collide_bottom and not collide_top and \
+                    mario.jumping and not mario.on_block and mario.rect.right >= block.rect.left and was_moving_right:
                 print('hit left side of block')
                 mario.cannot_move_right = True
                 mario.on_block = False
-            elif not mario.on_block and mario.rect.left <= block.rect.right and was_moving_left:
+                collide_right = True
+            elif not collide_right and not collide_bottom and not collide_top and\
+                    mario.jumping and not mario.on_block and mario.rect.left <= block.rect.right and was_moving_left:
                 print('hit right side of block')
                 mario.cannot_move_left = True
                 mario.on_block = False
-            elif not mario.jumping and mario.falling and not mario.on_block and mario.rect.bottom >= block.rect.top:  # \
+                collide_left = True
+            elif not collide_right and not collide_left and not collide_bottom and\
+                    not mario.jumping and mario.falling and not mario.on_block and mario.rect.bottom - block.rect.top == 1:  # \
                 # and (mario.rect.left <= block.rect.right or mario.rect.right >= block.rect.left):
                 print("on top of block")
                 print(block.rect.top)
@@ -80,17 +86,16 @@ def check_mario_block_collisions(screen, settings, mario, blocks):
                 mario.on_block = True
                 mario.falling = False
                 mario.rect.bottom = block.rect.top
-            elif mario.jumping and not mario.on_block and mario.rect.top <= block.rect.bottom:
+                collide_top = True
+            elif not collide_left and not collide_right and not collide_top and\
+                    mario.jumping and not mario.on_block and mario.rect.top - block.rect.bottom == 1:
                 print('hit head')
                 mario.on_block = False
                 mario.jumping = False
                 mario.falling = True
+                collide_bottom = True
+            if mario.jumping and mario.rect.bottom - block.rect.top > 1:
+                mario.jumping = True
 
-        # if collision == 0:
-            # mario.falling = True
-            # if mario.on_block and mario.jumping:
-            #     print('trying to jump')
-            #     # mario.on_block = False
-            #     mario.jumping = True
-        # if not collision and mario.y_bot <= mario.settings.screen_height:
-        #     mario.falling = True
+        if not collision:
+            collide_top = collide_bottom = collide_left = collide_right = False

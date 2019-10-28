@@ -20,19 +20,23 @@ def update_screen(screen, settings, mario, block, used_block, background):
     pygame.display.flip()
 
 
-def check_events(screen, settings, mario):
+def check_events(screen, settings, mario, background):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
         if event.type == pygame.KEYDOWN:
-            check_key_down(event, screen, settings, mario)
+            check_key_down(event, screen, settings, mario, background)
         if event.type == pygame.KEYUP:
-            check_key_up(event, screen, settings, mario)
+            check_key_up(event, screen, settings, mario, background)
 
 
-def check_key_up(event, screen, settings, mario):
+def check_key_up(event, screen, settings, mario, background):
     if event.key == pygame.K_RIGHT:
-        mario.moving_right = False
+        if mario.rect.right < settings.screen_width / 2:
+            mario.moving_right = True
+        else:
+            mario.moving_right = False
+            background.rect.left -= settings.move_speed
     if event.key == pygame.K_LEFT:
         mario.moving_left = False
     if event.key == pygame.K_SPACE:
@@ -40,9 +44,13 @@ def check_key_up(event, screen, settings, mario):
         mario.falling = True
 
 
-def check_key_down(event, screen, settings, mario):
+def check_key_down(event, screen, settings, mario, background):
     if event.key == pygame.K_RIGHT:
-        mario.moving_right = True
+        if mario.rect.right < settings.screen_width / 2:
+            mario.moving_right = True
+        else:
+            mario.moving_right = False
+            background.rect.left -= settings.move_speed
     if event.key == pygame.K_LEFT:
         mario.moving_left = True
     if event.key == pygame.K_SPACE and not mario.falling:

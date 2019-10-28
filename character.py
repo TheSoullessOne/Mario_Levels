@@ -37,7 +37,7 @@ class Character(Sprite):
         self.cImage = 0     # Displaying which image in sheet is being displayed
         self.slowDown = 0   # Used to slow down blitting process to smooth animations
         self.default_slow = 300
-        self.falling = False    # Check for positive downward y-velocity after jumping
+        self.falling = True   # Check for positive downward y-velocity after jumping
         self.init_jmp = self.settings.jmp_speed
         self.cannot_move_left = False
         self.cannot_move_right = False
@@ -125,11 +125,12 @@ class Character(Sprite):
             self.falling = True
         if self.falling:  # and self.rect.bottom <= self.settings.screen_height:
             # Later change to collision on ground terrain ^^^
-            self.init_jmp += float(0.0016)
-            self.y_bot += self.init_jmp
             if self.y_bot >= self.settings.screen_height:
                 self.falling = False
                 self.init_jmp = self.settings.jmp_speed
+            else:
+                self.init_jmp += float(0.0016)
+                self.y_bot += self.init_jmp
 
         self.rect.centerx = self.centerx
         self.rect.bottom = self.y_bot

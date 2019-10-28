@@ -17,13 +17,22 @@ def run_game():
     background = Background(screen, settings)
     mario = Character(screen, settings)
     block = Block(screen, settings)
+    block.rect.center = screen.get_rect().center
+    block.rect.centery += 100
+
     used_block = UsedBlock(screen, settings)
+    used_block.rect.center = screen.get_rect().center
+    used_block.rect.centery += 100
+    used_block.rect.left = block.rect.right
+
     blocks = Group()
+    mobs = Group()
     blocks.add(block)
     blocks.add(used_block)
 
     while True:
-        mario.update(background)
+        mario.update(screen, blocks, mobs, background)
+        # gf.update_all(screen, settings, mario, blocks, mobs, backgorund)
         gf.check_events(screen, settings, mario, background)
         gf.update_screen(screen, settings, mario, block, used_block, background)
         gf.check_mario_block_collisions(screen, settings, mario, blocks)

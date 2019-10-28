@@ -8,13 +8,13 @@ def update_screen(screen, settings, mario, block, used_block, background):
     mario.slow_blit(screen)
 
     # TESTING BLOCKS
-    block.rect.center = screen.get_rect().center
-    block.rect.centery += 100
+    # block.rect.center = screen.get_rect().center
+    # block.rect.centery += 100
     block.blit_me(screen)
-
-    used_block.rect.center = screen.get_rect().center
-    used_block.rect.centery += 100
-    used_block.rect.left = block.rect.right
+    # 
+    # used_block.rect.center = screen.get_rect().center
+    # used_block.rect.centery += 100
+    # used_block.rect.left = block.rect.right
     used_block.blit_me(screen)
 
     pygame.display.flip()
@@ -107,5 +107,8 @@ def check_mario_block_collisions(screen, settings, mario, blocks):
             collide_top = collide_bottom = collide_left = collide_right = False
 
 
-def update_all(screen, settings, mario, blocks, mobs, background):
+def update_all(screen, blocks, mobs, background):
+    for block in blocks:
+        block.rect.left -= 2.0
+    background.rect.left -= 2.0
     print()

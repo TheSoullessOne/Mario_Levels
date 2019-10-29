@@ -4,6 +4,7 @@ from settings import Settings
 from character import Character
 from block import *
 from background import Background
+from level11 import Level11
 from pygame.sprite import Group
 
 settings = Settings()
@@ -14,27 +15,19 @@ def run_game():
     screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
     pygame.display.set_caption("Mario")
 
-    background = Background(screen, settings)
+    current_level = Level11(screen, settings)
+
+    # background = Background(screen, settings)
     mario = Character(screen, settings)
-    block = Block(screen, settings)
-    block.rect.center = screen.get_rect().center
-    block.rect.centery += 100
 
-    used_block = UsedBlock(screen, settings)
-    used_block.rect.center = screen.get_rect().center
-    used_block.rect.centery += 100
-    used_block.rect.left = block.rect.right
-
-    blocks = Group()
+    blocks = current_level.blocks
     mobs = Group()
-    blocks.add(block)
-    blocks.add(used_block)
 
     while True:
-        mario.update(screen, blocks, mobs, background)
+        mario.update(screen, blocks, mobs, current_level.background)
         # gf.update_all(screen, settings, mario, blocks, mobs, backgorund)
-        gf.check_events(screen, settings, mario, background)
-        gf.update_screen(screen, settings, mario, block, used_block, background)
+        gf.check_events(screen, settings, mario, current_level.background)
+        gf.update_screen(screen, settings, mario, current_level)
         gf.check_mario_block_collisions(screen, settings, mario, blocks)
 
 

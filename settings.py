@@ -1,3 +1,6 @@
+from block import *
+
+
 class Settings:
     def __init__(self):
         self.screen_width = 900

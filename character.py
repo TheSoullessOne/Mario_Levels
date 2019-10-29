@@ -42,17 +42,13 @@ class Character(Sprite):
         self.slowDown = 0   # Used to slow down blitting process to smooth animations
         self.default_slow = 30
         self.falling = True   # Check for positive downward y-velocity after jumping
-        self.init_jmp = self.settings.jmp_speed
+        self.vertical_speed = self.settings.init_jmp_speed
+        self.init_gravity = self.settings.init_gravity
         self.cannot_move_left = False
         self.cannot_move_right = False
 
-    def change_mario_size(self, next_size):
-        if next_size == 0 and self.mario_size > 0:
-            if self.side_facing:
-                self.screen.blit(self.small_to_large_right, self.rect)
-            elif not self.side_facing:
-                self.screen.blit(self.small_to_large_left, self.rect)
-
+    def change_mario_size(self):
+        if self.mario_size == 0:
             self.image = pygame.image.load('Images/Mario-Movement/smol/smol-mario-look-right.png')
             self.image_left = pygame.image.load('Images/Mario-Movement/smol/smol-mario-look-left.png')
             self.image_walking_right = pygame.image.load('Images/Mario-Movement/smol/smol-mario-walk-right.png')
@@ -131,18 +127,21 @@ class Character(Sprite):
         if self.jumping and not self.falling and \
                 self.y_bot >= self.settings.screen_height - self.settings.max_jump_height:
             self.on_block = False
-            self.init_jmp -= float(0.0016)
-            self.y_bot -= float(self.init_jmp)
+            self.vertical_speed -= self.settings.init_gravity
+            self.y_bot -= float(self.vertical_speed)
         if self.y_bot <= self.settings.screen_height - self.settings.max_jump_height:
             self.falling = True
         if self.falling:  # and self.rect.bottom <= self.settings.screen_height:
             # Later change to collision on ground terrain ^^^
-            if self.y_bot >= self.settings.screen_height:
+            if self.y_bot >= self.settings.screen_height: # OR ON BLOCK
                 self.falling = False
-                self.init_jmp = self.settings.jmp_speed
+                self.vertical_speed = self.settings.init_jmp_speed
             else:
-                self.init_jmp += float(0.0016)
-                self.y_bot += self.init_jmp
+                if self.vertical_speed >= self.settings.max_gravity:
+                    self.vertical_speed = self.settings.max_gravity
+                else:
+                    self.vertical_speed += self.settings.init_gravity
+                self.y_bot += self.vertical_speed
 
         self.rect.centerx = self.centerx
         self.rect.bottom = self.y_bot

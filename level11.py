@@ -27,20 +27,18 @@ class Level11:
         self.create_item_block(None, 750, 305)
         self.create_item_block(None, 785, 160)
         self.create_item_block(None, 822, 305)
-
-        print(len(self.blocks))
-        # default blocks
-        b1 = pygame.rect.Rect(714, 304, w, h)
-        pygame.draw.rect(self.bg_img, default_block_color, b1)
-        b2 = pygame.rect.Rect(785, 305, w, h)
-        pygame.draw.rect(self.bg_img, default_block_color, b2)
-        b3 = pygame.rect.Rect(855, 305, w, h)
-        pygame.draw.rect(self.bg_img, default_block_color, b3)
+        self.create_brick_block(714, 305)
+        self.create_brick_block(785, 305)
+        self.create_brick_block(855, 305)
 
 
     def create_item_block(self, item, x, y):
         ib = ItemBlock(None, self.bg_img, self.settings, x, y)
         self.blocks.add(ib)
+
+    def create_brick_block(self, x, y):
+        block = BrickBlock(self.screen, self.settings, x, y)
+        self.blocks.add(block)
 
     def blit_level(self):
         for block in self.blocks:
@@ -48,5 +46,57 @@ class Level11:
 
 
     def initialize_items(self): pass
+
     def initialize_enemies(self): pass
 
+# ITEM BLOCK:
+# ------------
+# 590, 321
+# 767, 321
+# 803, 179
+# 839, 321
+# ------------
+# 2786, 303
+# 3358, 160
+#
+# 3785, 303
+# 3892, 303
+# 3999, 303
+# 3892, 160
+#
+# 4607, 160
+# 4641, 160
+#
+# 6072, 302
+#
+# BRICK BLOCK:
+# ---------------
+# 715, 305
+# 785, 305
+# 855, 305
+# ----------
+# 2750, 305
+# 2820, 303
+#
+# start: 2856, 160
+# end: 3107, 160
+# start: 3249, 160
+# end: 3322, 160
+#
+# 3356, 303
+# 3571, 303
+# 3607, 303
+#
+# 4213, 303
+# start: 4321, 160
+# end: 4392, 160
+#
+# 4570, 160
+# 4678, 160
+#
+# 4606, 303
+# 4643, 303
+#
+# 6000, 303
+# 6036, 303
+# 6106, 303

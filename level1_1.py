@@ -1,24 +1,11 @@
 from enemies import *
 from items import *
-from background import Background
-from pygame.sprite import Group
 from level import Level
-import pygame
 
 
-class Level11(Level):
+class Level1_1(Level):
     def __init__(self, screen, settings):
         super().__init__(screen, settings)
-        # self.screen = screen
-        # self.screen_rect = screen.get_rect()
-        # self.settings = settings
-        # self.background = Background(screen, settings, 'Images/Backgrounds/1-1-bg.png')
-        # self.bg_img = self.background.image
-        # self.blocks = Group()
-        # self.items = Group()
-        # self.enemies = Group()
-        #
-        # self.initialize_blocks()
 
     def initialize_blocks(self):
         upper_y = 160

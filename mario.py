@@ -4,7 +4,7 @@ from settings import Settings
 from character import Character
 from block import *
 from background import Background
-from level11 import Level11
+from level1_1 import Level1_1
 from pygame.sprite import Group
 
 settings = Settings()
@@ -15,7 +15,7 @@ def run_game():
     screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
     pygame.display.set_caption("Mario")
 
-    current_level = Level11(screen, settings)
+    current_level = Level1_1(screen, settings)
 
     # background = Background(screen, settings)
     mario = Character(screen, settings)

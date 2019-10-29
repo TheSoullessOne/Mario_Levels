@@ -19,17 +19,65 @@ class Level11:
         self.initialize_blocks()
 
     def initialize_blocks(self):
-        w, h = 36, 36
-        item_block_color = (255, 0, 255)  # hot pink
-        default_block_color = (0, 255, 255)  # teal
+        upper_y = 160
+        lower_y = 304
 
-        self.create_item_block(None, 570, 305)
-        self.create_item_block(None, 750, 305)
-        self.create_item_block(None, 785, 160)
-        self.create_item_block(None, 822, 305)
-        self.create_brick_block(714, 305)
-        self.create_brick_block(785, 305)
-        self.create_brick_block(855, 305)
+        # First grouping
+        self.create_item_block(None, 570, lower_y)
+        self.create_item_block(None, 786, upper_y)
+
+        self.create_brick_block(714, lower_y)
+        self.create_item_block(None, 750, lower_y)
+        self.create_brick_block(786, lower_y)
+        self.create_item_block(None, 822, lower_y)
+        self.create_brick_block(858, lower_y)
+
+        self.create_brick_block(2750, lower_y)
+        self.create_item_block(None, 2786, lower_y)
+        self.create_brick_block(2822, lower_y)
+
+        self.create_brick_block(2856, upper_y)
+        self.create_brick_block(2892, upper_y)
+        self.create_brick_block(2928, upper_y)
+        self.create_brick_block(2964, upper_y)
+        self.create_brick_block(3000, upper_y)
+        self.create_brick_block(3036, upper_y)
+        self.create_brick_block(3072, upper_y)
+        self.create_brick_block(3108, upper_y)
+
+        self.create_brick_block(3249, upper_y)
+        self.create_brick_block(3285, upper_y)
+        self.create_brick_block(3321, upper_y)
+        self.create_item_block(None, 3357, upper_y)
+
+        self.create_brick_block(3357, lower_y)
+
+        self.create_brick_block(3571, lower_y)
+        self.create_brick_block(3607, lower_y)
+
+        self.create_item_block(None, 3785, lower_y)
+        self.create_item_block(None, 3892, lower_y)
+        self.create_item_block(None, 3999, lower_y)
+        self.create_item_block(None, 3892, upper_y)
+
+        self.create_brick_block(4214, lower_y)
+
+        self.create_brick_block(4321, upper_y)
+        self.create_brick_block(4357, upper_y)
+        self.create_brick_block(4393, upper_y)
+
+        self.create_brick_block(4571, upper_y)
+        self.create_item_block(None, 4607, upper_y)
+        self.create_item_block(None, 4643, upper_y)
+        self.create_brick_block(4679, upper_y)
+
+        self.create_brick_block(4607, lower_y)
+        self.create_brick_block(4643, lower_y)
+
+        self.create_brick_block(5999, lower_y)
+        self.create_brick_block(6035, lower_y)
+        self.create_item_block(None, 6071, lower_y)
+        self.create_brick_block(6107, lower_y)
 
 
     def create_item_block(self, item, x, y):
@@ -44,11 +92,15 @@ class Level11:
         for block in self.blocks:
             block.blit_me(self.screen)
 
-
     def initialize_items(self): pass
 
     def initialize_enemies(self): pass
 
+    # For testing only
+    def draw_flag(self, color, x, y):
+        w, h = 36, 36
+        b1 = pygame.rect.Rect(x, y, w, h)
+        pygame.draw.rect(self.bg_img, color, b1)
 # ITEM BLOCK:
 # ------------
 # 590, 321

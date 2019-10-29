@@ -47,3 +47,7 @@ class UsedBlock(Block):
         super().__init__(screen, settings, x, y)
         self.image = pygame.image.load('Images/Blocks/UsedBlock.png')
 
+class BrickBlock(Block):
+    def __init__(self, screen, settings, x, y):
+        super().__init__(screen, settings, x, y)
+        self.image = pygame.image.load('Images/Blocks/BrickBlock.png')

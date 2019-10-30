@@ -125,6 +125,8 @@ class Character(Sprite):
             else:
                 self.centerx += 2.0
             self.side_facing = True
+        if self.jumping:
+            self.falling = False
         if self.jumping and not self.falling and \
                 self.y_bot >= self.settings.screen_height - self.settings.max_jump_height:
             self.on_block = False
@@ -132,7 +134,7 @@ class Character(Sprite):
             self.y_bot -= float(self.vertical_speed)
         if self.y_bot <= self.settings.screen_height - self.settings.max_jump_height:
             self.falling = True
-        if self.falling:  # and self.rect.bottom <= self.settings.screen_height:
+        if self.falling and not self.jumping:  # and self.rect.bottom <= self.settings.screen_height:
             # Later change to collision on ground terrain ^^^
             if self.y_bot >= self.settings.screen_height: # OR ON BLOCK
                 self.falling = False

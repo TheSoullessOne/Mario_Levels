@@ -33,13 +33,23 @@ class Block(Sprite):
         elif self.moving_down:
             self.center -= 1
 
+class BlueBlock(Block):
+    def __init__(self, screen, settings, x, y):
+        super().__init__(screen, settings, x, y)
+        self.image = pygame.image.load('Images/Blocks/Blue-Block.png')
 
 class ItemBlock(Block):
     def __init__(self, item, screen, settings, x, y):
         super().__init__(screen, settings, x, y)
-        self.image = pygame.image.load('Images/Blocks/ItemBlock.png')
+        self.image = pygame.image.load('Images/Blocks/ItemBlock-1.png')
         self.item = item
         self.activated = False
+
+
+class BlueItemBlock(Block):
+    def __init__(self, item, screen, settings, x, y):
+        super().__init__(screen, settings, x ,y)
+        self.image = pygame.image.load('Images/Blocks/Blue-ItemBlock-1.png')
 
 
 class UsedBlock(Block):
@@ -47,7 +57,20 @@ class UsedBlock(Block):
         super().__init__(screen, settings, x, y)
         self.image = pygame.image.load('Images/Blocks/UsedBlock.png')
 
+
+class BlueUsedBlock(Block):
+    def __init__(self, screen, settings, x, y):
+        super().__init__(screen, settings, x, y)
+        self.image = pygame.image.load('Images/Blocks/Blue-UsedBlock.png')
+
+
 class BrickBlock(Block):
     def __init__(self, screen, settings, x, y):
         super().__init__(screen, settings, x, y)
         self.image = pygame.image.load('Images/Blocks/BrickBlock.png')
+
+
+class BlueBrickBlock(Block):
+    def __init__(self, screen, settings, x, y):
+        super().__init__(screen, settings, x, y)
+        self.image = pygame.image.load('Images/Blocks/Blue-BrickBlock.png')

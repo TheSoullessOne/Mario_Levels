@@ -1,10 +1,11 @@
+import sys
 import pygame
 import game_functions as gf
 from settings import Settings
 from character import Character
 from block import *
 from background import Background
-from level1_1 import Level1_1
+from Levels.level1_1 import Level1_1
 from pygame.sprite import Group
 
 settings = Settings()

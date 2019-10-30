@@ -1,6 +1,6 @@
 from enemies import *
 from items import *
-from level import Level
+from Levels.level import Level
 
 
 class Level1_1(Level):

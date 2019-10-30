@@ -44,11 +44,9 @@ class ItemBlock(Block):
         super().__init__(screen, settings, x, y)
         self.image = pygame.image.load('Images/Blocks/ItemBlock-1.png')
 
-        self.anim_frames = []
-        self.anim_frames.append('Images/Blocks/ItemBlock-1.png')
-        self.anim_frames.append('Images/Blocks/ItemBlock-2.png')
-        self.anim_frames.append('Images/Blocks/ItemBlock-3.png')
-        self.animation = Timer(self.anim_frames, 150)
+        anim_frames = ['Images/Blocks/ItemBlock-1.png', 'Images/Blocks/ItemBlock-2.png',
+                       'Images/Blocks/ItemBlock-3.png']
+        self.animation = Timer(anim_frames, 150)
 
         self.item = item
         self.activated = False

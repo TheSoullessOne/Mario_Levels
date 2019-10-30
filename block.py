@@ -74,3 +74,23 @@ class BlueBrickBlock(Block):
     def __init__(self, screen, settings, x, y):
         super().__init__(screen, settings, x, y)
         self.image = pygame.image.load('Images/Blocks/Blue-BrickBlock.png')
+
+class TreeBlock(Block):
+    def __init__(self, screen, settings, x, y):
+        super().__init__(screen, settings, x, y)
+        self.image = pygame.image.load('Images/Blocks/tree-block.png')
+
+class LeftTreeTop(Block):
+    def __init__(self, screen, settings, x, y):
+        super().__init__(screen, settings, x, y)
+        self.image = pygame.image.load('Images/Blocks/tree-top-left.png')
+
+class MidTreeTop(Block):
+    def __init__(self, screen, settings, x, y):
+        super().__init__(screen, settings, x, y)
+        self.image = pygame.image.load('Images/Blocks/tree-top-mid.png')
+
+class RightTreeTop(Block):
+    def __init__(self, screen, settings, x, y):
+        super().__init__(screen, settings, x, y)
+        self.image = pygame.image.load('Images/Blocks/tree-top-right.png')

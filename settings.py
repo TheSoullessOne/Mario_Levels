@@ -13,3 +13,6 @@ class Settings:
         self.move_speed = 10.0
         self.init_gravity = float(0.03)
         self.max_gravity = 3
+
+        self.enemy_move_speed = 5
+        self.enemy_anim_rate = 150

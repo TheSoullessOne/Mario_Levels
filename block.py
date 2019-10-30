@@ -3,7 +3,7 @@ from pygame.sprite import Sprite
 
 
 class Block(Sprite):
-    def __init__(self, screen, settings):
+    def __init__(self, screen, settings, x, y):
         super(Block, self).__init__()
         self.screen = screen
         self.settings = settings
@@ -17,6 +17,9 @@ class Block(Sprite):
         self.right = self.rect.right
         self.bottom = self.rect.bottom
         self.top = self.rect.top
+
+        self.rect.x = x
+        self.rect.y = y
 
         self.moving_up = False
         self.moving_down = False
@@ -32,16 +35,19 @@ class Block(Sprite):
 
 
 class ItemBlock(Block):
-    def __init__(self, item, screen, settings):
-        super().__init__(screen, settings)
+    def __init__(self, item, screen, settings, x, y):
+        super().__init__(screen, settings, x, y)
         self.image = pygame.image.load('Images/Blocks/ItemBlock.png')
         self.item = item
         self.activated = False
 
 
 class UsedBlock(Block):
-    def __init__(self, screen, settings):
-        super().__init__(screen, settings)
+    def __init__(self, screen, settings, x, y):
+        super().__init__(screen, settings, x, y)
         self.image = pygame.image.load('Images/Blocks/UsedBlock.png')
 
-
+class BrickBlock(Block):
+    def __init__(self, screen, settings, x, y):
+        super().__init__(screen, settings, x, y)
+        self.image = pygame.image.load('Images/Blocks/BrickBlock.png')

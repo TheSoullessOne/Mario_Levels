@@ -2,20 +2,12 @@ import pygame
 import sys
 
 
-def update_screen(screen, settings, mario, block, used_block, background):
-    # screen.fill(settings.bg_color)
-    screen.blit(background.image, background.rect)
+def update_screen(screen, settings, mario, current_level):
+    screen.blit(current_level.background.image, current_level.background.rect)
+    current_level.blit_level()
     mario.slow_blit(screen)
 
-    # TESTING BLOCKS
-    # block.rect.center = screen.get_rect().center
-    # block.rect.centery += 100
-    block.blit_me(screen)
-    #
-    # used_block.rect.center = screen.get_rect().center
-    # used_block.rect.centery += 100
-    # used_block.rect.left = block.rect.right
-    used_block.blit_me(screen)
+    #print(mario.centerx, mario.centery)
 
     pygame.display.flip()
 
@@ -57,10 +49,12 @@ def check_key_down(event, screen, settings, mario, background):
         mario.falling = False
         mario.jumping = True
         mario.starting_jump = mario.rect.bottom
-    if event.key == pygame.K_p and mario.mario_size < 3:     # TESTING PURPOSES. Increases mario size
-        mario.change_mario_size(1)
+    if event.key == pygame.K_p and mario.mario_size < 2:     # TESTING PURPOSES. Increases mario size
+        mario.mario_size += 1
+        mario.change_mario_size()
     if event.key == pygame.K_o and mario.mario_size > 0:    # TESTING PURPOSES. Decreases mario size
-        mario.change_mario_size(-1)
+        mario.mario_size -= 1
+        mario.change_mario_size()
 
 
 def check_mario_block_collisions(screen, settings, mario, blocks):

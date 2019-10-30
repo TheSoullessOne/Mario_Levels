@@ -3,16 +3,19 @@ from pygame.sprite import Sprite
 
 
 class Background(Sprite):
-    def __init__(self, screen, settings):
+    def __init__(self, screen, settings, image):
         super().__init__()
         self.screen = screen
         self.settings = settings
         self.screen_rect = screen.get_rect()
 
-        self.image = pygame.image.load('Images/Backgrounds/1-1-bg.png')
+        self.image = pygame.image.load(image)
         self.rect = self.image.get_rect()
         self.rect.left = screen.get_rect().left
         self.rect.top = screen.get_rect().top
+
+    def blit_me(self):
+        self.screen.blit(self.image, self.rect)
 
     def update(self):
         self.rect.left -= 1

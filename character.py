@@ -40,7 +40,7 @@ class Character(Sprite):
 
         self.cImage = 0     # Displaying which image in sheet is being displayed
         self.slowDown = 0   # Used to slow down blitting process to smooth animations
-        self.default_slow = 30
+        self.default_slow = 50
         self.falling = True   # Check for positive downward y-velocity after jumping
         self.vertical_speed = self.settings.init_jmp_speed
         self.init_gravity = self.settings.init_gravity
@@ -115,14 +115,14 @@ class Character(Sprite):
 
     def update(self, screen, blocks, mobs, background):
         if self.moving_left and self.rect.left >= 0 and not self.cannot_move_left:
-            self.centerx -= 2.0
+            self.centerx -= self.settings.move_speed# 2.0
             self.side_facing = False
         if self.moving_right and self.rect.right <= self.settings.screen_width and not self.cannot_move_right:
             if self.rect.right >= self.settings.screen_width / 2:
-                update_all(screen, blocks, mobs, background)
+                update_all(screen, blocks, mobs, background, self.settings)
                 # background.rect.left -= 2.0
             else:
-                self.centerx += 2.0
+                self.centerx += self.settings.move_speed# 2.0
             self.side_facing = True
         if self.jumping and not self.falling and \
                 self.y_bot >= self.settings.screen_height - self.settings.max_jump_height:

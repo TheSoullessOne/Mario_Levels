@@ -10,6 +10,6 @@ class Settings:
         self.max_jump_height = 250
         self.init_jmp_speed = 4
         self.max_jmp_speed = 1
-        self.move_speed = 10
+        self.move_speed = 10.0
         self.init_gravity = float(0.03)
         self.max_gravity = 3

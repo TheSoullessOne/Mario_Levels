@@ -31,6 +31,8 @@ class Level1_3(Level):
         self.create_tree(2, 5, 4178, 340)
         self.create_tree(2, 5, 4392, 340)
 
+        self.create_item_block(None, 2106, 339)
+
         self.create_block_column(4928, 410, 4)
         self.create_block_column(4964, 410, 4)
         self.create_block_column(5000, 410, 6)

@@ -9,7 +9,7 @@ class Environment(Sprite):
         self.screen = screen
         self.settings = settings
 
-        self.image = pygame.image.load()
+        self.image = pygame.image.load('Images/Environment/green-short-pipe.png')
         self.rect = self.image.get_rect()
         self.width = self.rect.width
         self.height = self.rect.height

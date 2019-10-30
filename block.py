@@ -1,5 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
+from timer import Timer
 
 
 class Block(Sprite):
@@ -42,8 +43,19 @@ class ItemBlock(Block):
     def __init__(self, item, screen, settings, x, y):
         super().__init__(screen, settings, x, y)
         self.image = pygame.image.load('Images/Blocks/ItemBlock-1.png')
+
+        self.anim_frames = []
+        self.anim_frames.append('Images/Blocks/ItemBlock-1.png')
+        self.anim_frames.append('Images/Blocks/ItemBlock-2.png')
+        self.anim_frames.append('Images/Blocks/ItemBlock-3.png')
+        self.animation = Timer(self.anim_frames, 150)
+
         self.item = item
         self.activated = False
+
+    def blit_me(self, screen):
+        self.image = pygame.image.load(self.animation.image_rect())
+        screen.blit(self.image, self.rect)
 
 
 class BlueItemBlock(Block):

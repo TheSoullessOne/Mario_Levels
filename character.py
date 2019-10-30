@@ -113,13 +113,13 @@ class Character(Sprite):
             self.cImage = 2
         self.blit_me(screen)
 
-    def update(self, screen, blocks, mobs, background):
+    def update(self, screen, current_level):
         if self.moving_left and self.rect.left >= 0 and not self.cannot_move_left:
             self.centerx -= self.settings.move_speed# 2.0
             self.side_facing = False
         if self.moving_right and self.rect.right <= self.settings.screen_width and not self.cannot_move_right:
             if self.rect.right >= self.settings.screen_width / 2:
-                update_all(screen, blocks, mobs, background, self.settings)
+                update_all(screen, current_level, self.settings)
                 # background.rect.left -= 2.0
             else:
                 self.centerx += self.settings.move_speed# 2.0

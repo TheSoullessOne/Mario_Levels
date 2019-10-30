@@ -18,9 +18,9 @@ def run_game():
     screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
     pygame.display.set_caption("Mario")
 
-    # current_level = Level1_1(screen, settings)
-    # current_level = Level1_2(screen, settings)
-    current_level = Level1_3(screen, settings)
+    current_level = Level1_1(screen, settings)
+    # current_level = Level1_2(screen, settinggit pus)
+    # current_level = Level1_3(screen, settings)
 
     # background = Background(screen, settings)
     mario = Character(screen, settings)
@@ -29,7 +29,7 @@ def run_game():
     mobs = Group()
 
     while True:
-        mario.update(screen, blocks, mobs, current_level.background)
+        mario.update(screen, current_level)
         # gf.update_all(screen, settings, mario, blocks, mobs, backgorund)
         gf.check_events(screen, settings, mario, current_level.background)
         gf.update_screen(screen, settings, mario, current_level)

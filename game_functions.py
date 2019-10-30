@@ -96,8 +96,8 @@ def check_mario_block_collisions(screen, settings, mario, blocks):
                 collide_bottom = True
             if mario.jumping and mario.rect.bottom - block.rect.top > 1:
                 mario.jumping = True
-
         if not collision:
+            #mario.falling = True
             collide_top = collide_bottom = collide_left = collide_right = False
 
 

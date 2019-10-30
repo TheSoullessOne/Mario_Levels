@@ -10,6 +10,7 @@ class Level1_1(Level):
         super().__init__(screen, settings)
         self.initialize_blocks()
         self.initialize_pipes()
+        self.initialize_enemies()
 
         self.flag_pole.rect.x = 7052
         self.flag_pole.rect.y = 71
@@ -93,6 +94,12 @@ class Level1_1(Level):
         self.create_pipe(5821, 374)  # exit to bonus room
         self.create_pipe(6392, 374)
 
+    def initialize_enemies(self):
+        self.create_little_goomba(799, 398)
+
+    def create_little_goomba(self, x, y):
+        goomba = LittleGoomba(self.screen, self.settings, x, y)
+        self.enemies.add(goomba)
 
     def create_item_block(self, item, x, y):
         ib = ItemBlock(item, self.screen, self.settings, x, y)

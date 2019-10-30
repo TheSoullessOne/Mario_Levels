@@ -38,6 +38,9 @@ class Level:
         for block in self.blocks:
             block.blit_me(self.screen)
 
+        for enemy in self.enemies:
+            enemy.blit_me()
+
         self.flag_pole.blit_me()
 
     # For testing only

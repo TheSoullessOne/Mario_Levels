@@ -1,19 +1,24 @@
 import pygame
+from timer import Timer
 from pygame.sprite import Sprite
 
 
 class Enemy(Sprite):
-    def __init__(self, screen, settings):
+    def __init__(self, screen, settings, x, y):
         super(Enemy, self).__init__()
         self.screen = screen
         self.settings = settings
 
-        self.image = pygame.image.load()
+        self.image = pygame.image.load('Images/Enemies/KoopaParatroopa/red-left-1.png')
         self.rect = self.image.get_rect()
         self.width = self.rect.width
         self.height = self.rect.height
         self.centerx = self.rect.centerx
         self.centery = self.rect.centery
+        self.spawn_x = x
+        self.spawn_y = y
+        self.rect.x = x
+        self.rect.y = y
 
         # Turns on their motion if they are in viewfinder
         self.on_screen = False
@@ -27,8 +32,8 @@ class Enemy(Sprite):
 
 
 class KoopaParatroopa(Enemy):
-    def __init__(self, screen, settings, color):
-        super().__init__(screen, settings)
+    def __init__(self, screen, settings, color, x, y):
+        super().__init__(screen, settings, x, y)
         self.color = color
         self.image = self.set_image()
 
@@ -55,8 +60,8 @@ class KoopaParatroopa(Enemy):
 
 
 class KoopaTroopa(Enemy):
-    def __init__(self, screen, settings, color):
-        super().__init__(screen, settings)
+    def __init__(self, screen, settings, color, x, y):
+        super().__init__(screen, settings, x, y)
         self.color = color
         self.image = self.set_image()
 
@@ -80,20 +85,27 @@ class KoopaTroopa(Enemy):
 
 
 class LittleGoomba(Enemy):
-    def __init__(self, screen, settings):
-        super().__init__(screen, settings)
+    def __init__(self, screen, settings, x, y):
+        super().__init__(screen, settings, x, y)
+        move_frames = ['Images/Enemies/LittleGoomba/goomba-1.png', 'Images/Enemies/LittleGoomba/goomba-2.png']
+        self.movement = Timer(move_frames, settings.enemy_anim_rate)
         self.image = pygame.image.load('Images/Enemies/LittleGoomba/goomba-1.png')
 
         self.moving_left = False
         self.moving_right = False
 
-    def update(self): pass
+    def update(self):
+        if self.moving_left:
+            self.rect.x -= self.settings.enemy_move_speed
+        elif self.moving_right:
+            self.rect.x += self.settings.enemy_move_speed
+
     def stomped(self): pass
 
 
 class PiranhaPlant(Enemy):
-    def __init__(self, screen, settings):
-        super().__init__(screen, settings)
+    def __init__(self, screen, settings, x, y):
+        super().__init__(screen, settings, x, y)
         self.image = pygame.image.load('Images/Enemies/PiranhaPlant/green-1.png')
 
         self.near_mario = True
@@ -104,8 +116,8 @@ class PiranhaPlant(Enemy):
 
 
 class Podoboo(Enemy):
-    def __init__(self, screen, settings):
-        super().__init__(screen, settings)
+    def __init__(self, screen, settings, x, y):
+        super().__init__(screen, settings, x, y)
         self.image = pygame.image.load()
 
         # Add movements
@@ -114,8 +126,8 @@ class Podoboo(Enemy):
 
 
 class CheepCheep(Enemy):
-    def __init__(self, screen, settings, color):
-        super().__init__(screen, settings)
+    def __init__(self, screen, settings, color, x, y):
+        super().__init__(screen, settings, x, y)
         self.color = color
         self.image = self.set_image()
 
@@ -131,16 +143,16 @@ class CheepCheep(Enemy):
 
 
 class FireBar(Enemy):
-    def __init__(self, screen, settings):
-        super().__init__(screen, settings)
+    def __init__(self, screen, settings, x, y):
+        super().__init__(screen, settings. x. y)
         self.image = None
 
     def update(self): pass
 
 
 class Bloober(Enemy):
-    def __init__(self, screen, settings):
-        super().__init__(screen, settings)
+    def __init__(self, screen, settings, x, y):
+        super().__init__(screen, settings, x, y)
         self.image = pygame.image.load('Images/Enemies/Bloober/bloober-1.png')
 
     def update(self): pass

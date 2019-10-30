@@ -107,7 +107,11 @@ def check_mario_block_collisions(screen, settings, mario, blocks):
         #     mario.has_collided = False
 
 
-def update_all(screen, blocks, mobs, background):
-    for block in blocks:
-        block.rect.left -= 2.0
-    background.rect.left -= 2.0
+def update_all(screen, current_level, settings):
+    for block in current_level.blocks:
+        block.rect.left -= settings.move_speed
+    for pipe in current_level.pipes:
+        pipe.rect.left -= settings.move_speed
+
+    current_level.background.rect.left -= settings.move_speed
+    current_level.flag_pole.rect.left -= settings.move_speed

@@ -1,5 +1,7 @@
 from enemies import *
 from items import *
+from block import *
+from environment import *
 from Levels.level import Level
 
 
@@ -7,6 +9,10 @@ class Level1_1(Level):
     def __init__(self, screen, settings):
         super().__init__(screen, settings)
         self.initialize_blocks()
+        self.initialize_pipes()
+
+        self.flag_pole.rect.x = 7052
+        self.flag_pole.rect.y = 71
 
     def initialize_blocks(self):
         upper_y = 160
@@ -78,3 +84,58 @@ class Level1_1(Level):
         self.create_up_hill(5, 4, 5285)
         self.create_down_hill(4, 4, 5535)
         self.create_up_hill(9, 8, 6463)
+
+    def initialize_pipes(self):
+        self.create_pipe(1000, 374)
+        self.create_pipe(1357, 338, 'm')
+        self.create_pipe(1642, 303, 'l')
+        self.create_pipe(2035, 303, 'l')  # entrance to bonus room
+        self.create_pipe(5821, 374)  # exit to bonus room
+        self.create_pipe(6392, 374)
+
+
+    def create_item_block(self, item, x, y):
+        ib = ItemBlock(item, self.screen, self.settings, x, y)
+        self.blocks.add(ib)
+
+    def create_brick_block(self, x, y):
+        block = BrickBlock(self.screen, self.settings, x, y)
+        self.blocks.add(block)
+
+    def create_block(self, x, y):
+        block = Block(self.screen, self.settings, x, y)
+        self.blocks.add(block)
+
+    def create_up_hill(self, w, h, x_start):
+        y_current = 410
+        for row in range(h):
+            x_current = x_start
+            for column in range(w):
+                self.create_block(x_current, y_current)
+                x_current += 36
+            w -= 1
+            x_start += 36
+            y_current -= 36
+
+    def create_down_hill(self, w, h, x_start):
+        y_current = 410
+        for row in range(h):
+            x_current = x_start
+            for column in range(w):
+                self.create_block(x_current, y_current)
+                x_current += 36
+            w -= 1
+            y_current -= 36
+
+    def create_pipe(self, x, y, size='s'):
+        # s = small, m = medium, l = large
+        if size == 's':
+            pipe = GreenSmallPipe(self.screen, self.settings, x, y)
+            # self.draw_flag(72, 72, x, y)
+        elif size == 'm':
+            pipe = GreenMedPipe(self.screen, self.settings, x, y)
+            # self.draw_flag(72, 108, x, y)
+        elif size == 'l':
+            pipe = GreenTallPipe(self.screen, self.settings, x, y)
+            # self.draw_flag(72, 144, x, y)
+        self.pipes.add(pipe)

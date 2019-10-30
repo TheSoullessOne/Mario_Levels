@@ -6,6 +6,7 @@ from Levels.level import Level
 class Level1_1(Level):
     def __init__(self, screen, settings):
         super().__init__(screen, settings)
+        self.initialize_blocks()
 
     def initialize_blocks(self):
         upper_y = 160

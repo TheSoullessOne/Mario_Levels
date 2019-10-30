@@ -15,13 +15,11 @@ class Level:
         self.items = Group()
         self.enemies = Group()
 
-        self.initialize_blocks()
-
     def initialize_blocks(self): pass
     def initialize_enemies(self): pass
 
     def create_item_block(self, item, x, y):
-        ib = ItemBlock(item, self.bg_img, self.settings, x, y)
+        ib = ItemBlock(item, self.screen, self.settings, x, y)
         self.blocks.add(ib)
 
     def create_brick_block(self, x, y):

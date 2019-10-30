@@ -11,7 +11,7 @@ def update_screen(screen, settings, mario, block, used_block, background):
     # block.rect.center = screen.get_rect().center
     # block.rect.centery += 100
     block.blit_me(screen)
-    # 
+    #
     # used_block.rect.center = screen.get_rect().center
     # used_block.rect.centery += 100
     # used_block.rect.left = block.rect.right
@@ -71,6 +71,7 @@ def check_mario_block_collisions(screen, settings, mario, blocks):
         collision = pygame.sprite.collide_rect(mario, block)
         # print(collision)
         if collision:
+            mario.has_collided = True
             if not collide_left and not collide_bottom and not collide_top and \
                     mario.jumping and not mario.on_block and mario.rect.right >= block.rect.left and was_moving_right:
                 print('hit left side of block')
@@ -85,7 +86,6 @@ def check_mario_block_collisions(screen, settings, mario, blocks):
                 collide_left = True
             elif not collide_right and not collide_left and not collide_bottom and\
                     not mario.jumping and mario.falling and not mario.on_block and mario.rect.bottom - block.rect.top == 1:  # \
-                # and (mario.rect.left <= block.rect.right or mario.rect.right >= block.rect.left):
                 print("on top of block")
                 print(block.rect.top)
                 print(mario.rect.bottom)
@@ -100,15 +100,16 @@ def check_mario_block_collisions(screen, settings, mario, blocks):
                 mario.jumping = False
                 mario.falling = True
                 collide_bottom = True
-            if mario.jumping and mario.rect.bottom - block.rect.top > 1:
-                mario.jumping = True
 
-        if not collision:
+        # print(str(collision) + ' ' + str(mario.has_collided) + ' ' + str(mario.on_block) + ' ' + str(mario.jumping))
+        if not collision and mario.has_collided and not mario.on_block and not mario.jumping:
             collide_top = collide_bottom = collide_left = collide_right = False
+            # if mario.has_collided and not mario.on_block and not mario.jumping:
+            mario.falling = True
+            mario.has_collided = False
 
 
 def update_all(screen, blocks, mobs, background):
     for block in blocks:
         block.rect.left -= 2.0
     background.rect.left -= 2.0
-    print()

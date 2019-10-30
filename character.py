@@ -31,6 +31,7 @@ class Character(Sprite):
         self.jumping = False
         self.side_facing = True     # True is right, false is left
         self.on_block = False
+        self.has_collided = False
         self.starting_jump = 0
         self.rect.centerx = self.settings.screen_width / 2      # Starting Mario at center of screen
         self.rect.bottom = self.settings.screen_height          # Starting Mario at bottom of screen
@@ -147,4 +148,5 @@ class Character(Sprite):
         self.rect.centerx = self.centerx
         self.rect.bottom = self.y_bot
         self.cannot_move_right = self.cannot_move_left = False
+
 

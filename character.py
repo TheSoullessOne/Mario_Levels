@@ -25,6 +25,12 @@ class Character(Sprite):
         self.rect_bottom = self.rect.bottom
         self.sprite_delay = 0
 
+        self.mario_dead = False
+        self.mario_dead_cont = False
+        self.dead_bool = True
+        self.dead_counter = 0
+        self.cant_move = False
+
         # Physics variables
         self.pos = (80, 400)
         self.vel = vec(0, 0)
@@ -124,19 +130,22 @@ class Character(Sprite):
         self.centery = self.pos.y
 
     def blit_me(self, screen):
-        if not self.on_block:
-            if self.side_facing:
-                screen.blit(self.image_jump_right, self.rect)
-            elif not self.side_facing:
-                screen.blit(self.image_jump_left, self.rect)
-        elif self.side_facing and not self.moving_right and not self.moving_left:
+        if not self.mario_dead:
+            if not self.on_block:
+                if self.side_facing:
+                    screen.blit(self.image_jump_right, self.rect)
+                elif not self.side_facing:
+                    screen.blit(self.image_jump_left, self.rect)
+            elif self.side_facing and not self.moving_right and not self.moving_left:
+                screen.blit(self.image, self.rect)
+            elif not self.side_facing and not self.moving_right and not self.moving_left:
+                screen.blit(self.image_left, self.rect)
+            elif self.moving_right:
+                screen.blit(self.image_walking_right, self.rect, (self.cImage * self.width, 0, self.width, self.height))
+            elif self.moving_left:
+                screen.blit(self.image_walking_left, self.rect, (self.cImage * self.width, 0, self.width, self.height))
+        else:
             screen.blit(self.image, self.rect)
-        elif not self.side_facing and not self.moving_right and not self.moving_left:
-            screen.blit(self.image_left, self.rect)
-        elif self.moving_right:
-            screen.blit(self.image_walking_right, self.rect, (self.cImage * self.width, 0, self.width, self.height))
-        elif self.moving_left:
-            screen.blit(self.image_walking_left, self.rect, (self.cImage * self.width, 0, self.width, self.height))
 
     def slow_blit(self, screen):
         """Slowing down blit process so animations are not too quick"""
@@ -208,7 +217,10 @@ class Character(Sprite):
                     self.moving_right = True
                 else:
                     self.moving_right = False
+        self.place_mario()
 
+    def place_mario(self):
+        """Puts mario where he should be after he moves"""
         self.acc.x += self.vel.x * self.settings.PLAYER_FRICTION
         self.vel += self.acc
         self.pos += self.vel + 0.5 * self.acc
@@ -218,7 +230,7 @@ class Character(Sprite):
     def check_on_block(self, mario, platforms):
         hits = pygame.sprite.spritecollide(mario, platforms, False)
 
-        if hits:
+        if hits and not self.mario_dead:
             self.pos.y = hits[0].rect.top + 1
             self.on_block = True
             self.vel.y = 0
@@ -227,9 +239,29 @@ class Character(Sprite):
 
         self.rect.midbottom = self.pos
 
+    def mario_death(self):
+        if self.mario_dead and self.mario_size == 0 and not self.mario_dead_cont:
+            self.vel.x = 0
+            self.vel.y = 0
+            self.acc.y = 0
+            self.image = pygame.image.load('Images/Mario-Movement/smol/death.png')
+            self.dead_counter += 1
+            print(self.dead_counter)
+        if self.dead_counter >= 50:
+            self.acc = vec(0, self.settings.PLAYER_GRAVITY)
+            self.mario_dead_cont = True
+            if self.dead_bool:
+                self.vel.y = -10
+            self.dead_bool = False
+        self.place_mario()
+
     def update(self, screen, current_level, mario, platforms):
         self.check_on_block(mario, platforms)
-        self.mario_walking(screen, current_level)
+        if not mario.cant_move:
+            self.mario_walking(screen, current_level)
+        if self.mario_dead:
+            self.cant_move = True
+            self.mario_death()
         if self.changing_to_big:
             self.smol_to_big()
         elif self.changing_to_smol:

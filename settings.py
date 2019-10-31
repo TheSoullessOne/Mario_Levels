@@ -8,11 +8,12 @@ class Settings:
         self.bg_color = (156, 219, 255)
 
         self.max_jump_height = 250
-        self.init_jmp_speed = 4
+        self.init_jmp_speed = float(0.8)
         self.max_jmp_speed = 1
-        self.move_speed = 10.0
-        self.init_gravity = float(0.03)
-        self.max_gravity = 3
+        self.move_speed = float(0.9)
+        self.init_gravity = float(0.3)
+        self.max_gravity = 10
+        self.player_friction = -0.15
 
         self.enemy_move_speed = 5
         self.enemy_anim_rate = 150

@@ -2,9 +2,10 @@ import pygame
 import sys
 
 
-def update_screen(screen, settings, mario, current_level):
+def update_screen(screen, settings, mario, current_level, allSprites):
     screen.blit(current_level.background.image, current_level.background.rect)
     current_level.blit_level()
+    allSprites.draw(screen)
     mario.slow_blit(screen)
 
     #print(mario.centerx, mario.centery)
@@ -37,17 +38,11 @@ def check_key_up(event, screen, settings, mario, background):
 
 
 def check_key_down(event, screen, settings, mario, background):
-    if event.key == pygame.K_RIGHT:
-        # if mario.rect.right < settings.screen_width / 2:
-        mario.moving_right = True
-        # else:
-        #     mario.moving_right = False
-        #     background.rect.left -= settings.move_speed
-    if event.key == pygame.K_LEFT:
-        mario.moving_left = True
+
     if event.key == pygame.K_SPACE and not mario.falling:
         mario.falling = False
         mario.jumping = True
+        mario.mario_jumping()
         mario.starting_jump = mario.rect.bottom
     if event.key == pygame.K_p and mario.mario_size < 2:     # TESTING PURPOSES. Increases mario size
         mario.mario_size += 1

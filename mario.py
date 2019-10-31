@@ -3,6 +3,7 @@ import pygame
 import game_functions as gf
 from settings import Settings
 from character import Character
+from character import Platform
 from block import *
 from background import Background
 from Levels.level1_1 import Level1_1
@@ -28,11 +29,17 @@ def run_game():
     blocks = current_level.blocks
     mobs = Group()
 
+    allSprites = pygame.sprite.Group()
+    platforms = pygame.sprite.Group()
+    p1 = Platform(50, settings.screen_height - 40, 300, 30)
+    allSprites.add(p1)
+    platforms.add(p1)
+
     while True:
-        mario.update(screen, current_level)
+        mario.update(screen, current_level, mario, platforms)
         # gf.update_all(screen, settings, mario, blocks, mobs, backgorund)
         gf.check_events(screen, settings, mario, current_level.background)
-        gf.update_screen(screen, settings, mario, current_level)
+        gf.update_screen(screen, settings, mario, current_level, allSprites)
         gf.check_mario_block_collisions(screen, settings, mario, blocks)
 
 

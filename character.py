@@ -1,6 +1,7 @@
 from pygame.sprite import Sprite
 import pygame
 from game_functions import update_all
+vec = pygame.math.Vector2
 
 
 class Character(Sprite):
@@ -23,6 +24,13 @@ class Character(Sprite):
         self.rect.y = self.rect.height
         self.rect_bottom = self.rect.bottom
 
+        self.pos = (80, 400)
+        self.vel = vec(0, 0)
+        self.acc = vec(0, 0)
+
+        self.vx = 0
+        self.vy = float(0)
+
         self.small_to_large_right = pygame.image.load('Images/Mario-Movement/smol/smol-tolarge-right.png')
         self.small_to_large_left = pygame.image.load('Images/Mario-Movement/smol/smol-tolarge-left.png')
 
@@ -38,6 +46,11 @@ class Character(Sprite):
         self.centery = float(self.rect.centery)
         self.y_bot = float(self.rect.bottom)
         self.start_jmp = self.y_bot
+        self.start_jmp_bool = False
+        self.v_up = 0
+        self.v_down = 0
+        self.grounded = True    # If mario is on the ground
+        self.gravity = self.settings.init_gravity
 
         self.cImage = 0     # Displaying which image in sheet is being displayed
         self.slowDown = 0   # Used to slow down blitting process to smooth animations
@@ -114,38 +127,97 @@ class Character(Sprite):
             self.cImage = 2
         self.blit_me(screen)
 
-    def update(self, screen, current_level):
-        if self.moving_left and self.rect.left >= 0 and not self.cannot_move_left:
-            self.centerx -= self.settings.move_speed# 2.0
-            self.side_facing = False
-        if self.moving_right and self.rect.right <= self.settings.screen_width and not self.cannot_move_right:
-            if self.rect.right >= self.settings.screen_width / 2:
-                update_all(screen, current_level, self.settings)
-                # background.rect.left -= 2.0
-            else:
-                self.centerx += self.settings.move_speed# 2.0
-            self.side_facing = True
+    def can_jump(self):
+        if self.grounded:
+            return True
+        else:
+            return False
+
+    def mario_jumping(self):
+        #print(self.vy)
         if self.jumping and not self.falling and \
                 self.y_bot >= self.settings.screen_height - self.settings.max_jump_height:
-            self.start_jmp = self.y_bot
+            if not self.start_jmp_bool:
+                self.start_jmp = self.y_bot
+                self.start_jmp_bool = True
             self.on_block = False
-            self.vertical_speed -= self.settings.init_gravity
-            self.y_bot -= float(self.vertical_speed)
-        if self.y_bot <= self.y_bot - self.settings.max_jump_height:
+            self.vy -= self.settings.init_jmp_speed
+            self.y_bot += float(self.vy)
+        if self.y_bot <= self.start_jmp - self.settings.max_jump_height:
             self.falling = True
+
         if self.falling:  # and self.rect.bottom <= self.settings.screen_height:
             # Later change to collision on ground terrain ^^^
+
+            self.start_jmp_bool = False
             if self.y_bot >= self.settings.screen_height: # OR ON BLOCK
                 self.falling = False
-                self.vertical_speed = self.settings.init_jmp_speed
+                #self.vy = 0
+                self.y_bot = self.settings.screen_height
             else:
-                if self.vertical_speed >= self.settings.max_gravity:
-                    self.vertical_speed = self.settings.max_gravity
+                if self.vy >= self.settings.max_gravity:
+                    self.vy = self.settings.max_gravity
                 else:
-                    self.vertical_speed += self.settings.init_gravity
-                self.y_bot += self.vertical_speed
+                    self.vy += self.settings.init_gravity
+                self.y_bot += float(self.vy)
+        elif not self.falling and not self.jumping:
+            self.vy = 0
 
-        self.rect.centerx = self.centerx
-        self.rect.bottom = self.y_bot
+    def mario_walking(self, screen, current_level):
+        self.acc = vec(0, 0.5)
+
+        keys = pygame.key.get_pressed()
+
+        if self.rect.left >= 0 and not self.cannot_move_left:
+            if keys[pygame.K_LEFT]:
+                self.acc.x = -self.settings.move_speed
+                self.side_facing = False
+                self.moving_left = True
+            else:
+                self.moving_left = False
+        if self.rect.right <= self.settings.screen_width and not self.cannot_move_right:
+            if self.rect.right >= self.settings.screen_width / 2:
+                update_all(screen, current_level, self.settings)
+            else:
+                if keys[pygame.K_RIGHT]:
+                    self.acc.x = self.settings.move_speed
+                    self.side_facing = True
+                    self.moving_right = True
+                else:
+                    self.moving_right = False
+
+        self.acc.x += self.vel.x * self.settings.player_friction
+        self.vel += self.acc
+        self.pos += self.vel + 0.5 * self.acc
+        self.centerx = self.pos.x
+        self.centery = self.pos.y
+
+    def update(self, screen, current_level, mario, platforms):
+
+        self.mario_walking(screen, current_level)
+
+        #platforms.update()
+        hits = pygame.sprite.spritecollide(mario, platforms, False)
+        print(self.pos.y)
+        if hits:
+            self.pos.y = hits[0].rect.top + 1
+
+            self.vel.y = 0
+        self.mario_jumping()
+
+        self.rect.midbottom = self.pos
+
+        #self.rect.bottom = self.y_bot # Removed so mario can stand on blocks
         self.cannot_move_right = self.cannot_move_left = False
 
+
+class Platform(pygame.sprite.Sprite):
+    RED = (255, 0, 0)
+
+    def __init__(self, x, y, w, h):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((w, h))
+        self.image.fill(Platform.RED)
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y

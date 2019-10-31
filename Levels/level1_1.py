@@ -86,6 +86,28 @@ class Level1_1(Level):
         self.create_down_hill(4, 4, 5535)
         self.create_up_hill(9, 8, 6463)
 
+        self.create_floor(2430, 445)
+        self.create_floor(2430, 480)
+        for i in range(70):
+            self.create_floor(i * 35, 445)
+            self.create_floor(i * 35, 480)
+
+        self.create_floor(3037, 445)
+        self.create_floor(3037, 480)
+        for i in range(15):
+            self.create_floor(i * 35 + 2535, 445)
+            self.create_floor(i * 35 + 2535, 480)
+
+        self.create_floor(5430, 445)
+        self.create_floor(5430, 480)
+        for i in range(65):
+            self.create_floor(i * 35 + 3176, 445)
+            self.create_floor(i * 35 + 3176, 480)
+
+        for i in range(50):
+            self.create_floor(5535, 445)
+            self.create_floor(5535, 480)
+
     def initialize_pipes(self):
         self.create_pipe(1000, 374)
         self.create_pipe(1357, 338, 'm')
@@ -146,3 +168,7 @@ class Level1_1(Level):
             pipe = GreenTallPipe(self.screen, self.settings, x, y)
             # self.draw_flag(72, 144, x, y)
         self.pipes.add(pipe)
+
+    def create_floor(self, x, y):
+        block = FloorBlock(self.screen, self.settings, x, y)
+        self.blocks.add(block)

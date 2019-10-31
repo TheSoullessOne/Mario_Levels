@@ -31,10 +31,9 @@ class Character(Sprite):
         self.jumping = False
         self.side_facing = True     # True is right, false is left
         self.on_block = False
-        self.has_collided = False
         self.starting_jump = 0
         self.rect.centerx = self.settings.screen_width / 2      # Starting Mario at center of screen
-        self.rect.bottom = self.settings.screen_height          # Starting Mario at bottom of screen
+        self.rect.bottom = self.settings.screen_height - 100          # Starting Mario at bottom of screen
         self.centerx = float(self.rect.centerx)
         self.centery = float(self.rect.centery)
         self.y_bot = float(self.rect.bottom)
@@ -116,17 +115,16 @@ class Character(Sprite):
 
     def update(self, screen, current_level):
         if self.moving_left and self.rect.left >= 0 and not self.cannot_move_left:
-            self.centerx -= self.settings.move_speed# 2.0
+            self.centerx -= self.settings.move_speed  # 2.0
             self.side_facing = False
-        if self.moving_right and self.rect.right <= self.settings.screen_width and not self.cannot_move_right:
+        if self.moving_right and not self.cannot_move_right:
             if self.rect.right >= self.settings.screen_width / 2:
                 update_all(screen, current_level, self.settings)
-                # background.rect.left -= 2.0
             else:
-                self.centerx += self.settings.move_speed# 2.0
+                self.centerx += self.settings.move_speed  # 2.0
             self.side_facing = True
-        if self.jumping:
-            self.falling = False
+        # if self.jumping:
+        #     self.falling = False
         if self.jumping and not self.falling and \
                 self.y_bot >= self.settings.screen_height - self.settings.max_jump_height:
             self.on_block = False

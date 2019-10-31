@@ -2,19 +2,19 @@ import pygame
 import sys
 
 
-def update_screen(screen, settings, mario, current_level):
+def update_screen(screen, settings, mario, current_level, sb):
     screen.blit(current_level.background.image, current_level.background.rect)
     current_level.blit_level()
-    mario.slow_blit(screen)
-
-    #  print(mario.centerx, mario.centery)
-
+    if settings.game_active:
+        mario.slow_blit(screen)
+        sb.show_score(screen)
     pygame.display.flip()
 
 
 def check_events(screen, settings, mario, background):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            settings.thread_timer.cancel()
             sys.exit()
         if event.type == pygame.KEYDOWN:
             check_key_down(event, screen, settings, mario, background)
@@ -24,11 +24,7 @@ def check_events(screen, settings, mario, background):
 
 def check_key_up(event, screen, settings, mario, background):
     if event.key == pygame.K_RIGHT:
-        # if mario.rect.right < settings.screen_width / 2:
-        #     mario.moving_right = True
-        # else:
         mario.moving_right = False
-        #     background.rect.left -= settings.move_speed
     if event.key == pygame.K_LEFT:
         mario.moving_left = False
     if event.key == pygame.K_SPACE:
@@ -38,17 +34,16 @@ def check_key_up(event, screen, settings, mario, background):
 
 def check_key_down(event, screen, settings, mario, background):
     if event.key == pygame.K_RIGHT:
-        # if mario.rect.right < settings.screen_width / 2:
         mario.moving_right = True
-        # else:
-        #     mario.moving_right = False
-        #     background.rect.left -= settings.move_speed
     if event.key == pygame.K_LEFT:
         mario.moving_left = True
-    if event.key == pygame.K_SPACE and not mario.falling:
+    if event.key == pygame.K_SPACE and not mario.falling and settings.game_active:
         mario.falling = False
         mario.jumping = True
         mario.starting_jump = mario.rect.bottom
+    elif event.key == pygame.K_SPACE and not settings.game_active:
+        settings.game_active = True
+        settings.timer = 400
     if event.key == pygame.K_p and mario.mario_size < 2:     # TESTING PURPOSES. Increases mario size
         mario.mario_size += 1
         mario.change_mario_size()
@@ -57,54 +52,41 @@ def check_key_down(event, screen, settings, mario, background):
         mario.change_mario_size()
 
 
-def check_mario_block_collisions(screen, settings, mario, blocks):
+def check_mario_block_collisions(screen, settings, mario, blocks, pipes):
     was_moving_right = mario.moving_right
     was_moving_left = mario.moving_left
-    collide_left = collide_right = collide_bottom = collide_top = False
     for block in blocks:
-        collision = pygame.sprite.collide_rect(mario, block)
-        # print(collision)
-        if collision:
-            mario.has_collided = True
-            if not collide_left and not collide_bottom and \
-                    mario.rect.right >= block.rect.left and was_moving_right:
-                print('hit left side of block')
-                mario.cannot_move_right = True
-                mario.on_block = False
-                collide_right = True
-                # collide_left = collide_bottom = collide_top = False
-            elif not collide_right and not collide_bottom and\
-                    mario.rect.left <= block.rect.right and was_moving_left:
-                print('hit right side of block')
-                mario.cannot_move_left = True
-                mario.on_block = False
-                collide_left = True
-                # collide_bottom = collide_top = collide_right = False
-            elif not collide_right and not collide_left and not collide_bottom and\
-                    mario.falling  and mario.rect.bottom >= block.rect.top:  # \
-                print("on top of block")
-                print(block.rect.top)
-                print(mario.rect.bottom)
+        block_collision = pygame.sprite.collide_rect(mario, block)
+        if block_collision:
+            if mario.rect.right >= block.rect.left and was_moving_right:
+                # mario.cannot_move_right = True
+                mario.rect.right = block.rect.left
+            if mario.rect.left <= block.rect.right and was_moving_left:
+                # mario.cannot_move_left = True
+                mario.rect.left = block.rect.left
+            if mario.rect.bottom >= block.rect.top:
                 mario.on_block = True
                 mario.falling = False
                 mario.rect.bottom = block.rect.top
-                collide_top = True
-                # collide_bottom = collide_right = collide_left = False
-            elif not collide_left and not collide_right and not collide_top and\
-                    not mario.on_block and mario.rect.top <= block.rect.bottom:
-                print('hit head')
-                mario.on_block = False
+            elif not mario.on_block and mario.rect.top <= block.rect.bottom:
                 mario.jumping = False
                 mario.falling = True
-                collide_bottom = True
-                # collide_right = collide_left = collide_top = False
 
-        if not collision:
-            collide_top = collide_bottom = collide_left = collide_right = False
-        #     # if mario.has_collided and not mario.on_block and not mario.jumping:
-            mario.falling = True
-            # mario.on_block = False
-        #     mario.has_collided = False
+        if not block_collision:
+            mario.on_block = False
+
+    for pipe in pipes:
+        pipe_collision = pygame.sprite.collide_rect(mario, pipe)
+        if pipe_collision:
+            print('hit pipe')
+            if mario.rect.right >= pipe.rect.left and was_moving_right:
+                mario.rect.right = pipe.rect.left
+                mario.cannot_move_right = True
+                print('going right')
+            if mario.rect.left <= pipe.rect.right and was_moving_left:
+                mario.rect.left = pipe.rect.right
+                mario.cannot_move_left = True
+                print('going left')
 
 
 def update_all(screen, current_level, settings):

@@ -51,7 +51,7 @@ class GreenTallCornerPipe(Environment):
         super().__init__(screen, settings, x, y)
         self.image = pygame.image.load('Images/Environment/green-tall-corner-pipe.png')
 
-# =====================================================================================
+
 class SilverSmallPipe(Environment):
     def __init__(self, screen, settings, x, y):
         super().__init__(screen, settings, x, y)

@@ -9,6 +9,8 @@ from Levels.level1_1 import Level1_1
 from Levels.level1_2 import Level1_2
 from Levels.level1_3 import Level1_3
 from pygame.sprite import Group
+from scoreboard import Scoreboard
+from textbox import TextBox
 
 settings = Settings()
 
@@ -26,14 +28,34 @@ def run_game():
     mario = Character(screen, settings)
 
     blocks = current_level.blocks
-    mobs = Group()
+    pipes = current_level.pipes
+    #  enemies = current_level.enemies
+
+    sb = Scoreboard(settings, screen)
+
+    starting_text = TextBox(settings, screen)
+    starting_text.update_text("Welcome to Mario!")
+    starting_text.text_rect.centery = screen.get_rect().centery
+    starting_text.text_rect.centerx = screen.get_rect().centerx
+    starting_text.update_font('arial', 80)
+
+    starting_text_2 = TextBox(settings, screen)
+    starting_text_2.update_text("Press Space to begin!")
+    starting_text_2.text_rect.top = starting_text.text_rect.bottom
+    starting_text_2.text_rect.centerx = screen.get_rect().centerx
+    starting_text_2.update_font('arial', 80)
 
     while True:
-        mario.update(screen, current_level)
-        # gf.update_all(screen, settings, mario, blocks, mobs, backgorund)
         gf.check_events(screen, settings, mario, current_level.background)
-        gf.update_screen(screen, settings, mario, current_level)
-        gf.check_mario_block_collisions(screen, settings, mario, blocks)
+        gf.update_screen(screen, settings, mario, current_level, sb)
+
+        if settings.game_active:
+            mario.update(screen, current_level)
+            gf.check_mario_block_collisions(screen, settings, mario, blocks, pipes)
+        else:
+            starting_text.draw(screen)
+            starting_text_2.draw(screen)
+            pygame.display.flip()
 
 
 run_game()

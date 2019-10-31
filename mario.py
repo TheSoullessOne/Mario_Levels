@@ -32,6 +32,8 @@ def run_game():
 
     blocks = current_level.blocks
     pipes = current_level.pipes
+
+    print(len(blocks))
     #  enemies = current_level.enemies
 
     sb = Scoreboard(settings, screen)

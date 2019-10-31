@@ -106,10 +106,10 @@ def check_mario_block_collisions(screen, settings, mario, blocks, pipes):
 
 def update_all(screen, current_level, settings):
     for block in current_level.blocks:
-        block.rect.left -= 4
+        block.rect.left -= settings.PAN_SPEED
     for pipe in current_level.pipes:
-        pipe.rect.left -= 4
+        pipe.rect.left -= settings.PAN_SPEED
 
-    current_level.background.rect.left -= 4
-    print(current_level.background.rect)
-    current_level.flag_pole.rect.left -= 4
+    current_level.background.rect.left -= settings.PAN_SPEED
+    print(current_level.background.rect.left)
+    current_level.flag_pole.rect.left -= settings.PAN_SPEED

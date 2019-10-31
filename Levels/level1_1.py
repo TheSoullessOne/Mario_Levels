@@ -105,8 +105,8 @@ class Level1_1(Level):
             self.create_floor(i * 35 + 3176, 480)
 
         for i in range(50):
-            self.create_floor(5535, 445)
-            self.create_floor(5535, 480)
+            self.create_floor(i * 35 + 5535, 445)
+            self.create_floor(i * 35 + 5535, 480)
 
     def initialize_pipes(self):
         self.create_pipe(1000, 374)

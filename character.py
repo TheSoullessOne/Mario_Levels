@@ -23,16 +23,12 @@ class Character(Sprite):
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
         self.rect_bottom = self.rect.bottom
+        self.sprite_delay = 0
 
+        # Physics variables
         self.pos = (80, 400)
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
-
-        self.vx = 0
-        self.vy = float(0)
-
-        self.small_to_large_right = pygame.image.load('Images/Mario-Movement/smol/smol-tolarge-right.png')
-        self.small_to_large_left = pygame.image.load('Images/Mario-Movement/smol/smol-tolarge-left.png')
 
         self.moving_right = False
         self.moving_left = False
@@ -40,10 +36,9 @@ class Character(Sprite):
         self.side_facing = True     # True is right, false is left
         self.on_block = False
 
-        self.rect.centerx = self.settings.screen_width / 2      # Starting Mario at center of screen
-        self.rect.bottom = self.settings.screen_height          # Starting Mario at bottom of screen
-        self.centerx = float(self.rect.centerx)
-        self.centery = float(self.rect.centery)
+        self.changing_to_big = False
+        self.changing_to_smol = False
+
         self.y_bot = float(self.rect.bottom)
         self.start_jmp = self.y_bot
         self.start_jmp_bool = False
@@ -57,7 +52,7 @@ class Character(Sprite):
         self.cannot_move_right = False
 
     def change_mario_size(self):
-        if self.mario_size == 0:
+        if self.mario_size == 0 and not self.changing_to_smol:
             self.image = pygame.image.load('Images/Mario-Movement/smol/smol-mario-look-right.png')
             self.image_left = pygame.image.load('Images/Mario-Movement/smol/smol-mario-look-left.png')
             self.image_walking_right = pygame.image.load('Images/Mario-Movement/smol/smol-mario-walk-right.png')
@@ -65,7 +60,7 @@ class Character(Sprite):
             self.image_jump_right = pygame.image.load('Images/Mario-Movement/smol/smol-mario-jump-right.png')
             self.image_jump_left = pygame.image.load('Images/Mario-Movement/smol/smol-mario-jump-left.png')
             self.update_rect()
-        elif self.mario_size == 1:
+        elif self.mario_size == 1 and not self.changing_to_big:
             self.image = pygame.image.load('Images/Mario-Movement/normal/mario-look-right.png')
             self.image_left = pygame.image.load('Images/Mario-Movement/normal/mario-look-left.png')
             self.image_walking_right = pygame.image.load('Images/Mario-Movement/normal/mario-walk-right.png')
@@ -84,12 +79,40 @@ class Character(Sprite):
             self.height = 64
             self.update_rect()
 
+    def smol_to_big(self):
+        if self.side_facing:
+            self.image = pygame.image.load('Images/Mario-Movement/smol/smol-tolarge-right.png')
+        else:
+            self.image = pygame.image.load('Images/Mario-Movement/smol/smol-tolarge-left.png')
+        self.sprite_delay += 1
+        self.update_rect()
+        if self.sprite_delay >= 4:
+            self.changing_to_big = False
+            self.sprite_delay = 0
+            self.change_mario_size()
+        self.blit_me(self.screen)
+        self.update_rect()
+
+    def big_to_smol(self):
+        if self.side_facing:
+            self.image = pygame.image.load('Images/Mario-Movement/smol/smol-tolarge-right.png')
+        else:
+            self.image = pygame.image.load('Images/Mario-Movement/smol/smol-tolarge-left.png')
+        self.sprite_delay += 1
+        if self.sprite_delay >= 4:
+            self.changing_to_smol = False
+            self.sprite_delay = 0
+            self.change_mario_size()
+        self.blit_me(self.screen)
+        self.update_rect()
+
     def update_rect(self):
         """Updating rect after change in mario size"""
         self.rect = self.image.get_rect()
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
-        self.rect_bottom = self.rect.bottom
+        self.centerx = self.pos.x
+        self.centery = self.pos.y
 
     def blit_me(self, screen):
         if not self.on_block:
@@ -171,7 +194,10 @@ class Character(Sprite):
     def update(self, screen, current_level, mario, platforms):
         self.check_on_block(mario, platforms)
         self.mario_walking(screen, current_level)
-
+        if self.changing_to_big:
+            self.smol_to_big()
+        elif self.changing_to_smol:
+            self.big_to_smol()
         #platforms.update()
 
         self.cannot_move_right = self.cannot_move_left = False

@@ -69,7 +69,8 @@ class Character(Sprite):
             self.image_jump_left = pygame.image.load('Images/Mario-Movement/normal/mario-jump-left.png')
             self.height = 64
             self.update_rect()
-        elif self.mario_size == 2:
+        if self.mario_size == 2:
+            print('ran')
             self.image = pygame.image.load('Images/Mario-Movement/spicy/fire-mario-look-right.png')
             self.image_left = pygame.image.load('Images/Mario-Movement/spicy/fire-mario-look-left.png')
             self.image_walking_right = pygame.image.load('Images/Mario-Movement/spicy/fire-mario-walk-right.png')

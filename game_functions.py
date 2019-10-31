@@ -45,9 +45,11 @@ def check_key_down(event, screen, settings, mario, background):
         mario.starting_jump = mario.rect.bottom
     if event.key == pygame.K_p and mario.mario_size < 2:     # TESTING PURPOSES. Increases mario size
         mario.mario_size += 1
+        print(mario.mario_size)
         if mario.mario_size == 1:
             mario.changing_to_big = True
             mario.smol_to_big()
+        mario.change_mario_size()
     if event.key == pygame.K_o and mario.mario_size > 0:    # TESTING PURPOSES. Decreases mario size
         mario.mario_size -= 1
         mario.changing_to_smol = True

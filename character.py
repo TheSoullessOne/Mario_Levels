@@ -47,17 +47,12 @@ class Character(Sprite):
         self.y_bot = float(self.rect.bottom)
         self.start_jmp = self.y_bot
         self.start_jmp_bool = False
-        self.v_up = 0
-        self.v_down = 0
-        self.grounded = True    # If mario is on the ground
-        self.gravity = self.settings.init_gravity
 
         self.cImage = 0     # Displaying which image in sheet is being displayed
         self.slowDown = 0   # Used to slow down blitting process to smooth animations
         self.default_slow = 50
         self.falling = False   # Check for positive downward y-velocity after jumping
-        self.vertical_speed = self.settings.init_jmp_speed
-        self.init_gravity = self.settings.init_gravity
+
         self.cannot_move_left = False
         self.cannot_move_right = False
 
@@ -126,18 +121,11 @@ class Character(Sprite):
             self.cImage = 2
         self.blit_me(screen)
 
-    def can_jump(self):
-        if self.grounded:
-            return True
-        else:
-            return False
-
     def mario_jumping(self):
         if self.on_block:
             self.vel.y = -15
             self.pos.y -= 1
             self.rect.midbottom = self.pos
-
 
     def mario_walking(self, screen, current_level):
         self.acc = vec(0, self.settings.PLAYER_GRAVITY)
@@ -146,7 +134,7 @@ class Character(Sprite):
 
         if self.rect.left >= 0 and not self.cannot_move_left:
             if keys[pygame.K_LEFT]:
-                self.acc.x = -self.settings.move_speed
+                self.acc.x = -self.settings.MOVE_SPEED
                 self.side_facing = False
                 self.moving_left = True
             else:
@@ -156,7 +144,7 @@ class Character(Sprite):
                 update_all(screen, current_level, self.settings)
             else:
                 if keys[pygame.K_RIGHT]:
-                    self.acc.x = self.settings.move_speed
+                    self.acc.x = self.settings.MOVE_SPEED
                     self.side_facing = True
                     self.moving_right = True
                 else:
@@ -168,11 +156,7 @@ class Character(Sprite):
         self.centerx = self.pos.x
         self.centery = self.pos.y
 
-    def update(self, screen, current_level, mario, platforms):
-
-        self.mario_walking(screen, current_level)
-
-        #platforms.update()
+    def check_on_block(self, mario, platforms):
         hits = pygame.sprite.spritecollide(mario, platforms, False)
 
         if hits:
@@ -183,6 +167,13 @@ class Character(Sprite):
             self.on_block = False
 
         self.rect.midbottom = self.pos
+
+    def update(self, screen, current_level, mario, platforms):
+        self.check_on_block(mario, platforms)
+        self.mario_walking(screen, current_level)
+
+        #platforms.update()
+
         self.cannot_move_right = self.cannot_move_left = False
 
 

@@ -7,12 +7,7 @@ class Settings:
         self.screen_height = 500
         self.bg_color = (156, 219, 255)
 
-        self.max_jump_height = 250
-        self.init_jmp_speed = float(0.8)
-        self.max_jmp_speed = 1
-        self.move_speed = float(0.9)
-        self.init_gravity = float(0.3)
-        self.max_gravity = 10
+        self.MOVE_SPEED = float(0.9)
         self.PLAYER_FRICTION = -0.15
         self.PLAYER_GRAVITY = 0.5
 

@@ -10,12 +10,13 @@ import sys
 #         mario.slow_blit(screen)
 #         sb.show_score(screen)
 # =======
-def update_screen(screen, settings, mario, current_level, allSprites):
+def update_screen(screen, settings, mario, current_level, allSprites, sb):
     screen.blit(current_level.background.image, current_level.background.rect)
     current_level.blit_level()
-    allSprites.draw(screen)
-    mario.slow_blit(screen)
-
+    if settings.game_active:
+        allSprites.draw(screen)
+        mario.slow_blit(screen)
+        sb.show_score(screen)
     #print(mario.centerx, mario.centery)
 
 # >>>>>>> cb2335c878c9a1e6874e2031c412ce6d25c73f5a

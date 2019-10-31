@@ -48,34 +48,23 @@ def run_game():
     starting_text_2.text_rect.centerx = screen.get_rect().centerx
     starting_text_2.update_font('arial', 80)
 
-    allSprites = pygame.sprite.Group()
-    platforms = pygame.sprite.Group()
-    p1 = Platform(50, settings.screen_height - 40, 300, 20)
-    allSprites.add(p1)
-    platforms.add(p1)
-    p2 = Platform(50, settings.screen_height - 200, 100, 30)
-    allSprites.add(p2)
-    platforms.add(p2)
-    for i in blocks:
-        platforms.add(i)
+    start_text = [starting_text, starting_text_2]
+
+    # allSprites = pygame.sprite.Group()
+    # platforms = pygame.sprite.Group()
+    # p1 = Platform(50, settings.screen_height - 40, 300, 20)
+    # allSprites.add(p1)
+    # platforms.add(p1)
+    # p2 = Platform(50, settings.screen_height - 200, 100, 30)
+    # allSprites.add(p2)
+    # platforms.add(p2)
 
     while True:
-        # clock.tick(30)
-        # gf.check_events(screen, settings, mario, current_level.background)
-        # gf.update_screen(screen, settings, mario, current_level, sb)
-        #
-        # if settings.game_active:
-        #     mario.update(screen, current_level)
-        #     gf.check_mario_block_collisions(screen, settings, mario, blocks, pipes)
-        # else:
-        #     starting_text.draw(screen)
-        #     starting_text_2.draw(screen)
-        #     pygame.display.flip()
+        clock.tick(60)
         mario.update(screen, current_level, mario, blocks)
-        # gf.update_all(screen, settings, mario, blocks, mobs, backgorund)
+        gf.update_screen(screen, settings, mario, current_level, sb, start_text)
+
         gf.check_events(screen, settings, mario, current_level.background)
-        gf.update_screen(screen, settings, mario, current_level, allSprites)
-        gf.check_mario_block_collisions(screen, settings, mario, blocks, pipes)
 
 
 run_game()

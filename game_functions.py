@@ -2,24 +2,18 @@ import pygame
 import sys
 
 
-# <<<<<<< HEAD
-# def update_screen(screen, settings, mario, current_level, sb):
-#     screen.blit(current_level.background.image, current_level.background.rect)
-#     current_level.blit_level()
-#     if settings.game_active:
-#         mario.slow_blit(screen)
-#         sb.show_score(screen)
-# =======
-def update_screen(screen, settings, mario, current_level, allSprites, sb):
+def update_screen(screen, settings, mario, current_level, sb, start_text):
     screen.blit(current_level.background.image, current_level.background.rect)
     current_level.blit_level()
     if settings.game_active:
-        allSprites.draw(screen)
+        # allSprites.draw(screen)
         mario.slow_blit(screen)
         sb.show_score(screen)
     #print(mario.centerx, mario.centery)
+    else:
+        start_text[0].draw(screen)
+        start_text[1].draw(screen)
 
-# >>>>>>> cb2335c878c9a1e6874e2031c412ce6d25c73f5a
     pygame.display.flip()
 
 
@@ -44,21 +38,8 @@ def check_key_up(event, screen, settings, mario, background):
 
 
 def check_key_down(event, screen, settings, mario, background):
-# <<<<<<< HEAD
-#     if event.key == pygame.K_RIGHT:
-#         mario.moving_right = True
-#     if event.key == pygame.K_LEFT:
-#         mario.moving_left = True
-#     if event.key == pygame.K_SPACE and not mario.falling and settings.game_active:
-#         mario.falling = False
-#         mario.jumping = True
-# =======
-
-    if event.key == pygame.K_SPACE and not mario.cant_move:
-
+    if event.key == pygame.K_SPACE and not mario.cant_move and settings.game_active:
         mario.mario_jumping()
-
-# >>>>>>> cb2335c878c9a1e6874e2031c412ce6d25c73f5a
         mario.starting_jump = mario.rect.bottom
     elif event.key == pygame.K_SPACE and not settings.game_active:
         settings.game_active = True
@@ -125,9 +106,10 @@ def check_mario_block_collisions(screen, settings, mario, blocks, pipes):
 
 def update_all(screen, current_level, settings):
     for block in current_level.blocks:
-        block.rect.left -= settings.MOVE_SPEED
+        block.rect.left -= 4
     for pipe in current_level.pipes:
-        pipe.rect.left -= settings.MOVE_SPEED
+        pipe.rect.left -= 4
 
-    current_level.background.rect.left -= settings.MOVE_SPEED
-    current_level.flag_pole.rect.left -= settings.MOVE_SPEED
+    current_level.background.rect.left -= 4
+    print(current_level.background.rect)
+    current_level.flag_pole.rect.left -= 4

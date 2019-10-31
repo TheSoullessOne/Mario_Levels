@@ -123,9 +123,11 @@ class Character(Sprite):
 
     def update_rect(self):
         """Updating rect after change in mario size"""
+        temp_x = self.rect.x
+        temp_y = self.rect.y
         self.rect = self.image.get_rect()
-        self.rect.x = self.rect.width
-        self.rect.y = self.rect.height
+        self.rect.x = temp_x
+        self.rect.y = temp_y
         self.centerx = self.pos.x
         self.centery = self.pos.y
 
@@ -181,9 +183,8 @@ class Character(Sprite):
             else:
                 self.moving_left = False
         if self.rect.right <= self.settings.screen_width and not self.cannot_move_right:
-            if self.rect.right >= self.settings.screen_width / 2:
+            if self.rect.right > self.settings.screen_width / 2 and keys[pygame.K_RIGHT]:
                 update_all(screen, current_level, self.settings)
-# >>>>>>> cb2335c878c9a1e6874e2031c412ce6d25c73f5a
             else:
                 if keys[pygame.K_RIGHT]:
                     self.acc.x = self.settings.MOVE_SPEED
@@ -198,6 +199,7 @@ class Character(Sprite):
         self.acc.x += self.vel.x * self.settings.PLAYER_FRICTION
         self.vel += self.acc
         self.pos += self.vel + 0.5 * self.acc
+
         self.centerx = self.pos.x
         self.centery = self.pos.y
 
@@ -229,8 +231,8 @@ class Character(Sprite):
             self.dead_bool = False
         self.place_mario()
 
-    def update(self, screen, current_level, mario, platforms):
-        self.check_on_block(mario, platforms)
+    def update(self, screen, current_level, mario, blocks):
+        self.check_on_block(mario, blocks)
         if not mario.cant_move:
             self.mario_walking(screen, current_level)
         if self.mario_dead:

@@ -3,6 +3,7 @@ import pygame
 import game_functions as gf
 from settings import Settings
 from character import Character
+from character import Platform
 from block import *
 from background import Background
 from Levels.level1_1 import Level1_1
@@ -47,18 +48,34 @@ def run_game():
     starting_text_2.text_rect.centerx = screen.get_rect().centerx
     starting_text_2.update_font('arial', 80)
 
-    while True:
-        clock.tick(30)
-        gf.check_events(screen, settings, mario, current_level.background)
-        gf.update_screen(screen, settings, mario, current_level, sb)
+    allSprites = pygame.sprite.Group()
+    platforms = pygame.sprite.Group()
+    p1 = Platform(50, settings.screen_height - 40, 300, 20)
+    allSprites.add(p1)
+    platforms.add(p1)
+    p2 = Platform(50, settings.screen_height - 200, 100, 30)
+    allSprites.add(p2)
+    platforms.add(p2)
+    for i in blocks:
+        platforms.add(i)
 
-        if settings.game_active:
-            mario.update(screen, current_level)
-            gf.check_mario_block_collisions(screen, settings, mario, blocks, pipes)
-        else:
-            starting_text.draw(screen)
-            starting_text_2.draw(screen)
-            pygame.display.flip()
+    while True:
+        # clock.tick(30)
+        # gf.check_events(screen, settings, mario, current_level.background)
+        # gf.update_screen(screen, settings, mario, current_level, sb)
+        #
+        # if settings.game_active:
+        #     mario.update(screen, current_level)
+        #     gf.check_mario_block_collisions(screen, settings, mario, blocks, pipes)
+        # else:
+        #     starting_text.draw(screen)
+        #     starting_text_2.draw(screen)
+        #     pygame.display.flip()
+        mario.update(screen, current_level, mario, blocks)
+        # gf.update_all(screen, settings, mario, blocks, mobs, backgorund)
+        gf.check_events(screen, settings, mario, current_level.background)
+        gf.update_screen(screen, settings, mario, current_level, allSprites)
+        gf.check_mario_block_collisions(screen, settings, mario, blocks, pipes)
 
 
 run_game()

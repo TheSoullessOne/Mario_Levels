@@ -111,5 +111,4 @@ def update_all(screen, current_level, settings):
         pipe.rect.left -= settings.PAN_SPEED
 
     current_level.background.rect.left -= settings.PAN_SPEED
-    print(current_level.background.rect.left)
     current_level.flag_pole.rect.left -= settings.PAN_SPEED

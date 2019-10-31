@@ -206,7 +206,16 @@ class Character(Sprite):
     def check_on_block(self, mario, platforms):
         hits = pygame.sprite.spritecollide(mario, platforms, False)
 
-        if hits and not self.mario_dead:
+        # if hits:
+            # print(self.rect.top, hits[0].rect.bottom)
+
+        if hits and not self.mario_dead and hits[0].rect.bottom - self.rect.top == 5 and \
+                (self.rect.right >= hits[0].rect.left or self.rect.left <= hits[0].rect.right):
+            self.rect.top = hits[0].rect.bottom + 5
+            self.vel.y = 0
+            self.acc.y = 0
+            print('hit head')
+        elif hits and not self.mario_dead:
             self.pos.y = hits[0].rect.top + 1
             self.on_block = True
             self.vel.y = 0

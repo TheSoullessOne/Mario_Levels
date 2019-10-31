@@ -13,7 +13,7 @@ class Settings:
         self.game_active = False
 
         self.MOVE_SPEED = float(0.9)
-        self.PLAYER_FRICTION = -0.15
+        self.PLAYER_FRICTION = -0.2
         self.PLAYER_GRAVITY = 0.5
 
         self.enemy_move_speed = 5

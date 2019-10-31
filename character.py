@@ -162,32 +162,6 @@ class Character(Sprite):
             self.cImage = 2
         self.blit_me(screen)
 
-# <<<<<<< HEAD
-    # def update(self, screen, current_level):
-    #     if self.moving_left and self.rect.left >= 0 and not self.cannot_move_left:
-    #         self.centerx -= self.settings.move_speed  # 2.0
-    #         self.side_facing = False
-    #     if self.moving_right and not self.cannot_move_right:
-    #         if self.rect.right >= self.settings.screen_width / 2:
-    #             update_all(screen, current_level, self.settings)
-    #         else:
-    #             self.centerx += self.settings.move_speed  # 2.0
-    #         self.side_facing = True
-    #     # if self.jumping:
-    #     #     self.falling = False
-    #     if self.jumping and not self.falling and \
-    #             self.y_bot >= self.settings.screen_height - self.settings.max_jump_height:
-    #         self.on_block = False
-    #         self.vertical_speed -= self.settings.init_gravity
-    #         self.y_bot -= float(self.vertical_speed)
-    #     if self.y_bot <= self.settings.screen_height - self.settings.max_jump_height:
-    #         self.falling = True
-    #     if self.falling and not self.jumping:  # and self.rect.bottom <= self.settings.screen_height:
-    #         # Later change to collision on ground terrain ^^^
-    #         if self.y_bot >= self.settings.screen_height: # OR ON BLOCK
-    #             self.falling = False
-    #             self.vertical_speed = self.settings.init_jmp_speed
-# =======
     def mario_jumping(self):
         if self.on_block:
             self.vel.y = -15

@@ -38,7 +38,7 @@ def check_key_up(event, screen, settings, mario, background):
 
 def check_key_down(event, screen, settings, mario, background):
 
-    if event.key == pygame.K_SPACE:
+    if event.key == pygame.K_SPACE and not mario.cant_move:
 
         mario.mario_jumping()
 
@@ -54,7 +54,8 @@ def check_key_down(event, screen, settings, mario, background):
         mario.mario_size -= 1
         mario.changing_to_smol = True
         mario.big_to_smol()
-
+    if event.key == pygame.K_i and mario.mario_size == 0:
+        mario.mario_dead = True
 
 def check_mario_block_collisions(screen, settings, mario, blocks):
     was_moving_right = mario.moving_right

@@ -11,14 +11,16 @@ from Levels.level1_3 import Level1_3
 from pygame.sprite import Group
 from scoreboard import Scoreboard
 from textbox import TextBox
-
-settings = Settings()
+from pygame import time
 
 
 def run_game():
+    settings = Settings()
+
     pygame.init()
     screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
     pygame.display.set_caption("Mario")
+    clock = pygame.time.Clock()
 
     current_level = Level1_1(screen, settings)
     # current_level = Level1_2(screen, settinggit pus)
@@ -46,6 +48,7 @@ def run_game():
     starting_text_2.update_font('arial', 80)
 
     while True:
+        clock.tick(30)
         gf.check_events(screen, settings, mario, current_level.background)
         gf.update_screen(screen, settings, mario, current_level, sb)
 

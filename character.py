@@ -36,10 +36,10 @@ class Character(Sprite):
 
         self.moving_right = False
         self.moving_left = False
-        self.jumping = False
+
         self.side_facing = True     # True is right, false is left
         self.on_block = False
-        self.starting_jump = 0
+
         self.rect.centerx = self.settings.screen_width / 2      # Starting Mario at center of screen
         self.rect.bottom = self.settings.screen_height          # Starting Mario at bottom of screen
         self.centerx = float(self.rect.centerx)
@@ -55,7 +55,7 @@ class Character(Sprite):
         self.cImage = 0     # Displaying which image in sheet is being displayed
         self.slowDown = 0   # Used to slow down blitting process to smooth animations
         self.default_slow = 50
-        self.falling = True   # Check for positive downward y-velocity after jumping
+        self.falling = False   # Check for positive downward y-velocity after jumping
         self.vertical_speed = self.settings.init_jmp_speed
         self.init_gravity = self.settings.init_gravity
         self.cannot_move_left = False
@@ -97,8 +97,7 @@ class Character(Sprite):
         self.rect_bottom = self.rect.bottom
 
     def blit_me(self, screen):
-        if self.jumping or self.falling:
-            self.on_block = False
+        if not self.on_block:
             if self.side_facing:
                 screen.blit(self.image_jump_right, self.rect)
             elif not self.side_facing:
@@ -134,37 +133,14 @@ class Character(Sprite):
             return False
 
     def mario_jumping(self):
-        #print(self.vy)
-        if self.jumping and not self.falling and \
-                self.y_bot >= self.settings.screen_height - self.settings.max_jump_height:
-            if not self.start_jmp_bool:
-                self.start_jmp = self.y_bot
-                self.start_jmp_bool = True
-            self.on_block = False
-            self.vy -= self.settings.init_jmp_speed
-            self.y_bot += float(self.vy)
-        if self.y_bot <= self.start_jmp - self.settings.max_jump_height:
-            self.falling = True
+        if self.on_block:
+            self.vel.y = -15
+            self.pos.y -= 1
+            self.rect.midbottom = self.pos
 
-        if self.falling:  # and self.rect.bottom <= self.settings.screen_height:
-            # Later change to collision on ground terrain ^^^
-
-            self.start_jmp_bool = False
-            if self.y_bot >= self.settings.screen_height: # OR ON BLOCK
-                self.falling = False
-                #self.vy = 0
-                self.y_bot = self.settings.screen_height
-            else:
-                if self.vy >= self.settings.max_gravity:
-                    self.vy = self.settings.max_gravity
-                else:
-                    self.vy += self.settings.init_gravity
-                self.y_bot += float(self.vy)
-        elif not self.falling and not self.jumping:
-            self.vy = 0
 
     def mario_walking(self, screen, current_level):
-        self.acc = vec(0, 0.5)
+        self.acc = vec(0, self.settings.PLAYER_GRAVITY)
 
         keys = pygame.key.get_pressed()
 
@@ -186,7 +162,7 @@ class Character(Sprite):
                 else:
                     self.moving_right = False
 
-        self.acc.x += self.vel.x * self.settings.player_friction
+        self.acc.x += self.vel.x * self.settings.PLAYER_FRICTION
         self.vel += self.acc
         self.pos += self.vel + 0.5 * self.acc
         self.centerx = self.pos.x
@@ -198,16 +174,15 @@ class Character(Sprite):
 
         #platforms.update()
         hits = pygame.sprite.spritecollide(mario, platforms, False)
-        print(self.pos.y)
+
         if hits:
             self.pos.y = hits[0].rect.top + 1
-
+            self.on_block = True
             self.vel.y = 0
-        self.mario_jumping()
+        else:
+            self.on_block = False
 
         self.rect.midbottom = self.pos
-
-        #self.rect.bottom = self.y_bot # Removed so mario can stand on blocks
         self.cannot_move_right = self.cannot_move_left = False
 
 

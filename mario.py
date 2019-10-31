@@ -31,9 +31,12 @@ def run_game():
 
     allSprites = pygame.sprite.Group()
     platforms = pygame.sprite.Group()
-    p1 = Platform(50, settings.screen_height - 40, 300, 30)
+    p1 = Platform(50, settings.screen_height - 40, 300, 20)
     allSprites.add(p1)
     platforms.add(p1)
+    p2 = Platform(50, settings.screen_height - 200, 100, 30)
+    allSprites.add(p2)
+    platforms.add(p2)
 
     while True:
         mario.update(screen, current_level, mario, platforms)

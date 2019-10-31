@@ -13,7 +13,8 @@ class Settings:
         self.move_speed = float(0.9)
         self.init_gravity = float(0.3)
         self.max_gravity = 10
-        self.player_friction = -0.15
+        self.PLAYER_FRICTION = -0.15
+        self.PLAYER_GRAVITY = 0.5
 
         self.enemy_move_speed = 5
         self.enemy_anim_rate = 150

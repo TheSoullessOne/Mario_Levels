@@ -33,16 +33,15 @@ def check_key_up(event, screen, settings, mario, background):
     if event.key == pygame.K_LEFT:
         mario.moving_left = False
     if event.key == pygame.K_SPACE:
-        mario.jumping = False
-        mario.falling = True
+        pass
 
 
 def check_key_down(event, screen, settings, mario, background):
 
-    if event.key == pygame.K_SPACE and not mario.falling:
-        mario.falling = False
-        mario.jumping = True
+    if event.key == pygame.K_SPACE:
+
         mario.mario_jumping()
+
         mario.starting_jump = mario.rect.bottom
     if event.key == pygame.K_p and mario.mario_size < 2:     # TESTING PURPOSES. Increases mario size
         mario.mario_size += 1

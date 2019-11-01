@@ -19,22 +19,18 @@ class Level1_1(Level):
         upper_y = 160
         lower_y = 304
 
-        coin = Coin(self.screen, self.settings)
-        magic_mushroom = MagicMushroom(self.screen, self.settings)
-        fire_flower = FireFlower(self.screen, self.settings)
-
         # First grouping
-        self.create_item_block(coin, 570, lower_y)  # coin
-        self.create_item_block(coin, 786, upper_y)  # coin
+        self.create_item_block(self.create_coin(), 570, lower_y)  # coin
+        self.create_item_block(self.create_coin(), 786, upper_y)  # coin
 
         self.create_brick_block(714, lower_y)
-        self.create_item_block(magic_mushroom, 750, lower_y)  # magic mushroom
+        self.create_item_block(self.create_magic_mushroom(), 750, lower_y)  # magic mushroom
         self.create_brick_block(786, lower_y)
-        self.create_item_block(coin, 822, lower_y) # coin
+        self.create_item_block(self.create_coin(), 822, lower_y) # coin
         self.create_brick_block(858, lower_y)
 
         self.create_brick_block(2750, lower_y)
-        self.create_item_block(fire_flower, 2786, lower_y)  # FIRE FLOWER
+        self.create_item_block(self.create_fire_flower(), 2786, lower_y)  # FIRE FLOWER
         self.create_brick_block(2822, lower_y)
 
         self.create_brick_block(2856, upper_y)
@@ -49,17 +45,17 @@ class Level1_1(Level):
         self.create_brick_block(3249, upper_y)
         self.create_brick_block(3285, upper_y)
         self.create_brick_block(3321, upper_y)
-        self.create_item_block(coin, 3357, upper_y)  # coin
+        self.create_item_block(self.create_coin(), 3357, upper_y)  # coin
 
         self.create_brick_block(3357, lower_y)
 
         self.create_brick_block(3571, lower_y)
         self.create_brick_block(3607, lower_y)
 
-        self.create_item_block(coin, 3785, lower_y) # coin
-        self.create_item_block(coin, 3892, lower_y) # coin
-        self.create_item_block(coin, 3999, lower_y) # coin
-        self.create_item_block(fire_flower, 3892, upper_y) # fire flower
+        self.create_item_block(self.create_coin(), 3785, lower_y) # coin
+        self.create_item_block(self.create_coin(), 3892, lower_y) # coin
+        self.create_item_block(self.create_coin(), 3999, lower_y) # coin
+        self.create_item_block(self.create_fire_flower(), 3892, upper_y) # fire flower
 
         self.create_brick_block(4214, lower_y)
 
@@ -68,8 +64,8 @@ class Level1_1(Level):
         self.create_brick_block(4393, upper_y)
 
         self.create_brick_block(4571, upper_y)
-        self.create_item_block(coin, 4607, upper_y) # coin
-        self.create_item_block(coin, 4643, upper_y) # coin
+        self.create_item_block(self.create_coin(), 4607, upper_y) # coin
+        self.create_item_block(self.create_coin(), 4643, upper_y) # coin
         self.create_brick_block(4679, upper_y)
 
         self.create_brick_block(4607, lower_y)
@@ -77,7 +73,7 @@ class Level1_1(Level):
 
         self.create_brick_block(5999, lower_y)
         self.create_brick_block(6035, lower_y)
-        self.create_item_block(coin, 6071, lower_y) # coin
+        self.create_item_block(self.create_coin(), 6071, lower_y) # coin
         self.create_brick_block(6107, lower_y)
 
         self.create_up_hill(4, 4, 4785)
@@ -126,6 +122,7 @@ class Level1_1(Level):
     def create_item_block(self, item, x, y):
         ib = ItemBlock(item, self.screen, self.settings, x, y)
         self.blocks.add(ib)
+        self.items.add(item)
 
     def create_brick_block(self, x, y):
         block = BrickBlock(self.screen, self.settings, x, y)
@@ -172,3 +169,18 @@ class Level1_1(Level):
     def create_floor(self, x, y):
         block = FloorBlock(self.screen, self.settings, x, y)
         self.blocks.add(block)
+
+    def create_coin(self):
+        coin = Coin(self.screen, self.settings, 0, 0)
+        self.items.add(coin)
+        return coin
+
+    def create_magic_mushroom(self):
+        magic_mushroom = MagicMushroom(self.screen, self.settings, 0, 0)
+        self.items.add(magic_mushroom)
+        return magic_mushroom
+
+    def create_fire_flower(self):
+        fire_flower = FireFlower(self.screen, self.settings, 0, 0)
+        self.items.add(fire_flower)
+        return fire_flower

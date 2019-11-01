@@ -21,17 +21,23 @@ class Item(Sprite):
         self.moving_up = False
         self.moving_down = False
 
+        self.opened = False
         self.points = 0
         self.rarity = None  # 0(Very Common) - 2(Rare)
 
     def blit_me(self):
         self.screen.blit(self.image, self.rect)
 
+    def is_opened(self):
+        self.opened = True
+        self.moving_up = True
+
     def update(self):
         if self.moving_up:
-            self.center += 1
-        elif self.moving_down:
-            self.center -= 1
+            if self.rect.y > self.rect.y - 36:
+                self.center += 1
+            else:
+                self.moving_up = False
 
 
 class Coin(Item):

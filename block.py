@@ -19,20 +19,34 @@ class Block(Sprite):
         self.bottom = self.rect.bottom
         self.top = self.rect.top
 
+        self.hit = False
         self.rect.x = x
         self.rect.y = y
 
+        self.start_y = y
         self.moving_up = False
         self.moving_down = False
 
     def blit_me(self, screen):
         screen.blit(self.image, self.rect)
 
+    def hit_block(self):
+        self.hit = True
+        self.moving_up = True
+        self.item.opened = True
+
     def update(self):
         if self.moving_up:
-            self.center += 1
+            if self.rect.y > self.start_y - 10:
+                self.rect.y -= 1
+            else:
+                self.moving_up = False
+                self.moving_down = True
         elif self.moving_down:
-            self.center -= 1
+            if self.rect.y < self.start_y:
+                self.rect.y += 1
+            else:
+                self.moving_down = False
 
 
 class BlueBlock(Block):
@@ -52,12 +66,15 @@ class ItemBlock(Block):
 
         self.item = item
         self.item.rect.x = x
-        self.item.rect.y = y - 46
+        self.item.rect.y = y
 
 
     def blit_me(self, screen):
-        self.image = pygame.image.load(self.animation.image_rect())
-        self.item.blit_me()
+        if self.hit:
+            self.image = pygame.image.load('Images/Blocks/UsedBlock.png')
+            self.item.blit_me()
+        else:
+            self.image = pygame.image.load(self.animation.image_rect())
         screen.blit(self.image, self.rect)
 
 
@@ -65,12 +82,6 @@ class BlueItemBlock(Block):
     def __init__(self, item, screen, settings, x, y):
         super().__init__(screen, settings, x ,y)
         self.image = pygame.image.load('Images/Blocks/Blue-ItemBlock-1.png')
-
-
-class UsedBlock(Block):
-    def __init__(self, screen, settings, x, y):
-        super().__init__(screen, settings, x, y)
-        self.image = pygame.image.load('Images/Blocks/UsedBlock.png')
 
 
 class BlueUsedBlock(Block):

@@ -218,6 +218,7 @@ class Character(Sprite):
             self.pos.y = hits[0].rect.bottom + self.height
             self.vel.y = 0
             self.acc.y = 0
+            hits[0].hit_block()
         # elif block_hit and not self.mario_dead and self.rect.right >= hits[0].rect.left and not self.on_block:
         #     print('hit left')
         #     self.rect.right = hits[0].rect.left - 1

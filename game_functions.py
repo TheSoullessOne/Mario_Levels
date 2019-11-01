@@ -14,6 +14,9 @@ def update_screen(screen, settings, mario, current_level, sb, start_text):
         start_text[0].draw(screen)
         start_text[1].draw(screen)
 
+    current_level.blocks.update()
+    current_level.items.update()
+
     pygame.display.flip()
 
 

@@ -218,6 +218,8 @@ class Character(Sprite):
             self.acc.y = 0
 
             hits[0].hit_block()
+            if hits[0].item is not None:
+                self.settings.score += hits[0].item.points
         # elif block_hit and not self.mario_dead and self.rect.right >= hits[0].rect.left and not self.on_block:
         #     print('hit left')
         #     self.rect.right = hits[0].rect.left - 1

@@ -51,10 +51,13 @@ class ItemBlock(Block):
         self.animation = Timer(anim_frames, 150)
 
         self.item = item
-        self.activated = False
+        self.item.rect.x = x
+        self.item.rect.y = y - 46
+
 
     def blit_me(self, screen):
         self.image = pygame.image.load(self.animation.image_rect())
+        self.item.blit_me()
         screen.blit(self.image, self.rect)
 
 

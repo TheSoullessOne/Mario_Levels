@@ -18,6 +18,7 @@ class Item(Sprite):
         self.rect.x = x
         self.rect.y = y
 
+        self.start_y = 0
         self.moving_up = False
         self.moving_down = False
 
@@ -30,12 +31,13 @@ class Item(Sprite):
 
     def is_opened(self):
         self.opened = True
+        self.start_y = self.rect.y
         self.moving_up = True
 
     def update(self):
         if self.moving_up:
-            if self.rect.y > self.rect.y - 36:
-                self.center += 1
+            if self.rect.y > self.start_y - 36:
+                self.rect.y -= 1
             else:
                 self.moving_up = False
 

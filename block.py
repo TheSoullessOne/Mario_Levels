@@ -70,7 +70,6 @@ class ItemBlock(Block):
         self.item.rect.x = x
         self.item.rect.y = y
 
-
     def blit_me(self, screen):
         if self.hit:
             self.image = pygame.image.load('Images/Blocks/UsedBlock.png')

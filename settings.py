@@ -20,10 +20,12 @@ class Settings:
         self.enemy_move_speed = 5
         self.enemy_anim_rate = 150
         self.score = 0
+        self.coin_count = 0
         self.lives = 3
         self.timer = 360
         self.thread_timer = Timer(1, self.update_time)
         self.thread_timer.start()
+        self.world_level = "1-1"
 
     def update_time(self):
         print(time.ctime())

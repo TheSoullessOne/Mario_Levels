@@ -221,6 +221,7 @@ class Character(Sprite):
             if hits[0].item is not None:
                 if str(hits[0].item.__str__()).__contains__("Coin"):
                     self.settings.score += hits[0].item.points
+                    self.settings.coin_count += 1
         elif hits and not self.mario_dead:
             self.pos.y = hits[0].rect.top + 1
             self.on_block = True

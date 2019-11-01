@@ -41,6 +41,7 @@ class Character(Sprite):
 
         self.side_facing = True     # True is right, false is left
         self.on_block = False
+        self.can_jump = True
 # <<<<<<< HEAD
         self.starting_jump = 0
         self.rect.centerx = self.settings.screen_width / 2      # Starting Mario at center of screen
@@ -165,7 +166,7 @@ class Character(Sprite):
         self.blit_me(screen)
 
     def mario_jumping(self):
-        if self.on_block:
+        if self.on_block and self.can_jump:
             self.vel.y = -15
             self.pos.y -= 1
             self.rect.midbottom = self.pos
@@ -205,20 +206,28 @@ class Character(Sprite):
 
     def check_on_block(self, mario, platforms):
         hits = pygame.sprite.spritecollide(mario, platforms, False)
-
-        # if hits:
-            # print(self.rect.top, hits[0].rect.bottom)
-
-        if hits and not self.mario_dead and hits[0].rect.bottom - self.rect.top == 5 and \
+        block_hit = False
+        for block in platforms:
+            hit = pygame.sprite.collide_rect(mario, block)
+            if hit:
+                block_hit = hit
+                # print(self.rect.right - hits[0].rect.left)
+        if block_hit and not self.mario_dead and (hits[0].rect.bottom - self.rect.top == 5 or
+                                                  hits[0].rect.bottom - self.rect.top == 2) and \
                 (self.rect.right >= hits[0].rect.left or self.rect.left <= hits[0].rect.right):
-            self.rect.top = hits[0].rect.bottom + 5
+            self.pos.y = hits[0].rect.bottom + self.height
             self.vel.y = 0
             self.acc.y = 0
-            print('hit head')
-        elif hits and not self.mario_dead:
+        # elif block_hit and not self.mario_dead and self.rect.right >= hits[0].rect.left and not self.on_block:
+        #     print('hit left')
+        #     self.rect.right = hits[0].rect.left - 1
+        #     self.vel.y = 0
+        #     self.acc.y = 0
+        elif block_hit and not self.mario_dead:
             self.pos.y = hits[0].rect.top + 1
             self.on_block = True
             self.vel.y = 0
+            self.can_jump = True
         else:
             self.on_block = False
 

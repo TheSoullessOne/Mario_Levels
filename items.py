@@ -49,7 +49,7 @@ class MagicMushroom(Item):
 class FireFlower(Item):
     def __init__(self, screen, settings):
         super().__init__(screen, settings)
-        self.image = pygame.image.load('Images/Items/fire-flower.png')
+        self.image = pygame.image.load('Images/Items/fire-flower-1.png')
         self.points = 1000
         self.rarity = 1
 

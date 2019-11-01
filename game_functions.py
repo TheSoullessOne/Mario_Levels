@@ -60,7 +60,7 @@ def check_key_down(event, screen, settings, mario, background):
     if event.key == pygame.K_i and mario.mario_size == 0:
         mario.mario_dead = True
 
-def check_mario_block_collisions(screen, settings, mario, blocks, pipes):
+# def check_mario_block_collisions(screen, settings, mario, blocks, pipes):
     was_moving_right = mario.moving_right
     was_moving_left = mario.moving_left
 #     for block in blocks:

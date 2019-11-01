@@ -108,7 +108,7 @@ class Character(Sprite):
             self.sprite_delay = 0
             self.change_mario_size()
         self.blit_me(self.screen)
-        self.mario_size += 1
+        self.mario_size = 1
         self.update_rect()
 
     def big_to_smol(self):
@@ -122,7 +122,7 @@ class Character(Sprite):
             self.sprite_delay = 0
             self.change_mario_size()
         self.blit_me(self.screen)
-        self.mario_size -= 1
+        self.mario_size = 0
         self.update_rect()
 
     def update_rect(self):
@@ -219,12 +219,8 @@ class Character(Sprite):
 
             hits[0].hit_block()
             if hits[0].item is not None:
-                self.settings.score += hits[0].item.points
-        # elif block_hit and not self.mario_dead and self.rect.right >= hits[0].rect.left and not self.on_block:
-        #     print('hit left')
-        #     self.rect.right = hits[0].rect.left - 1
-        #     self.vel.y = 0
-        #     self.acc.y = 0
+                if str(hits[0].item.__str__()).__contains__("Coin"):
+                    self.settings.score += hits[0].item.points
         elif hits and not self.mario_dead:
             self.pos.y = hits[0].rect.top + 1
             self.on_block = True
@@ -276,7 +272,6 @@ class Character(Sprite):
             self.dead_bool = False
         self.place_mario()
 
-
     def check_with_items(self, mario, items, settings):
         for item in items:
             collision = self.rect.colliderect(item)
@@ -299,7 +294,6 @@ class Character(Sprite):
             self.smol_to_big()
         elif self.changing_to_smol:
             self.big_to_smol()
-        #platforms.update()
 
         self.cannot_move_right = self.cannot_move_left = False
 

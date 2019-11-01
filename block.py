@@ -73,7 +73,8 @@ class ItemBlock(Block):
     def blit_me(self, screen):
         if self.hit:
             self.image = pygame.image.load('Images/Blocks/UsedBlock.png')
-            self.item.blit_me()
+            if not self.item.picked_up:
+                self.item.blit_me()
         else:
             self.image = pygame.image.load(self.animation.image_rect())
         screen.blit(self.image, self.rect)

@@ -23,6 +23,7 @@ class Item(Sprite):
         self.moving_down = False
 
         self.opened = False
+        self.picked_up = False
         self.points = 0
         self.rarity = None  # 0(Very Common) - 2(Rare)
 

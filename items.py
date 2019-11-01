@@ -1,18 +1,22 @@
 import pygame
 from pygame.sprite import Sprite
+from timer import Timer
 
 
 class Item(Sprite):
-    def __init__(self, screen, settings):
+    def __init__(self, screen, settings, x, y):
         super(Item, self).__init__()
         self.screen = screen
         self.settings = settings
 
-        self.image = pygame.image.load('Images/Items/coin-1.png')
+        self.image = pygame.image.load('Images/Items/starman-1.png')
         self.rect = self.image.get_rect()
         self.width = self.rect.width
         self.height = self.width
         self.center = self.rect.centerx
+
+        self.rect.x = x
+        self.rect.y = y
 
         self.moving_up = False
         self.moving_down = False
@@ -31,40 +35,54 @@ class Item(Sprite):
 
 
 class Coin(Item):
-    def __init__(self, screen, settings):
-        super().__init__(screen, settings)
+    def __init__(self, screen, settings, x, y):
+        super().__init__(screen, settings, x, y)
         self.image = pygame.image.load('Images/Items/coin-1.png')
         self.points = 200
         self.rarity = 0
 
 
 class MagicMushroom(Item):
-    def __init__(self, screen, settings):
-        super().__init__(screen, settings)
+    def __init__(self, screen, settings, x, y):
+        super().__init__(screen, settings, x, y)
         self.image = pygame.image.load('Images/Items/magic-mushroom.png')
         self.points = 1000
         self.rarity = 1
 
 
 class FireFlower(Item):
-    def __init__(self, screen, settings):
-        super().__init__(screen, settings)
-        self.image = pygame.image.load('Images/Items/fire-flower.png')
+    def __init__(self, screen, settings, x, y):
+        super().__init__(screen, settings, x, y)
+        anim_frames = ['Images/Items/fire-flower-1.png', 'Images/Items/fire-flower-2.png',
+                       'Images/Items/fire-flower-3.png', 'Images/Items/fire-flower-4.png']
+        self.image = pygame.image.load(anim_frames[0])
+        self.animation = Timer(anim_frames, 150)
         self.points = 1000
         self.rarity = 1
 
+    def blit_me(self):
+        self.image = pygame.image.load(self.animation.image_rect())
+        self.screen.blit(self.image, self.rect)
+
 
 class Starman(Item):
-    def __init__(self, screen, settings):
-        super().__init__(screen, settings)
-        self.image = pygame.image.load('Images/Items/starman-1.png')
+    def __init__(self, screen, settings, x, y):
+        super().__init__(screen, settings, x, y)
+        anim_frames = ['Images/Items/starman-1.png', 'Images/Items/starman-3.png',
+                       'Images/Items/starman-3.png', 'Images/Items/starman-4.png']
+        self.image = pygame.image.load(anim_frames[0])
+        self.animation = Timer(anim_frames, 150)
         self.points = 1000
         self.rarity = 2
 
+    def blit_me(self):
+        self.image = pygame.image.load(self.animation.image_rect())
+        self.screen.blit(self.image, self.rect)
+
 
 class OneUpMushroom(Item):
-    def __init__(self, screen, settings):
-        super().__init__(screen, settings)
+    def __init__(self, screen, settings, x, y):
+        super().__init__(screen, settings, x, y)
         self.image = pygame.image.load()
         self.points = 0
         self.rarity = 2

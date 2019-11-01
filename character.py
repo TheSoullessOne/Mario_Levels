@@ -278,15 +278,19 @@ class Character(Sprite):
             collision = self.rect.colliderect(item)
             if collision:
                 if str(item.__str__()).__contains__("MagicMushroom"):
+                    item.picked_up = True
                     # self.big_to_smol()
                     settings.score += item.points
-                    # item.kill()
+                    item.kill()
                 elif str(item.__str__()).__contains__("OneUpMushroom"):
                     settings.lives += 1
-                    # item.kill()
+                    item.kill()
                 elif str(item.__str__()).__contains__("FireFlower"):
                     settings.score += item.points
                     # self.to_spicy()
+                elif str(item.__str__()).__contains__("Coin"):
+                    settings.score += item.points
+                    item.kill()
 
     def update(self, settings, screen, current_level, mario, blocks, pipes, items):
         self.check_on_block(mario, blocks)

@@ -64,7 +64,7 @@ def run_game():
 
     while True:
         clock.tick(60)
-        mario.update(screen, current_level, mario, blocks, pipes, items)
+        mario.update(settings, screen, current_level, mario, blocks, pipes, items)
         gf.update_screen(screen, settings, mario, current_level, sb, start_text)
 
         gf.check_events(screen, settings, mario, current_level.background)

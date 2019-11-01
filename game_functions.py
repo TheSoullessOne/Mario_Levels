@@ -9,7 +9,6 @@ def update_screen(screen, settings, mario, current_level, sb, start_text):
         # allSprites.draw(screen)
         mario.slow_blit(screen)
         sb.show_score(screen)
-    #print(mario.centerx, mario.centery)
     else:
         start_text[0].draw(screen)
         start_text[1].draw(screen)

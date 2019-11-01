@@ -30,6 +30,9 @@ class Scoreboard:
         self.score_rect.top = self.screen_rect.top
 
     def show_score(self, screen):
+        score_str = "{:,}".format(self.settings.score)
+        self.score_image = self.font.render(score_str, True, self.text_color, self.settings.bg_color)
+
         screen.blit(self.score_image, self.score_rect)
         timer_str = "{:,}".format(self.settings.timer)
         self.timer_image = self.font.render(timer_str, True, self.text_color, self.settings.bg_color)

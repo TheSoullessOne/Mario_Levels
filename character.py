@@ -108,6 +108,7 @@ class Character(Sprite):
             self.sprite_delay = 0
             self.change_mario_size()
         self.blit_me(self.screen)
+        self.mario_size += 1
         self.update_rect()
 
     def big_to_smol(self):
@@ -121,6 +122,7 @@ class Character(Sprite):
             self.sprite_delay = 0
             self.change_mario_size()
         self.blit_me(self.screen)
+        self.mario_size -= 1
         self.update_rect()
 
     def update_rect(self):
@@ -273,16 +275,19 @@ class Character(Sprite):
         self.place_mario()
 
 
-    def check_with_items(self, mario, items):
+    def check_with_items(self, mario, items, settings):
         for item in items:
-            collision = pygame.sprite.collide_rect(mario, item)
+            collision = self.rect.colliderect(item)
             if collision:
-                print(item.__str__())
+                if str(item.__str__()).__contains__("MagicMushroom"):
+                    self.big_to_smol()
+                    settings.score += item.points
+                    item.kill()
 
-    def update(self, screen, current_level, mario, blocks, pipes, items):
+    def update(self, settings, screen, current_level, mario, blocks, pipes, items):
         self.check_on_block(mario, blocks)
         self.check_with_pipes(mario, pipes)
-        self.check_with_items(mario, items)
+        self.check_with_items(mario, items, settings)
         if not mario.cant_move:
             self.mario_walking(screen, current_level)
         if self.mario_dead:

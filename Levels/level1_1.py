@@ -168,7 +168,7 @@ class Level1_1(Level):
 
     def create_floor(self, x, y):
         block = FloorBlock(self.screen, self.settings, x, y)
-        self.blocks.add(block)
+        self.floor_blocks.add(block)
 
     def create_coin(self):
         coin = Coin(self.screen, self.settings, 0, 0)

@@ -13,6 +13,7 @@ class Level:
         self.background = Background(screen, settings, 'Images/Backgrounds/1-1-bg.png')
         self.bg_img = self.background.image
         self.blocks = Group()
+        self.floor_blocks = Group()
         self.items = Group()
         self.enemies = Group()
         self.pipes = Group()

@@ -41,6 +41,7 @@ class Character(Sprite):
 
         self.side_facing = True     # True is right, false is left
         self.on_block = False
+        self.on_pipe = False
         self.can_jump = True
 # <<<<<<< HEAD
         self.starting_jump = 0
@@ -206,32 +207,47 @@ class Character(Sprite):
 
     def check_on_block(self, mario, platforms):
         hits = pygame.sprite.spritecollide(mario, platforms, False)
-        block_hit = False
-        for block in platforms:
-            hit = pygame.sprite.collide_rect(mario, block)
-            if hit:
-                block_hit = hit
-                # print(self.rect.right - hits[0].rect.left)
-        if block_hit and not self.mario_dead and (hits[0].rect.bottom - self.rect.top == 5 or
-                                                  hits[0].rect.bottom - self.rect.top == 2) and \
+
+        if hits and not self.mario_dead and self.rect.top <= hits[0].rect.bottom and self.rect.bottom >= hits[0].rect.centery and \
                 (self.rect.right >= hits[0].rect.left or self.rect.left <= hits[0].rect.right):
-            self.pos.y = hits[0].rect.bottom + self.height
+
+            self.pos.y = hits[0].rect.bottom + self.height + 1
             self.vel.y = 0
             self.acc.y = 0
-        # elif block_hit and not self.mario_dead and self.rect.right >= hits[0].rect.left and not self.on_block:
-        #     print('hit left')
-        #     self.rect.right = hits[0].rect.left - 1
-        #     self.vel.y = 0
-        #     self.acc.y = 0
-        elif block_hit and not self.mario_dead:
+        elif hits and not self.mario_dead:
             self.pos.y = hits[0].rect.top + 1
             self.on_block = True
             self.vel.y = 0
             self.can_jump = True
         else:
             self.on_block = False
-
         self.rect.midbottom = self.pos
+
+    def check_with_pipes(self, mario, pipes):
+        hits = pygame.sprite.spritecollide(mario, pipes, False)
+
+        for pipe in pipes:
+            if self.rect.colliderect(pipe.rect):
+                if pipe.rect.left - self.rect.right > 0:
+                    self.rect.right = pipe.rect.left
+                    self.cannot_move_right = True
+                elif pipe.rect.right - self.rect.left < 0:
+                    self.rect.left = pipe.rect.right
+                    self.cannot_move_left = True
+
+        if hits and not self.on_pipe and not self.mario_dead and mario.rect.left >= hits[0].rect.right and \
+                mario.rect.bottom > hits[0].rect.top + 1:
+            print('hit right side')
+            mario.rect.left = hits[0].rect.right + 1
+            mario.cannot_move_left = True
+
+        elif hits and not self.mario_dead:
+            self.pos.y = hits[0].rect.top + 1
+            self.on_pipe = True
+            self.vel.y = 0
+            self.can_jump = True
+        else:
+            self.on_pipe = False
 
     def mario_death(self):
         if self.mario_dead and self.mario_size == 0 and not self.mario_dead_cont:
@@ -249,8 +265,9 @@ class Character(Sprite):
             self.dead_bool = False
         self.place_mario()
 
-    def update(self, screen, current_level, mario, blocks):
+    def update(self, screen, current_level, mario, blocks, pipes):
         self.check_on_block(mario, blocks)
+        self.check_with_pipes(mario, pipes)
         if not mario.cant_move:
             self.mario_walking(screen, current_level)
         if self.mario_dead:

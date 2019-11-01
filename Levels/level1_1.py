@@ -61,7 +61,7 @@ class Level1_1(Level):
 
         self.create_brick_block(4321, upper_y)
         self.create_brick_block(4357, upper_y)
-        self.create_brick_block(4393, upper_y)
+        self.create_brick_block(4393, upper_y)   # marker
 
         self.create_brick_block(4571, upper_y)
         self.create_item_block(self.create_coin(), 4607, upper_y) # coin
@@ -113,11 +113,37 @@ class Level1_1(Level):
         self.create_pipe(6392, 374)
 
     def initialize_enemies(self):
-        self.create_little_goomba(799, 398)
+        self.create_little_goomba(786 - 18, 409)
+
+        self.create_little_goomba(1440, 409)
+
+        self.create_little_goomba(1800, 409)
+        self.create_little_goomba(1900, 409)
+
+        self.create_little_goomba(2856, 124)
+        self.create_little_goomba(2925, 124)
+
+        self.create_little_goomba(3400, 409)
+        self.create_little_goomba(3500, 409)
+
+        self.create_koopa_troopa(3810, 391)
+
+        self.create_little_goomba(4440, 409)
+        self.create_little_goomba(4490, 409)
+
+        self.create_little_goomba(4590, 409)
+        self.create_little_goomba(4640, 409)
+
+        self.create_little_goomba(6217, 409)
+        self.create_little_goomba(6267, 409)
 
     def create_little_goomba(self, x, y):
         goomba = LittleGoomba(self.screen, self.settings, x, y)
         self.enemies.add(goomba)
+
+    def create_koopa_troopa(self, x, y):
+        koopa = KoopaTroopa(self.screen, self.settings, 'green', x, y)
+        self.enemies.add(koopa)
 
     def create_item_block(self, item, x, y):
         ib = ItemBlock(item, self.screen, self.settings, x, y)
@@ -184,3 +210,4 @@ class Level1_1(Level):
         fire_flower = FireFlower(self.screen, self.settings, 0, 0)
         self.items.add(fire_flower)
         return fire_flower
+

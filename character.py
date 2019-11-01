@@ -283,12 +283,15 @@ class Character(Sprite):
                     settings.score += item.points
                     item.kill()
                 elif str(item.__str__()).__contains__("OneUpMushroom"):
+                    item.picked_up = True
                     settings.lives += 1
                     item.kill()
                 elif str(item.__str__()).__contains__("FireFlower"):
+                    item.picked_up = True
                     settings.score += item.points
                     # self.to_spicy()
                 elif str(item.__str__()).__contains__("Coin"):
+                    item.picked_up = True
                     settings.score += item.points
                     item.kill()
 

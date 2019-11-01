@@ -44,12 +44,13 @@ def check_key_up(event, screen, settings, mario, background):
 
 
 def check_key_down(event, screen, settings, mario, background):
-    if event.key == pygame.K_SPACE and not mario.cant_move and settings.game_active:
-        mario.mario_jumping()
-        mario.starting_jump = mario.rect.bottom
-    elif event.key == pygame.K_SPACE and not settings.game_active:
+    if event.key == pygame.K_SPACE and not settings.game_active and settings.pause:
+        settings.pause = True
         settings.game_active = True
         settings.timer = 360
+    elif event.key == pygame.K_SPACE and not mario.cant_move and settings.game_active:
+        mario.mario_jumping()
+        mario.starting_jump = mario.rect.bottom
     if event.key == pygame.K_p and mario.mario_size <= 2:     # TESTING PURPOSES. Increases mario size
         mario.mario_size += 1
         print(mario.mario_size)
@@ -63,6 +64,9 @@ def check_key_down(event, screen, settings, mario, background):
         mario.big_to_smol()
     if event.key == pygame.K_i and mario.mario_size == 0:
         mario.mario_dead = True
+    if event.key == pygame.K_q:
+        settings.pause = not settings.pause
+        print(settings.pause)
 
 # def check_mario_block_collisions(screen, settings, mario, blocks, pipes):
     was_moving_right = mario.moving_right
@@ -117,6 +121,8 @@ def update_all(screen, current_level, settings):
         pipe.rect.left -= settings.PAN_SPEED
     for item in current_level.items:
         item.rect.left -= settings.PAN_SPEED
+    for enemy in current_level.enemies:
+        enemy.rect.left -= settings.PAN_SPEED
 
     current_level.background.rect.left -= settings.PAN_SPEED
     current_level.flag_pole.rect.left -= settings.PAN_SPEED

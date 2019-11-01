@@ -24,7 +24,10 @@ class Enemy(Sprite):
         self.on_screen = False
 
     def blit_me(self):
-        self.screen.blit(self.image, self.rect)
+        if self.rect.left < self.settings.screen_width + 5 and not self.on_screen:
+            self.on_screen = True
+        if self.on_screen:
+            self.screen.blit(self.image, self.rect)
 
     def update(self): pass
     def hit(self): pass
@@ -77,8 +80,8 @@ class KoopaTroopa(Enemy):
     def set_image(self):
         if self.color == 'red':
             return pygame.image.load('Images/Enemies/KoopaTroopa/red-left-1.png')
-        # elif self.color == 'green':
-        #     return pygame.image.load('Images/Enemies/KoopaParatroopa/green-left-1.png')
+        elif self.color == 'green':
+            return pygame.image.load('Images/Enemies/Koopatroopa/green-left-1.png')
 
     def stomped(self):
         self.image = pygame.image.load()

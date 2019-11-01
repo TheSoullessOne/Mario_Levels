@@ -11,6 +11,7 @@ class Settings:
         self.screen_height = 500
         self.bg_color = (107, 140, 255)
         self.game_active = False
+        self.pause = True
 
         self.MOVE_SPEED = float(0.9)
         self.PAN_SPEED = 4
@@ -32,3 +33,6 @@ class Settings:
         self.timer -= 1
         self.thread_timer = Timer(1, self.update_time)
         self.thread_timer.start()
+
+    def is_paused(self):
+        return self.pause

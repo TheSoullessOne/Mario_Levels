@@ -9,7 +9,7 @@ class TextBox:
 
         #  Font for scoring information
         self.text_color = (255, 255, 255)
-        self.font = pygame.font.SysFont(None, 48)
+        self.font = pygame.font.SysFont(None, 36)
 
         self.text_size = 20
         self.text_limit = 3

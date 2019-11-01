@@ -39,18 +39,6 @@ def run_game():
 
     sb = Scoreboard(settings, screen)
 
-    # starting_text = TextBox(settings, screen)
-    # starting_text.update_text("Welcome to Mario!")
-    # starting_text.text_rect.centery = screen.get_rect().centery
-    # starting_text.text_rect.centerx = screen.get_rect().centerx
-    # starting_text.update_font('arial', 80)
-    #
-    # starting_text_2 = TextBox(settings, screen)
-    # starting_text_2.update_text("Press Space to begin!")
-    # starting_text_2.text_rect.top = starting_text.text_rect.bottom
-    # starting_text_2.text_rect.centerx = screen.get_rect().centerx
-    # starting_text_2.update_font('arial', 80)
-
     start_text = []
 
     start_image = pygame.image.load("Images/Misc/Starting-Screen.png")
@@ -60,12 +48,12 @@ def run_game():
 
     start_image_2 = pygame.image.load("Images/Misc/Starting-Screen-2.png")
     start_image_2_rect = start_image_2.get_rect()
-    start_image_2_rect.top = start_image_rect.bottom + 5
+    start_image_2_rect.top = start_image_rect.bottom
     start_image_2_rect.centerx = start_image_rect.centerx
 
     start_image_3 = pygame.image.load("Images/Misc/Starting-Screen-3.png")
     start_image_3_rect = start_image_3.get_rect()
-    start_image_3_rect.top = start_image_2_rect.bottom + 5
+    start_image_3_rect.top = start_image_2_rect.bottom
     start_image_3_rect.centerx = start_image_2_rect.centerx
 
     start_text.append([start_image, start_image_rect])

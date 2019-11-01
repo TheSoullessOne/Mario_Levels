@@ -272,9 +272,17 @@ class Character(Sprite):
             self.dead_bool = False
         self.place_mario()
 
-    def update(self, screen, current_level, mario, blocks, pipes):
+
+    def check_with_items(self, mario, items):
+        for item in items:
+            collision = pygame.sprite.collide_rect(mario, item)
+            if collision:
+                print(item.__str__())
+
+    def update(self, screen, current_level, mario, blocks, pipes, items):
         self.check_on_block(mario, blocks)
         self.check_with_pipes(mario, pipes)
+        self.check_with_items(mario, items)
         if not mario.cant_move:
             self.mario_walking(screen, current_level)
         if self.mario_dead:

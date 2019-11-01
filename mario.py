@@ -33,6 +33,7 @@ def run_game():
     blocks = current_level.blocks
     blocks.add(current_level.floor_blocks)
     pipes = current_level.pipes
+    items = current_level.items
 
     #  enemies = current_level.enemies
 
@@ -63,7 +64,7 @@ def run_game():
 
     while True:
         clock.tick(60)
-        mario.update(screen, current_level, mario, blocks, pipes)
+        mario.update(screen, current_level, mario, blocks, pipes, items)
         gf.update_screen(screen, settings, mario, current_level, sb, start_text)
 
         gf.check_events(screen, settings, mario, current_level.background)

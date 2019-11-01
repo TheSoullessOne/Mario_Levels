@@ -45,9 +45,33 @@ class Item(Sprite):
 class Coin(Item):
     def __init__(self, screen, settings, x, y):
         super().__init__(screen, settings, x, y)
-        self.image = pygame.image.load('Images/Items/coin-1.png')
+        anim_frames = ['Images/Items/coin-1.png', 'Images/Items/coin-2.png', 'Images/Items/coin-3.png']
+        self.image = pygame.image.load(anim_frames[0])
+        self.animation = Timer(anim_frames, 150)
         self.points = 200
         self.rarity = 0
+
+    def is_opened(self):
+        self.opened = True
+        self.start_y = self.rect.y
+        self.moving_up = True
+
+    def update(self):
+        if self.moving_up:
+            if self.rect.y > self.start_y - 36 * 3:
+                self.rect.y -= 4
+            else:
+                self.moving_up = False
+                self.moving_down = True
+        elif self.moving_down:
+            if self.rect.y < self.start_y:
+                self.rect.y += 4
+            else:
+                self.moving_down = False
+
+    def blit_me(self):
+        self.image = pygame.image.load(self.animation.image_rect())
+        self.screen.blit(self.image, self.rect)
 
 
 class MagicMushroom(Item):

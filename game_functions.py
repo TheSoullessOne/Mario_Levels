@@ -17,7 +17,6 @@ def update_screen(screen, settings, mario, current_level, sb, start_text):
         screen.blit(start_text[1][0], start_text[1][1])
         screen.blit(start_text[2][0], start_text[2][1])
 
-
     current_level.blocks.update()
     current_level.items.update()
 
@@ -51,7 +50,7 @@ def check_key_down(event, screen, settings, mario, background):
     elif event.key == pygame.K_SPACE and not settings.game_active:
         settings.game_active = True
         settings.timer = 360
-    if event.key == pygame.K_p and mario.mario_size < 2:     # TESTING PURPOSES. Increases mario size
+    if event.key == pygame.K_p and mario.mario_size <= 2:     # TESTING PURPOSES. Increases mario size
         mario.mario_size += 1
         print(mario.mario_size)
         if mario.mario_size == 1:
@@ -121,3 +120,4 @@ def update_all(screen, current_level, settings):
 
     current_level.background.rect.left -= settings.PAN_SPEED
     current_level.flag_pole.rect.left -= settings.PAN_SPEED
+

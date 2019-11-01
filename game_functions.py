@@ -6,12 +6,17 @@ def update_screen(screen, settings, mario, current_level, sb, start_text):
     screen.blit(current_level.background.image, current_level.background.rect)
     current_level.blit_level()
     if settings.game_active:
-        # allSprites.draw(screen)
         mario.slow_blit(screen)
         sb.show_score(screen, settings)
     else:
-        start_text[0].draw(screen)
-        start_text[1].draw(screen)
+        # start_text[0].draw(screen)
+        # start_text[1].draw(screen)
+        sb.show_score(screen, settings)
+
+        screen.blit(start_text[0][0], start_text[0][1])
+        screen.blit(start_text[1][0], start_text[1][1])
+        screen.blit(start_text[2][0], start_text[2][1])
+
 
     current_level.blocks.update()
     current_level.items.update()

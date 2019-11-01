@@ -281,6 +281,9 @@ class Character(Sprite):
                     self.big_to_smol()
                     settings.score += item.points
                     item.kill()
+                elif str(item.__str__()).__contains__("OneUpMushroom"):
+                    settings.lives += 1
+                    item.kill()
 
     def update(self, settings, screen, current_level, mario, blocks, pipes, items):
         self.check_on_block(mario, blocks)

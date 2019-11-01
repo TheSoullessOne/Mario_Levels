@@ -18,6 +18,7 @@ class Block(Sprite):
         self.right = self.rect.right
         self.bottom = self.rect.bottom
         self.top = self.rect.top
+        self.item = None
 
         self.hit = False
         self.rect.x = x
@@ -33,7 +34,8 @@ class Block(Sprite):
     def hit_block(self):
         self.hit = True
         self.moving_up = True
-        self.item.opened = True
+        if self.item != None:
+            self.item.is_opened()
 
     def update(self):
         if self.moving_up:

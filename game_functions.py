@@ -6,7 +6,8 @@ def update_screen(screen, settings, mario, current_level, sb, start_text):
     screen.blit(current_level.background.image, current_level.background.rect)
     current_level.blit_level()
     if settings.game_active:
-        mario.slow_blit(screen)
+        # mario.slow_blit(screen)
+        mario.blit_me(screen)
         sb.show_score(screen, settings)
         current_level.enemies.update(mario)
         for enemy in current_level.enemies:

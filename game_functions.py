@@ -9,14 +9,16 @@ def update_screen(screen, settings, mario, current_level, sb, start_text):
         # mario.slow_blit(screen)
         mario.blit_me(screen)
         sb.show_score(screen, settings)
+        current_level.enemies.update(mario)
+        for enemy in current_level.enemies:
+            enemy.collide(current_level.blocks, current_level.pipes)
     else:
-        # start_text[0].draw(screen)
-        # start_text[1].draw(screen)
         sb.show_score(screen, settings)
 
         screen.blit(start_text[0][0], start_text[0][1])
         screen.blit(start_text[1][0], start_text[1][1])
         screen.blit(start_text[2][0], start_text[2][1])
+        start_text[3].draw(screen)
 
     current_level.blocks.update()
     current_level.items.update()
@@ -70,8 +72,8 @@ def check_key_down(event, screen, settings, mario, background):
         print(settings.pause)
 
 # def check_mario_block_collisions(screen, settings, mario, blocks, pipes):
-    was_moving_right = mario.moving_right
-    was_moving_left = mario.moving_left
+#     was_moving_right = mario.moving_right
+#     was_moving_left = mario.moving_left
 #     for block in blocks:
 #         block_collision = pygame.sprite.collide_rect(mario, block)
 #         if block_collision:
@@ -127,4 +129,3 @@ def update_all(screen, current_level, settings):
 
     current_level.background.rect.left -= settings.PAN_SPEED
     current_level.flag_pole.rect.left -= settings.PAN_SPEED
-

@@ -34,7 +34,7 @@ class Block(Sprite):
     def hit_block(self):
         self.hit = True
         self.moving_up = True
-        if self.item != None:
+        if self.item is not None:
             self.item.is_opened()
 
     def update(self):
@@ -68,7 +68,7 @@ class ItemBlock(Block):
 
         self.item = item
         self.item.rect.x = x
-        self.item.rect.y = y
+        self.item.rect.y = y + 15
 
     def blit_me(self, screen):
         if self.hit:
@@ -82,7 +82,7 @@ class ItemBlock(Block):
 
 class BlueItemBlock(Block):
     def __init__(self, item, screen, settings, x, y):
-        super().__init__(screen, settings, x ,y)
+        super().__init__(screen, settings, x, y)
         self.image = pygame.image.load('Images/Blocks/Blue-ItemBlock-1.png')
 
 

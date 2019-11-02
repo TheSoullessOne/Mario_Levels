@@ -9,7 +9,7 @@ class TextBox:
 
         #  Font for scoring information
         self.text_color = (255, 255, 255)
-        self.font = pygame.font.SysFont(None, 36)
+        self.font = pygame.font.Font("Font/super_mario_bros.ttf", 24)
 
         self.text_size = 20
         self.text_limit = 3
@@ -33,4 +33,4 @@ class TextBox:
         self.prep_text()
 
     def update_font(self, font_name, font_size):
-        self.font = pygame.font.SysFont(font_name, font_size)
+        self.font = pygame.font.Font(font_name, font_size)

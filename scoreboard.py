@@ -1,5 +1,4 @@
 import pygame.font
-import time
 from textbox import TextBox
 
 
@@ -12,7 +11,7 @@ class Scoreboard:
 
         #  Font for scoring information
         self.text_color = (255, 255, 255)
-        self.font = pygame.font.SysFont(None, 36)
+        self.font = pygame.font.Font("Font/super_mario_bros.ttf", 24)
 
         #  Prepare the initial score image
         self.prep_score()
@@ -94,7 +93,6 @@ class Scoreboard:
         self.world_text.text_rect.centerx = self.settings.screen_width / 2
         self.world_text.text_rect.top = self.screen_rect.top + 5
 
-        # world_str = " {:,}".format(self.settings.world_level)
         self.world_image = self.font.render(self.settings.world_level, True, self.text_color, self.settings.bg_color)
         self.world_rect = self.world_image.get_rect()
         self.world_rect.centerx = self.world_text.text_rect.centerx
@@ -111,6 +109,3 @@ class Scoreboard:
         self.coin_rect = self.coin_image.get_rect()
         self.coin_rect.centerx = self.coin_text.text_rect.centerx
         self.coin_rect.top = self.coin_text.text_rect.bottom
-
-
-

@@ -1,18 +1,16 @@
-import sys
-import pygame
+# import sys
+# import pygame
 import game_functions as gf
 from settings import Settings
 from character import Character
-from character import Platform
+# from character import Platform
 from block import *
-from background import Background
+# from background import Background
 from Levels.level1_1 import Level1_1
-from Levels.level1_2 import Level1_2
-from Levels.level1_3 import Level1_3
-from pygame.sprite import Group
+# from Levels.level1_2 import Level1_2
+# from Levels.level1_3 import Level1_3
 from scoreboard import Scoreboard
 from textbox import TextBox
-from pygame import time
 
 
 def run_game():

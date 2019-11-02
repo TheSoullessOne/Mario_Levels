@@ -26,18 +26,39 @@ class GreenSmallPipe(Environment):
     def __init__(self, screen, settings, x, y):
         super().__init__(screen, settings, x, y)
         self.image = pygame.image.load('Images/Environment/green-short-pipe.png')
+        self.rect = self.image.get_rect()
+        self.width = self.rect.width
+        self.height = self.rect.height
+        self.center = self.rect.centerx
+
+        self.rect.x = x
+        self.rect.y = y
 
 
 class GreenMedPipe(Environment):
     def __init__(self, screen, settings, x, y):
         super().__init__(screen, settings, x, y)
         self.image = pygame.image.load('Images/Environment/green-med-pipe.png')
+        self.rect = self.image.get_rect()
+        self.width = self.rect.width
+        self.height = self.rect.height
+        self.center = self.rect.centerx
+
+        self.rect.x = x
+        self.rect.y = y
 
 
 class GreenTallPipe(Environment):
     def __init__(self, screen, settings, x, y):
         super().__init__(screen, settings, x, y)
         self.image = pygame.image.load('Images/Environment/green-tall-pipe.png')
+        self.rect = self.image.get_rect()
+        self.width = self.rect.width
+        self.height = self.rect.height
+        self.center = self.rect.centerx
+
+        self.rect.x = x
+        self.rect.y = y
 
 
 class GreenShortCornerPipe(Environment):

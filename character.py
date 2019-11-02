@@ -210,19 +210,39 @@ class Character(Sprite):
     def check_on_block(self, mario, platforms):
         hits = pygame.sprite.spritecollide(mario, platforms, False)
 
-        if hits and not self.mario_dead and self.rect.top <= hits[0].rect.bottom and self.rect.bottom >= hits[0].rect.centery and \
-                (self.rect.right >= hits[0].rect.left or self.rect.left <= hits[0].rect.right):
-
+        if hits and not self.mario_dead and \
+            hits[0].rect.centery <= mario.rect.top <= hits[0].rect.bottom and \
+            hits[0].rect.left <= mario.rect.centerx <= hits[0].rect.right:
             self.pos.y = hits[0].rect.bottom + self.height + 1
             self.vel.y = 0
             self.acc.y = 0
 
             hits[0].hit_block()
+            for block in platforms:
+                collide = self.rect.colliderect(block)
+                if collide and self.mario_size >= 1:
+                    if str(block.__str__()).__contains__("BrickBlock"):
+                        platforms.remove(block)
             if hits[0].item is not None:
                 if str(hits[0].item.__str__()).__contains__("Coin"):
                     self.settings.score += hits[0].item.points
                     self.settings.coin_count += 1
-        elif hits and not self.mario_dead:
+                    if self.settings.coin_count >= 100:
+                        self.settings.lives += 1
+                        self.settings.coin_count -= 100
+        elif hits and not self.mario_dead and \
+             hits[0].rect.left <= mario.rect.right <= hits[0].rect.centerx and \
+             (hits[0].rect.top <= mario.rect.bottom or hits[0].rect.bottom >= mario.rect.top):
+            print('hit left')
+            self.pos.x = hits[0].rect.left - 17
+        # elif hits and not self.mario_dead and \
+        #     hits[0].rect.right >= mario.rect.left >= hits[0].rect.centerx and \
+        #     (hits[0].rect.top <= mario.rect.bottom or hits[0].rect.bottom >= mario.rect.top):
+        #     self.pos.x = hits[0].rect.right
+        if hits and not self.mario_dead and \
+                hits[0].rect.top <= mario.rect.bottom <= hits[0].rect.centery and \
+                (hits[0].rect.left <= mario.rect.right or hits[0].rect.right >= mario.rect.left):
+            # elif hits and not self.mario_dead:
             self.pos.y = hits[0].rect.top + 1
             self.on_block = True
             self.vel.y = 0
@@ -295,10 +315,22 @@ class Character(Sprite):
                     settings.score += item.points
                     item.kill()
 
-    def update(self, settings, screen, current_level, mario, blocks, pipes, items):
+    def check_with_enemies(self, enemies):
+        for enemy in enemies:
+            collision = pygame.sprite.collide_rect(self, enemy)
+            if collision:
+                if (enemy.rect.left < self.rect.right or self.rect.left < enemy.rect.right) and \
+                        enemy.rect.centery >= self.rect.bottom >= enemy.rect.top:
+                    print('hit?')
+                    enemies.remove(enemy)
+                else: #  death animation
+                    self.settings.lives -= 1
+
+    def update(self, settings, screen, current_level, mario, blocks, pipes, items, enemies):
         self.check_on_block(mario, blocks)
         self.check_with_pipes(mario, pipes)
         self.check_with_items(mario, items, settings)
+        self.check_with_enemies(enemies)
         if not mario.cant_move:
             self.mario_walking(screen, current_level)
         if self.mario_dead:

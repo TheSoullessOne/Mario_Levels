@@ -18,7 +18,7 @@ class Settings:
         self.PLAYER_FRICTION = -0.2
         self.PLAYER_GRAVITY = 0.5
 
-        self.enemy_move_speed = 5
+        self.enemy_move_speed = 1
         self.enemy_anim_rate = 150
         self.score = 0
         self.coin_count = 0

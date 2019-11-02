@@ -56,24 +56,20 @@ def run_game():
     start_image_3_rect.top = start_image_2_rect.bottom
     start_image_3_rect.centerx = start_image_2_rect.centerx
 
+    start_text_4 = TextBox(settings, screen)
+    start_text_4.update_font("Font/super_mario_bros.ttf", 18)
+    start_text_4.update_text("Press space to start!")
+    start_text_4.text_rect.left = settings.screen_width / 2
+    start_text_4.text_rect.centery = settings.screen_height / 2
+
     start_text.append([start_image, start_image_rect])
     start_text.append([start_image_2, start_image_2_rect])
     start_text.append([start_image_3, start_image_3_rect])
-
-
-
-    # allSprites = pygame.sprite.Group()
-    # platforms = pygame.sprite.Group()
-    # p1 = Platform(50, settings.screen_height - 40, 300, 20)
-    # allSprites.add(p1)
-    # platforms.add(p1)
-    # p2 = Platform(50, settings.screen_height - 200, 100, 30)
-    # allSprites.add(p2)
-    # platforms.add(p2)
+    start_text.append(start_text_4)
 
     while True:
         clock.tick(60)
-        mario.update(settings, screen, current_level, mario, blocks, pipes, items)
+        mario.update(settings, screen, current_level, mario, blocks, pipes, items, current_level.enemies)
         gf.update_screen(screen, settings, mario, current_level, sb, start_text)
 
         gf.check_events(screen, settings, mario, current_level.background)

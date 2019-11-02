@@ -58,7 +58,7 @@ class Character(Sprite):
         self.moving_right = False
         self.moving_left = False
 
-        self.side_facing = True     # True is right, false is left
+        self.right_facing = True     # True is right, false is left
         self.on_block = False
         self.on_pipe = False
         self.can_jump = True
@@ -129,7 +129,7 @@ class Character(Sprite):
             self.update_rect()
 
     def smol_to_big(self):
-        if self.side_facing:
+        if self.right_facing:
             self.change_size = Timer(self.grow_right_frames, 150, loop_once=True)
             self.image = pygame.image.load(self.change_size.image_rect())
         else:
@@ -146,7 +146,7 @@ class Character(Sprite):
         self.update_rect()
 
     def big_to_smol(self):
-        if self.side_facing:
+        if self.right_facing:
             shrink_frames = self.grow_right_frames
             shrink_frames.reverse()
             self.change_size = Timer(shrink_frames, 60, loop_once=True)
@@ -178,14 +178,14 @@ class Character(Sprite):
     def blit_me(self, screen):
         if not self.mario_dead:
             if not self.on_block:
-                if self.side_facing: # jumping right
+                if self.right_facing:  # jumping right
                     screen.blit(self.image_jump_right, self.rect)
-                elif not self.side_facing: # jumping left
+                elif not self.right_facing:  # jumping left
                     screen.blit(self.image_jump_left, self.rect)
-            elif self.side_facing and not self.moving_right and not self.moving_left:
-                screen.blit(self.image, self.rect) # looking right
-            elif not self.side_facing and not self.moving_right and not self.moving_left:
-                screen.blit(self.image_left, self.rect) # looking left
+            elif self.right_facing and not self.moving_right and not self.moving_left:
+                screen.blit(self.image, self.rect)  # looking right
+            elif not self.right_facing and not self.moving_right and not self.moving_left:
+                screen.blit(self.image_left, self.rect)  # looking left
             elif self.moving_right:
                 # walking right animation
                 self.image_walking_right = pygame.image.load(self.walk_right_anim.image_rect())
@@ -211,7 +211,7 @@ class Character(Sprite):
         if self.rect.left >= 0 and not self.cannot_move_left:
             if keys[pygame.K_LEFT]:
                 self.acc.x = -self.settings.MOVE_SPEED
-                self.side_facing = False
+                self.right_facing = False
                 self.moving_left = True
             else:
                 self.moving_left = False
@@ -221,7 +221,7 @@ class Character(Sprite):
             else:
                 if keys[pygame.K_RIGHT]:
                     self.acc.x = self.settings.MOVE_SPEED
-                    self.side_facing = True
+                    self.right_facing = True
                     self.moving_right = True
                 else:
                     self.moving_right = False

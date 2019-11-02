@@ -51,6 +51,7 @@ class Coin(Item):
         self.animation = Timer(anim_frames, 150)
         self.points = 200
         self.rarity = 0
+        self.speed = 7
 
     def is_opened(self):
         self.opened = True
@@ -60,15 +61,17 @@ class Coin(Item):
     def update(self):
         if self.moving_up:
             if self.rect.y > self.start_y - 36 * 3:
-                self.rect.y -= 4
+                self.rect.y -= self.speed
             else:
                 self.moving_up = False
                 self.moving_down = True
         elif self.moving_down:
             if self.rect.y < self.start_y:
-                self.rect.y += 4
+                self.rect.y += self.speed
             else:
+                self.picked_up = True
                 self.moving_down = False
+                self.kill()
 
     def blit_me(self):
         self.image = pygame.image.load(self.animation.image_rect())

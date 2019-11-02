@@ -254,8 +254,9 @@ class Character(Sprite):
                         platforms.remove(block)
             if hits[0].item is not None:
                 if str(hits[0].item.__str__()).__contains__("Coin"):
-                    self.settings.score += hits[0].item.points
-                    self.settings.coin_count += 1
+                    if not hits[0].item.picked_up:
+                        self.settings.score += hits[0].item.points
+                        self.settings.coin_count += 1
                     if self.settings.coin_count >= 100:
                         self.settings.lives += 1
                         self.settings.coin_count -= 100

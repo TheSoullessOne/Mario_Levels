@@ -13,20 +13,21 @@ class Character(Sprite):
 
         self.mario_size = 0     # 0 = smol mario, 1 = normal mario, 2 = fire boi
 
-        self.image = pygame.image.load('Images/Mario-Movement/smol/test/mario-right.png')
-        self.image_left = pygame.image.load('Images/Mario-Movement/smol/test/mario-left.png')
-        self.left_walk_frames = ['Images/Mario-Movement/smol/test/mario-walk-left-1.png',
-                                 'Images/Mario-Movement/smol/test/mario-walk-left-2.png',
-                                 'Images/Mario-Movement/smol/test/mario-walk-left-3.png']
-        self.right_walk_frames = ['Images/Mario-Movement/smol/test/mario-walk-right-1.png',
-                                  'Images/Mario-Movement/smol/test/mario-walk-right-2.png',
-                                  'Images/Mario-Movement/smol/test/mario-walk-right-3.png']
+        self.image = pygame.image.load('Images/Mario-Movement/smol/mario-right.png')
+        self.image_left = pygame.image.load('Images/Mario-Movement/smol/mario-left.png')
+        self.left_walk_frames = ['Images/Mario-Movement/smol/mario-walk-left-1.png',
+                                 'Images/Mario-Movement/smol/mario-walk-left-2.png',
+                                 'Images/Mario-Movement/smol/mario-walk-left-3.png']
+        self.right_walk_frames = ['Images/Mario-Movement/smol/mario-walk-right-1.png',
+                                  'Images/Mario-Movement/smol/mario-walk-right-2.png',
+                                  'Images/Mario-Movement/smol/mario-walk-right-3.png']
         self.walk_left_anim = Timer(self.left_walk_frames, 150)
         self.walk_right_anim = Timer(self.right_walk_frames, 150)
+        self.size_change_anim = None
         self.image_walking_right = pygame.image.load(self.walk_right_anim.image_rect())
         self.image_walking_left = pygame.image.load(self.walk_left_anim.image_rect())
-        self.image_jump_right = pygame.image.load('Images/Mario-Movement/smol/test/mario-jump-right.png')
-        self.image_jump_left = pygame.image.load('Images/Mario-Movement/smol/test/mario-jump-left.png')
+        self.image_jump_right = pygame.image.load('Images/Mario-Movement/smol/mario-jump-right.png')
+        self.image_jump_left = pygame.image.load('Images/Mario-Movement/smol/mario-jump-left.png')
         self.rect = self.image.get_rect()
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
@@ -78,27 +79,36 @@ class Character(Sprite):
 
     def change_mario_size(self):
         if self.mario_size == 0 and not self.changing_to_smol:
-            self.left_walk_frames = ['Images/Mario-Movement/smol/test/mario-walk-left-1.png',
-                                     'Images/Mario-Movement/smol/test/mario-walk-left-2.png',
-                                     'Images/Mario-Movement/smol/test/mario-walk-left-3.png']
-            self.right_walk_frames = ['Images/Mario-Movement/smol/test/mario-walk-right-1.png',
-                                      'Images/Mario-Movement/smol/test/mario-walk-right-2.png',
-                                      'Images/Mario-Movement/smol/test/mario-walk-right-3.png']
+            self.left_walk_frames = ['Images/Mario-Movement/smol/mario-walk-left-1.png',
+                                     'Images/Mario-Movement/smol/mario-walk-left-2.png',
+                                     'Images/Mario-Movement/smol/mario-walk-left-3.png']
+            self.right_walk_frames = ['Images/Mario-Movement/smol/mario-walk-right-1.png',
+                                      'Images/Mario-Movement/smol/mario-walk-right-2.png',
+                                      'Images/Mario-Movement/smol/mario-walk-right-3.png']
             self.walk_left_anim = Timer(self.left_walk_frames, 150)
             self.walk_right_anim = Timer(self.right_walk_frames, 150)
 
-            self.image = pygame.image.load('Images/Mario-Movement/smol/test/mario-right.png')
-            self.image_left = pygame.image.load('Images/Mario-Movement/smol/test/mario-left.png')
+            self.image = pygame.image.load('Images/Mario-Movement/smol/mario-right.png')
+            self.image_left = pygame.image.load('Images/Mario-Movement/smol/mario-left.png')
             self.image_walking_right = pygame.image.load(self.walk_right_anim.image_rect())
             self.image_walking_left = pygame.image.load(self.walk_left_anim.image_rect())
-            self.image_jump_right = pygame.image.load('Images/Mario-Movement/smol/test/mario-jump-right.png')
-            self.image_jump_left = pygame.image.load('Images/Mario-Movement/smol/test/mario-jump-left.png')
+            self.image_jump_right = pygame.image.load('Images/Mario-Movement/smol/mario-jump-right.png')
+            self.image_jump_left = pygame.image.load('Images/Mario-Movement/smol/mario-jump-left.png')
             self.update_rect()
         elif self.mario_size == 1 and not self.changing_to_big:
-            self.image = pygame.image.load('Images/Mario-Movement/normal/mario-look-right.png')
-            self.image_left = pygame.image.load('Images/Mario-Movement/normal/mario-look-left.png')
-            self.image_walking_right = pygame.image.load('Images/Mario-Movement/normal/mario-walk-right.png')
-            self.image_walking_left = pygame.image.load('Images/Mario-Movement/normal/mario-walk-left.png')
+            self.left_walk_frames = ['Images/Mario-Movement/normal/mario-walk-left-1.png',
+                                     'Images/Mario-Movement/normal/mario-walk-left-2.png',
+                                     'Images/Mario-Movement/normal/mario-walk-left-3.png']
+            self.right_walk_frames = ['Images/Mario-Movement/normal/mario-walk-right-1.png',
+                                      'Images/Mario-Movement/normal/mario-walk-right-2.png',
+                                      'Images/Mario-Movement/normal/mario-walk-right-3.png']
+            self.walk_left_anim = Timer(self.left_walk_frames, 150)
+            self.walk_right_anim = Timer(self.right_walk_frames, 150)
+
+            self.image = pygame.image.load('Images/Mario-Movement/normal/mario-right.png')
+            self.image_left = pygame.image.load('Images/Mario-Movement/normal/mario-left.png')
+            self.image_walking_right = pygame.image.load(self.walk_left_anim.image_rect())
+            self.image_walking_left = pygame.image.load(self.walk_left_anim.image_rect())
             self.image_jump_right = pygame.image.load('Images/Mario-Movement/normal/mario-jump-right.png')
             self.image_jump_left = pygame.image.load('Images/Mario-Movement/normal/mario-jump-left.png')
             self.height = 64
@@ -168,29 +178,12 @@ class Character(Sprite):
                 # walking right animation
                 self.image_walking_right = pygame.image.load(self.walk_right_anim.image_rect())
                 screen.blit(self.image_walking_right, self.rect)
-                # screen.blit(self.image_walking_right, self.rect, (self.cImage * self.width, 0, self.width, self.height))
             elif self.moving_left:
                 # walking left animation
                 self.image_walking_left = pygame.image.load(self.walk_left_anim.image_rect())
                 screen.blit(self.image_walking_left, self.rect)
-                # screen.blit(self.image_walking_left, self.rect, (self.cImage * self.width, 0, self.width, self.height))
         else:
             screen.blit(self.image, self.rect)
-
-    # def slow_blit(self, screen):
-    #     """Slowing down blit process so animations are not too quick"""
-    #     if self.slowDown >= self.default_slow:
-    #         self.slowDown = 0
-    #     else:
-    #         self.slowDown += 1
-    #
-    #     if 0 <= self.slowDown < (self.default_slow / 3):
-    #         self.cImage = 0
-    #     elif (self.default_slow / 3) <= self.slowDown < (self.default_slow / 2):
-    #         self.cImage = 1
-    #     elif (self.default_slow / 2) <= self.slowDown < self.default_slow:
-    #         self.cImage = 2
-    #     self.blit_me(screen)
 
     def mario_jumping(self):
         if self.on_block and self.can_jump:

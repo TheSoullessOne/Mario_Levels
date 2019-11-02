@@ -21,24 +21,20 @@ class Character(Sprite):
         self.right_walk_frames = ['Images/Mario-Movement/smol/test/mario-walk-right-1.png',
                                   'Images/Mario-Movement/smol/test/mario-walk-right-2.png',
                                   'Images/Mario-Movement/smol/test/mario-walk-right-3.png']
-        # self.image_walking_right = pygame.image.load('Images/Mario-Movement/smol/smol-mario-walk-right.png')
-        # self.image_walking_left = pygame.image.load('Images/Mario-Movement/smol/smol-mario-walk-left.png')
-        # self.image_jump_right = pygame.image.load('Images/Mario-Movement/smol/smol-mario-jump-right.png')
-        # self.image_jump_left = pygame.image.load('Images/Mario-Movement/smol/smol-mario-jump-left.png')
         self.walk_left_anim = Timer(self.left_walk_frames, 150)
         self.walk_right_anim = Timer(self.right_walk_frames, 150)
         self.image_walking_right = pygame.image.load(self.walk_right_anim.image_rect())
         self.image_walking_left = pygame.image.load(self.walk_left_anim.image_rect())
         self.image_jump_right = pygame.image.load('Images/Mario-Movement/smol/test/mario-jump-right.png')
         self.image_jump_left = pygame.image.load('Images/Mario-Movement/smol/test/mario-jump-left.png')
-
-        self.width = 32     # Image width
-        self.height = 32    # Image height
         self.rect = self.image.get_rect()
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
         self.rect_bottom = self.rect.bottom
         self.sprite_delay = 0
+
+        self.width = self.rect.width     # Image width
+        self.height = self.rect.height    # Image height
 
         self.mario_dead = False
         self.mario_dead_cont = False
@@ -58,25 +54,23 @@ class Character(Sprite):
         self.on_block = False
         self.on_pipe = False
         self.can_jump = True
-# <<<<<<< HEAD
+
         self.starting_jump = 0
         self.rect.centerx = self.settings.screen_width / 2      # Starting Mario at center of screen
         self.rect.bottom = self.settings.screen_height - 100          # Starting Mario at bottom of screen
         self.centerx = float(self.rect.centerx)
         self.centery = float(self.rect.centery)
-# =======
 
         self.changing_to_big = False
         self.changing_to_smol = False
 
-# >>>>>>> cb2335c878c9a1e6874e2031c412ce6d25c73f5a
         self.y_bot = float(self.rect.bottom)
         self.start_jmp = self.y_bot
         self.start_jmp_bool = False
 
         # self.cImage = 0     # Displaying which image in sheet is being displayed
-        self.slowDown = 0   # Used to slow down blitting process to smooth animations
-        self.default_slow = 50
+        # self.slowDown = 0   # Used to slow down blitting process to smooth animations
+        # self.default_slow = 50
         self.falling = False   # Check for positive downward y-velocity after jumping
 
         self.cannot_move_left = False
@@ -183,20 +177,20 @@ class Character(Sprite):
         else:
             screen.blit(self.image, self.rect)
 
-    def slow_blit(self, screen):
-        """Slowing down blit process so animations are not too quick"""
-        if self.slowDown >= self.default_slow:
-            self.slowDown = 0
-        else:
-            self.slowDown += 1
-
-        if 0 <= self.slowDown < (self.default_slow / 3):
-            self.cImage = 0
-        elif (self.default_slow / 3) <= self.slowDown < (self.default_slow / 2):
-            self.cImage = 1
-        elif (self.default_slow / 2) <= self.slowDown < self.default_slow:
-            self.cImage = 2
-        self.blit_me(screen)
+    # def slow_blit(self, screen):
+    #     """Slowing down blit process so animations are not too quick"""
+    #     if self.slowDown >= self.default_slow:
+    #         self.slowDown = 0
+    #     else:
+    #         self.slowDown += 1
+    #
+    #     if 0 <= self.slowDown < (self.default_slow / 3):
+    #         self.cImage = 0
+    #     elif (self.default_slow / 3) <= self.slowDown < (self.default_slow / 2):
+    #         self.cImage = 1
+    #     elif (self.default_slow / 2) <= self.slowDown < self.default_slow:
+    #         self.cImage = 2
+    #     self.blit_me(screen)
 
     def mario_jumping(self):
         if self.on_block and self.can_jump:

@@ -21,6 +21,13 @@ class Character(Sprite):
         self.right_walk_frames = ['Images/Mario-Movement/smol/mario-walk-right-1.png',
                                   'Images/Mario-Movement/smol/mario-walk-right-2.png',
                                   'Images/Mario-Movement/smol/mario-walk-right-3.png']
+        self.grow_right_frames = ['Images/Mario-Movement/smol/mario-right.png',
+                                  'Images/Mario-Movement/smol/smol-tolarge-right.png',
+                                  'Images/Mario-Movement/normal/mario-right.png']
+        self.grow_left_frames = ['Images/Mario-Movement/smol/mario-left.png',
+                                 'Images/Mario-Movement/smol/smol-tolarge-left.png',
+                                 'Images/Mario-Movement/normal/mario-left.png']
+        self.change_size = None
         self.walk_left_anim = Timer(self.left_walk_frames, 150)
         self.walk_right_anim = Timer(self.right_walk_frames, 150)
         self.size_change_anim = None
@@ -69,9 +76,6 @@ class Character(Sprite):
         self.start_jmp = self.y_bot
         self.start_jmp_bool = False
 
-        # self.cImage = 0     # Displaying which image in sheet is being displayed
-        # self.slowDown = 0   # Used to slow down blitting process to smooth animations
-        # self.default_slow = 50
         self.falling = False   # Check for positive downward y-velocity after jumping
 
         self.cannot_move_left = False
@@ -126,9 +130,11 @@ class Character(Sprite):
 
     def smol_to_big(self):
         if self.side_facing:
-            self.image = pygame.image.load('Images/Mario-Movement/smol/smol-tolarge-right.png')
+            self.change_size = Timer(self.grow_right_frames, 150, loop_once=True)
+            self.image = pygame.image.load(self.change_size.image_rect())
         else:
-            self.image = pygame.image.load('Images/Mario-Movement/smol/smol-tolarge-left.png')
+            self.change_size = Timer(self.grow_left_frames, 150, loop_once=True)
+            self.image = pygame.image.load(self.change_size.image_rect())
         self.sprite_delay += 1
         self.update_rect()
         if self.sprite_delay >= 4:
@@ -141,9 +147,15 @@ class Character(Sprite):
 
     def big_to_smol(self):
         if self.side_facing:
-            self.image = pygame.image.load('Images/Mario-Movement/smol/smol-tolarge-right.png')
+            shrink_frames = self.grow_right_frames
+            shrink_frames.reverse()
+            self.change_size = Timer(shrink_frames, 60, loop_once=True)
+            self.image = pygame.image.load(self.change_size.image_rect())
         else:
-            self.image = pygame.image.load('Images/Mario-Movement/smol/smol-tolarge-left.png')
+            shrink_frames = self.grow_left_frames
+            shrink_frames.reverse()
+            self.change_size = Timer(shrink_frames, 60, loop_once=True)
+            self.image = pygame.image.load(self.change_size.image_rect())
         self.sprite_delay += 1
         if self.sprite_delay >= 4:
             self.changing_to_smol = False
@@ -249,7 +261,7 @@ class Character(Sprite):
                         self.settings.coin_count -= 100
         elif hits and not self.mario_dead and \
              hits[0].rect.left <= mario.rect.right <= hits[0].rect.centerx and \
-             (hits[0].rect.top <= mario.rect.bottom or hits[0].rect.bottom >= mario.rect.top):
+            (hits[0].rect.top <= mario.rect.bottom or hits[0].rect.bottom >= mario.rect.top):
             print('hit left')
             self.pos.x = hits[0].rect.left - 17
         # elif hits and not self.mario_dead and \

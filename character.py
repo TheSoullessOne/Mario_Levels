@@ -58,18 +58,15 @@ class Character(Sprite):
         self.on_block = False
         self.on_pipe = False
         self.can_jump = True
-# <<<<<<< HEAD
         self.starting_jump = 0
         self.rect.centerx = self.settings.screen_width / 2      # Starting Mario at center of screen
         self.rect.bottom = self.settings.screen_height - 100          # Starting Mario at bottom of screen
         self.centerx = float(self.rect.centerx)
         self.centery = float(self.rect.centery)
-# =======
 
         self.changing_to_big = False
         self.changing_to_smol = False
 
-# >>>>>>> cb2335c878c9a1e6874e2031c412ce6d25c73f5a
         self.y_bot = float(self.rect.bottom)
         self.start_jmp = self.y_bot
         self.start_jmp_bool = False

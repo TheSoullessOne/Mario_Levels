@@ -34,7 +34,7 @@ class Block(Sprite):
     def hit_block(self):
         self.hit = True
         self.moving_up = True
-        if self.item is not None:
+        if self.item is not None and not self.item.opened:
             self.item.is_opened()
 
     def update(self):
@@ -68,7 +68,7 @@ class ItemBlock(Block):
 
         self.item = item
         self.item.rect.x = x
-        self.item.rect.y = y + 15
+        self.item.rect.y = y
 
     def blit_me(self, screen):
         if self.hit:

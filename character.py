@@ -62,10 +62,7 @@ class Character(Sprite):
         self.on_block = False
         self.on_pipe = False
         self.can_jump = True
-<<<<<<< HEAD
-=======
 
->>>>>>> 72b4a0f5b54b80d6dec5a1f77c38ea2ea131b583
         self.starting_jump = 0
         self.rect.centerx = self.settings.screen_width / 2      # Starting Mario at center of screen
         self.rect.bottom = self.settings.screen_height - 100          # Starting Mario at bottom of screen
